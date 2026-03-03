@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: sistema_de_eventos
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senac@02
+      POSTGRES_DB: sistema_de_eventos
+    ports:
+      - '5430:5432'
+    volumes:
+      - postgres_data_1:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d sistema_de_eventos']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data_1:

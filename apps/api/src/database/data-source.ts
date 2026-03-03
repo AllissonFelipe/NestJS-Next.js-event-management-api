@@ -1,0 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import 'dotenv/config'; // <--- garante que as variáveis do .env sejam carregadas
+import path from 'path';
+import { DataSource } from 'typeorm';
+
+export const AppDataSource = new DataSource({
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT ?? '5430'),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities: [path.join(__dirname, '/../modules/**/**/*.orm-entity.{ts,js}')],
+  migrations: [path.join(__dirname, 'migrations/**/*{.ts,.js}')],
+  synchronize: false,
+});
