@@ -40,12 +40,13 @@ export default function RegisterForm() {
       if (!res.ok) {
         setMessage(data.message || "Erro ao registrar.");
       } else {
-        setMessage("Conta criada com sucesso! Faça login.");
+        setMessage(data.message || "Conta criada com sucesso! Faça login.");
       }
     } catch (err) {
-      setMessage("Erro de conexão com o servidor.");
+        console.error("Register error:", err);
+        const message = err instanceof Error ? err.message : "Erro inesperado. Tente novamente.";
+        setMessage(message);
     }
-
     setLoading(false);
   }
 

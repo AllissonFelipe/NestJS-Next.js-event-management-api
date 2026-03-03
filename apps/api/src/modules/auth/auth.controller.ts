@@ -3,7 +3,6 @@ import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { CreateAccountUseCase } from './application/create-account/create-account.usecase';
 import { CreateAccountDto } from './application/create-account/create-account.dto';
-import { PersonDomainEntity } from '../person/domain/person.domain-entity';
 import { Public } from './decorators/public.decorator';
 import { ActivateAccountUseCase } from './application/activate-account/activate-account.usecase';
 import { ResendActivationEmailDto } from './application/activate-account/resend-activation-email.dto';
@@ -14,7 +13,6 @@ import { ResetPasswordUseCase } from './application/password-reset/reset-passwor
 import { LoginAccountDto } from './application/login-account/login-account.dto';
 import { LoginAccountUseCase } from './application/login-account/login-account.usecase';
 import { AuthResponse } from './application/login-account/auth.response';
-import { PersonResponseDto } from '../person/application/dtos/person-response.dto';
 
 @Public()
 @Controller('auth')
@@ -35,8 +33,11 @@ export class AuthController {
   // CRIAR CONTA
   @Post('register')
   @Throttle({ default: { limit: 5, ttl: 60000 } })
-  async register(@Body() dto: CreateAccountDto): Promise<PersonResponseDto> {
-    return await this.createUseCase.execute(dto);
+  async register(@Body() dto: CreateAccountDto) {
+    await this.createUseCase.execute(dto);
+    return {
+      message: 'Conta criada com sucesso. Uma mensagem de ativação foi enviado para o seu email.'
+    }
   }
 
   // ATIVAR CONTA
@@ -44,7 +45,7 @@ export class AuthController {
   async activateAccount(@Param('token') token: string) {
     await this.activateAccountUseCase.executeActivateAccount(token);
     return {
-      message: 'Conta ativada com sucesso',
+      message: 'Conta ativada com sucesso.',
     };
   }
   // REENVIAR EMAIL DE ATIVAÇÃO DE CONTA

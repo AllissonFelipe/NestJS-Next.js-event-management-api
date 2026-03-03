@@ -96,7 +96,7 @@ export class CreateAccountUseCase {
       return account;
     });
 
-    const link = `http://localhost:3000/auth/activate-account/${rawToken}`;
+    const link = `${process.env.FRONT_END_URL}/auth/activate-account/${rawToken}`;
     console.log('Activation token: ', link);
     await this.mailService.sendAccountActivationEmail(result.email, link);
 

@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const response = await fetch(
-      "http://localhost:3000/auth/register",
+      `${process.env.API_URL}/auth/register`,
       {
         method: "POST",
         headers: {
@@ -21,9 +21,11 @@ export async function POST(req: NextRequest) {
       status: response.status,
     });
   } catch (error) {
-    return NextResponse.json(
-      { message: "Erro interno no servidor." },
-      { status: 500 }
-    );
-  }
+        console.error("API Route Error:", error);
+        const message = error instanceof Error ? error.message : "Erro interno no servidor.";
+        return NextResponse.json(
+            { message },
+            { status: 500 }
+        );
+    }
 }
