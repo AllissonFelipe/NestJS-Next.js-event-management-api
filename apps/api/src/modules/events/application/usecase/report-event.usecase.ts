@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { MyEventReportResponseDto } from '../responses/event-reports/event-report.response-dto';
+import { MyEventReportResponseDto } from '../responses/event-reports/my-event-report.response-dto';
 import { CreateEventReportDto } from '../dto/create-event-report.dto';
 import { EnsurePersonExists } from '../validators/ensure-person-exist.validator';
 import { PersonIdNotFoundError } from 'src/shared/errors/person-id-not-found.error';
@@ -11,6 +11,7 @@ import {
   EVENT_REPORT_REPOSITORY,
   type EventReportRepositoryInterface,
 } from 'src/modules/event-reports/domain/event-report.repository-interface';
+import { MyEventReportResponseMapper } from '../responses/event-reports/my-event-report.response-mapper';
 
 @Injectable()
 export class ReportEventUseCase {
@@ -48,6 +49,10 @@ export class ReportEventUseCase {
       reason: dto.reason,
     });
     await this.eventReportRepository.persist(newEventReport);
-    throw new Error(`Parando erro de retorno`);
+    return MyEventReportResponseMapper.toResponse(
+      newEventReport,
+      event,
+      userPerson,
+    );
   }
 }

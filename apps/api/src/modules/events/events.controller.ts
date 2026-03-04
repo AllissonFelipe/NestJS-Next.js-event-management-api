@@ -12,7 +12,7 @@ import { EventParticipantsResponseDto } from "./application/responses/event-part
 import { EventWithPaginationResponseDto, EventWithParticipantsResponseDto } from "./application/responses/event/event.response-dto";
 import { DeleteEventParticipationStatusUseCase } from "./application/usecase/delete-event-participation-status.usecase";
 import { CreateEventReportDto } from "./application/dto/create-event-report.dto";
-import { MyEventReportResponseDto } from "./application/responses/event-reports/event-report.response-dto";
+import { MyEventReportResponseDto } from "./application/responses/event-reports/my-event-report.response-dto";
 import { ReportEventUseCase } from "./application/usecase/report-event.usecase";
 
 @Controller('events')
