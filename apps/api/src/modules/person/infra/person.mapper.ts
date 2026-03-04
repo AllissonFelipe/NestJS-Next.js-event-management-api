@@ -9,7 +9,7 @@ export class PersonMapper {
    */
   static toDomain(ormEntity: PersonOrmEntity): PersonDomainEntity {
     if (!ormEntity) {
-      throw new Error(`PersonOrmEntity é requirido`);
+      throw new Error(`PersonMapper - PersonOrmEntity é requirido`);
     }
     if (!ormEntity.person_role) {
       throw new Error(`PersonRoleOrmEntity é requirido`);

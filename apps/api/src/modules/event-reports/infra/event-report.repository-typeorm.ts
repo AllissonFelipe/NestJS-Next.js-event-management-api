@@ -28,7 +28,19 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
   ): Promise<EventReportDomainEntity | null> {
     const repository = this.getRepository(manager);
     const ormEntity = await repository.findOne({
-      where: { reporter: { id: personId }, event: { id: eventId } },
+      where: { event: { id: eventId }, reporter: { id: personId } },
+      relations: {
+        event: {
+          created_by: {
+            person_role: true,
+            person_profile: true,
+          },
+        },
+        reporter: {
+          person_role: true,
+          person_profile: true,
+        },
+      },
     });
     if (!ormEntity) return null;
     return EventReportMapper.toDomain(ormEntity);

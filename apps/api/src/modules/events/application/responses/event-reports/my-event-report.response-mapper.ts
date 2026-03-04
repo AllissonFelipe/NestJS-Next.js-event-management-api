@@ -3,10 +3,38 @@ import {
   MyEventReportEventCreatedByResponseDto,
   MyEventReportEventResponseDto,
   MyEventReportResponseDto,
+  MyEventsReportsWithQueryResponseDto,
 } from './my-event-report.response-dto';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
 
+export class MyEventsReportsWithQueryResponseMapper {
+  static toResponse(
+    eventReportDomain: EventReportDomainEntity[],
+    page: number,
+    limit: number,
+    total: number,
+  ): MyEventsReportsWithQueryResponseDto {
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    return {
+      items: eventReportDomain.map((eventReport) =>
+        MyEventReportResponseMapper.toResponse(
+          eventReport,
+          eventReport.event,
+          eventReport.event.createdBy,
+        ),
+      ),
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+      },
+    };
+  }
+}
 export class MyEventReportResponseMapper {
   static toResponse(
     eventReportDomain: EventReportDomainEntity,
