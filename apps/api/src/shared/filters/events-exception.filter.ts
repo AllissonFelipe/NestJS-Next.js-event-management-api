@@ -11,6 +11,7 @@ import { EventEndDateInPastError } from 'src/modules/events/domain/errors/event-
 import { EventInFinalStatusError } from 'src/modules/events/domain/errors/event-in-final-status.error';
 import { EventInPendingStatusError } from 'src/modules/events/domain/errors/event-in-pending-status.error';
 import { EventNotFoundError } from 'src/modules/events/domain/errors/event-not-found-error';
+import { EventParticipationNotFoundError } from 'src/modules/events/domain/errors/event-participation-not-found.error';
 import { EventStatusCannotBeChangedError } from 'src/modules/events/domain/errors/event-status-cannot-be-changed-error';
 import { InvalidEventDateError } from 'src/modules/events/domain/errors/invalid-event-data.error';
 import { InvalidEventDateRangeError } from 'src/modules/events/domain/errors/invalid-event-date-range-error';
@@ -26,6 +27,7 @@ import { NothingToUpdateError } from 'src/modules/events/domain/errors/nothing-t
   EventStatusCannotBeChangedError,
   EventInFinalStatusError,
   EventInPendingStatusError,
+  EventParticipationNotFoundError,
 )
 export class EventsExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -103,6 +105,13 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof EventStatusCannotBeChangedError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
+        message: exception.message,
+      });
+    }
+    // Erro de event participation não encontrado
+    if (exception instanceof EventParticipationNotFoundError) {
+      return response.status(HttpStatus.NOT_FOUND).json({
+        statusCode: 404,
         message: exception.message,
       });
     }

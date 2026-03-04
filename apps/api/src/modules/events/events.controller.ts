@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Param, Post, Query, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, Post, Query, Req } from "@nestjs/common";
 import { Roles } from "../auth/decorators/roles.decorator";
 import { PersonRoleEnum } from "../person-role/domain/person-role.enum";
 import { FindEventsUseCase } from "./application/usecase/find-event.usecase";
@@ -10,6 +10,7 @@ import { SetEventParticipationStatusUseCase } from "./application/usecase/set-ev
 import { SetParticipationStatusDto } from "./application/dto/set-participation-status.dto";
 import { EventParticipantsResponseDto } from "./application/responses/event-participants/event-participants.response-dto";
 import { EventWithPaginationResponseDto, EventWithParticipantsResponseDto } from "./application/responses/event/event.response-dto";
+import { DeleteEventParticipationStatusUseCase } from "./application/usecase/delete-event-participation-status.usecase";
 
 @Controller('events')
 @Roles(PersonRoleEnum.USER)
@@ -19,6 +20,8 @@ export class EventsController {
         private readonly findEventUseCase: FindEventsUseCase,
         @Inject()
         private readonly setEventParticipationStatusUseCase: SetEventParticipationStatusUseCase,
+        @Inject()
+        private readonly deleteEventParticipationStatusUseCase: DeleteEventParticipationStatusUseCase,
     ) {}
 
     // ----- ROTAS PÚBLICA -----
@@ -31,12 +34,14 @@ export class EventsController {
     async findAllPublicEvents(@Query() filters: FindEventFilters): Promise<EventWithPaginationResponseDto> {
         return await this.findEventUseCase.findAllPublicEvents(filters);
     }
+    // Achar um evento específico
     @Public()
     @Get(':eventId')
     @HttpCode(HttpStatus.OK)
     async findOnePublicEvents(@Param('eventId') eventId: string): Promise<EventWithParticipantsResponseDto> {
         return await this.findEventUseCase.findOnePublicEvent(eventId);
     }
+
     // ------------------------ ROTAS DE USUÁRIO -------------------- //
     // ------------------------ ROTAS DE USUÁRIO -------------------- //
     // Define o status de participação do usuário no evento
@@ -44,5 +49,11 @@ export class EventsController {
     @HttpCode(HttpStatus.OK)
     async setParticipationStatus(@Req() req: AuthRequest, @Param('eventId') eventId: string, @Body() status: SetParticipationStatusDto): Promise<EventParticipantsResponseDto> {
         return await this.setEventParticipationStatusUseCase.execute(req.user.sub, eventId, status);
+    }
+    // Deleta a participação de um evento do usuário
+    @Delete(':eventId/participation')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async deleteParticipationStatus(@Req() req: AuthRequest, @Param('eventId') eventId: string) {
+        await this.deleteEventParticipationStatusUseCase.execute(req.user.sub, eventId);
     }
 }

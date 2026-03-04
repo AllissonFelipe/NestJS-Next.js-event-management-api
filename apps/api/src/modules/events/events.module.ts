@@ -16,6 +16,8 @@ import { SetEventParticipationStatusUseCase } from './application/usecase/set-ev
 import { EnsurePersonExists } from './application/validators/ensure-person-exist.validator';
 import { EnsureEventExists } from './application/validators/ensure-event-exist.validator';
 import { EventParticipantsModule } from '../event-participants/event-participants.module';
+import { DeleteEventParticipationStatusUseCase } from './application/usecase/delete-event-participation-status.usecase';
+import { EnsureUserEventParticipationExist } from './application/validators/ensure-user-event-participation-exist.validator';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { EventParticipantsModule } from '../event-participants/event-participant
     SetEventParticipationStatusUseCase,
     EnsurePersonExists,
     EnsureEventExists,
+    DeleteEventParticipationStatusUseCase,
+    EnsureUserEventParticipationExist,
     {
       provide: EVENTS_REPOSITORY,
       useClass: EventsRepositoryTypeOrm,

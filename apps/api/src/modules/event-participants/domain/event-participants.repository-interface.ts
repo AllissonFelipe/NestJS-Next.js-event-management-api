@@ -17,4 +17,8 @@ export interface EventParticipantsRepositoryInterface {
     event: EventsDomainEntity,
     manager?: EntityManager,
   ): Promise<EventParticipantsDomainEntity | null>;
+  deleteParticipationOfUser(
+    eventParticipantsId: string,
+    manager?: EntityManager,
+  ): Promise<void>;
 }

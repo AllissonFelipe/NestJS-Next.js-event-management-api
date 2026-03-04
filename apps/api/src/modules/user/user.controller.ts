@@ -101,7 +101,7 @@ export class UserController {
 
   // ------------------ ÁREA DE GERENCIAMENTO DE EVENTOS ----------------
   // ------------------ ÁREA DE GERENCIAMENTO DE EVENTOS ----------------
-  // Criar evento
+  // Criar evento meu
   @Post('events')
   @HttpCode(HttpStatus.CREATED)
   async createEvent(
@@ -110,7 +110,7 @@ export class UserController {
   ): Promise<EventResponseDto> {
     return await this.createEventUseCase.execute(req.user.sub, dto);
   }
-  // Achar todos os eventos - com filtros
+  // Achar todos os meus eventos - com filtros
   @Get('events')
   @HttpCode(HttpStatus.OK)
   async findAllMyEvents(
@@ -119,7 +119,7 @@ export class UserController {
   ): Promise<EventPaginationReponseDto> {
     return await this.findEventsUseCase.findAll(req.user.sub, filter);
   }
-  // Achar um evento
+  // Achar um evento meu
   @Get('events/:eventId')
   @HttpCode(HttpStatus.OK)
   async findOneEvent(
@@ -131,7 +131,7 @@ export class UserController {
       eventId,
     );
   }
-  // Atualizar um evento
+  // Atualizar um evento meu
   @Patch('events/:eventId')
   @HttpCode(HttpStatus.OK)
   async updateOneEvent(
@@ -141,7 +141,7 @@ export class UserController {
   ): Promise<EventResponseDto> {
     return await this.updateEventUseCase.execute(req.user.sub, eventId, dto);
   }
-  // Deletat um evento
+  // Deletar um evento meu
   @Delete('events/:eventId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteOneEvent(

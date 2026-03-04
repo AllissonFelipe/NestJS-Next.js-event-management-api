@@ -15,6 +15,7 @@ import { EventsStatusEnum } from '../domain/events-status.enum';
 import { EventsImagesOrmEntity } from '../events-images/infra/events-images.orm-entity';
 import { EventsAddressesOrmEntity } from '../events-addresses/infra/events-addresses.orm-entity';
 import { EventParticipantsOrmEntity } from '../../event-participants/infra/event-participants.orm-entity';
+import { EventReportOrmEntity } from '../../event-reports/infra/event-report.orm-entity';
 
 @Entity('events')
 export class EventsOrmEntity {
@@ -63,6 +64,9 @@ export class EventsOrmEntity {
     (participant) => participant.event,
   )
   participants: EventParticipantsOrmEntity[];
+
+  @OneToMany(() => EventReportOrmEntity, (reports) => reports.event)
+  reports: EventReportOrmEntity[];
 
   @CreateDateColumn()
   created_at: Date;

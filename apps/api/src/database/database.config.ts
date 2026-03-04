@@ -13,7 +13,7 @@ export const typeOrmConfig = registerAs(
     database: process.env.DB_DATABASE,
     synchronize: process.env.DB_SYNC === 'true', // só true se o .env tiver true
     // Assim funciona tanto em desenvolvimento (.ts) quanto após o build (.js)
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../**/*orm-entity{.ts,.js}'],
     migrations: [__dirname + '/../migrations/*{.ts,.js}'], // <- onde ficam as migrations
   }),
 );

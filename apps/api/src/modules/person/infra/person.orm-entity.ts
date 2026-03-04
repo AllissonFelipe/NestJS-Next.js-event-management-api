@@ -1,3 +1,4 @@
+import { EventReportOrmEntity } from '../../event-reports/infra/event-report.orm-entity';
 import { EventParticipantsOrmEntity } from '../../event-participants/infra/event-participants.orm-entity';
 import { EventsOrmEntity } from '../../events/infra/events.orm-entity';
 import { PersonProfileOrmEntity } from '../../person-profile/infra/person-profile.orm-entity';
@@ -54,6 +55,9 @@ export class PersonOrmEntity {
     (participation) => participation.person,
   )
   participations: EventParticipantsOrmEntity[];
+
+  @OneToMany(() => EventReportOrmEntity, (report) => report.reporter)
+  reportsMade: EventReportOrmEntity[];
 
   @CreateDateColumn()
   created_at: Date;

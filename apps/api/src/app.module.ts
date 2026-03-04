@@ -30,6 +30,8 @@ import { EmailChangeTokenOrmEntity } from './modules/email-change-token/infra/em
 import { AdminModule } from './modules/admin/admin.module';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { EventParticipantsOrmEntity } from './modules/event-participants/infra/event-participants.orm-entity';
+import { EventReportOrmEntity } from './modules/event-reports/infra/event-report.orm-entity';
+import { EventParticipantsModule } from './modules/event-participants/event-participants.module';
 
 @Module({
   imports: [
@@ -40,7 +42,7 @@ import { EventParticipantsOrmEntity } from './modules/event-participants/infra/e
         const dbConfig = configService.get<TypeOrmModuleOptions>('database');
         return {
           ...dbConfig,
-          entities: [PersonOrmEntity, AccountActivationTokenOrmEntity, PasswordResetTokenOrmEntity, PersonRoleOrmEntity, PersonProfileOrmEntity, EventsOrmEntity, EventsImagesOrmEntity, EventsAddressesOrmEntity, EmailChangeTokenOrmEntity, EventParticipantsOrmEntity],
+          entities: [PersonOrmEntity, AccountActivationTokenOrmEntity, PasswordResetTokenOrmEntity, PersonRoleOrmEntity, PersonProfileOrmEntity, EventsOrmEntity, EventsImagesOrmEntity, EventsAddressesOrmEntity, EmailChangeTokenOrmEntity, EventParticipantsOrmEntity, EventReportOrmEntity],
         };
       },
     }),
@@ -65,6 +67,7 @@ import { EventParticipantsOrmEntity } from './modules/event-participants/infra/e
     EventsModule,
     UserModule,
     AdminModule,
+    EventParticipantsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -78,4 +78,10 @@ export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepo
     if (!ormEntity) return null;
     return EventParticipantMapper.toDomain(ormEntity, event);
   }
+
+  async deleteParticipationOfUser(eventParticipantsId: string, manager?: EntityManager): Promise<void> {
+    const repository = this.getRepository(manager);
+    await repository.delete(eventParticipantsId);
+  }
+
 }
