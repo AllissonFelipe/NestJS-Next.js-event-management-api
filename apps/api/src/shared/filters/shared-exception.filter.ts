@@ -10,6 +10,8 @@ import { EventIdNotFoundError } from "../errors/event-id-not-found.error";
 import { EventNotFoundError } from "../errors/event-not-found.error";
 import { EventParticipantNotFoundError } from "../errors/event-participant-not-found-error";
 import { EventAddressNotFoundError } from "../errors/event-address-not-found-error";
+import { EventAlreadyReportedByUser } from "../errors/event-already-reported-by-user.error";
+import { EventReportNotFoundError } from "../errors/event-report-not-found.error";
 
 @Catch(
     PersonIdNotFoundError,
@@ -21,6 +23,8 @@ import { EventAddressNotFoundError } from "../errors/event-address-not-found-err
     EventNotFoundError,
     EventParticipantNotFoundError,
     EventAddressNotFoundError,
+    EventAlreadyReportedByUser,
+    EventReportNotFoundError,
 )
 export class SharedExceptionFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost) {
@@ -95,6 +99,20 @@ export class SharedExceptionFilter implements ExceptionFilter {
                 statusCode: 404,
                 message: exception.message
             })
+        }
+        // Erro de evento ja reportado pelo usuário
+        if (exception instanceof EventAlreadyReportedByUser) {
+            return response.status(HttpStatus.CONFLICT).json({
+                statuscode: 409,
+                message: exception.message,
+            });
+        }
+        // Erro de reporte de evento não encontrado
+        if (exception instanceof EventReportNotFoundError) {
+            return response.status(HttpStatus.NOT_FOUND).json({
+                statuscode: 404,
+                message: exception.message,
+            });
         }
 
         return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

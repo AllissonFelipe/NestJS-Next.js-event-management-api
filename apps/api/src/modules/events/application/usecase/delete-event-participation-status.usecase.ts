@@ -6,6 +6,8 @@ import {
   EVENT_PARTICIPANTS_REPOSITORY,
   type EventParticipantsRepositoryInterface,
 } from 'src/modules/event-participants/domain/event-participants.repository-interface';
+import { PersonIdNotFoundError } from 'src/shared/errors/person-id-not-found.error';
+import { EventIdNotFoundError } from 'src/shared/errors/event-id-not-found.error';
 
 @Injectable()
 export class DeleteEventParticipationStatusUseCase {
@@ -21,6 +23,12 @@ export class DeleteEventParticipationStatusUseCase {
   ) {}
 
   async execute(userPersonId: string, eventId: string): Promise<void> {
+    if (!userPersonId) {
+      throw new PersonIdNotFoundError();
+    }
+    if (!eventId) {
+      throw new EventIdNotFoundError();
+    }
     const personUserRole = await this.ensurePersonExist.ensure(userPersonId);
     const event = await this.ensureEventExist.ensure(eventId);
     const eventParticipation =

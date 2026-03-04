@@ -18,6 +18,7 @@ import { EventsModule } from '../events/events.module';
 import { UserFindEventsUseCase } from './application/usecase/find-events.usecase';
 import { UserUpdateEventUseCase } from './application/usecase/update-event.usecase';
 import { UserDeleteEventUseCase } from './application/usecase/delete-event.usecase';
+import { EventAddressesModule } from '../events/events-addresses/event-addresses.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserDeleteEventUseCase } from './application/usecase/delete-event.useca
     PersonProfileModule,
     EmailChangeTokenModule,
     EventsModule,
+    EventAddressesModule,
   ],
   controllers: [UserController],
   providers: [

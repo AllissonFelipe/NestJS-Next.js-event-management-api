@@ -9,8 +9,6 @@ import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
 import { EVENTS_REPOSITORY } from './domain/events.repository-interface';
 import { EventsRepositoryTypeOrm } from './infra/events.repository-typeorm';
-import { EVENTS_ADDRESSES_REPOSITORY } from './events-addresses/domain/events-addresses.repository-interface';
-import { EventsAddressesRepositoryTypeOrm } from './events-addresses/infra/events-addresses.repository-typeorm';
 import { FindEventsUseCase } from './application/usecase/find-event.usecase';
 import { SetEventParticipationStatusUseCase } from './application/usecase/set-event-participation-status.usecase';
 import { EnsurePersonExists } from './application/validators/ensure-person-exist.validator';
@@ -18,6 +16,10 @@ import { EnsureEventExists } from './application/validators/ensure-event-exist.v
 import { EventParticipantsModule } from '../event-participants/event-participants.module';
 import { DeleteEventParticipationStatusUseCase } from './application/usecase/delete-event-participation-status.usecase';
 import { EnsureUserEventParticipationExist } from './application/validators/ensure-user-event-participation-exist.validator';
+import { ReportEventUseCase } from './application/usecase/report-event.usecase';
+import { EnsureEventAlreadyNotReportedByUser } from './application/validators/ensure-event-not-reported-by-user.validator';
+import { EventAddressesModule } from './events-addresses/event-addresses.module';
+import { EventReportModule } from '../event-reports/event-report.module';
 
 @Module({
   imports: [
@@ -27,7 +29,9 @@ import { EnsureUserEventParticipationExist } from './application/validators/ensu
       EventsAddressesOrmEntity,
     ]),
     PersonModule,
+    EventAddressesModule,
     EventParticipantsModule,
+    EventReportModule,
   ],
   controllers: [EventsController],
   providers: [
@@ -37,19 +41,17 @@ import { EnsureUserEventParticipationExist } from './application/validators/ensu
     EnsureEventExists,
     DeleteEventParticipationStatusUseCase,
     EnsureUserEventParticipationExist,
+    ReportEventUseCase,
+    EnsureEventAlreadyNotReportedByUser,
     {
       provide: EVENTS_REPOSITORY,
       useClass: EventsRepositoryTypeOrm,
-    },
-    {
-      provide: EVENTS_ADDRESSES_REPOSITORY,
-      useClass: EventsAddressesRepositoryTypeOrm,
     },
     {
       provide: UNIT_OF_WORK,
       useClass: TypeOrmUnitOfWork,
     },
   ],
-  exports: [EVENTS_REPOSITORY, EVENTS_ADDRESSES_REPOSITORY],
+  exports: [EVENTS_REPOSITORY],
 })
 export class EventsModule {}
