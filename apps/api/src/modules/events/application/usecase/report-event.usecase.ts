@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EventReportResponseDto } from '../responses/event-reports/event-report.response-dto';
+import { MyEventReportResponseDto } from '../responses/event-reports/event-report.response-dto';
 import { CreateEventReportDto } from '../dto/create-event-report.dto';
 import { EnsurePersonExists } from '../validators/ensure-person-exist.validator';
 import { PersonIdNotFoundError } from 'src/shared/errors/person-id-not-found.error';
@@ -7,7 +7,10 @@ import { EventIdNotFoundError } from 'src/shared/errors/event-id-not-found.error
 import { EnsureEventExists } from '../validators/ensure-event-exist.validator';
 import { EnsureEventAlreadyNotReportedByUser } from '../validators/ensure-event-not-reported-by-user.validator';
 import { EventReportDomainEntity } from 'src/modules/event-reports/domain/event-report.domain-entity';
-import { EVENT_REPORT_REPOSITORY, type EventReportRepositoryInterface } from 'src/modules/event-reports/domain/event-report.repository-interface';
+import {
+  EVENT_REPORT_REPOSITORY,
+  type EventReportRepositoryInterface,
+} from 'src/modules/event-reports/domain/event-report.repository-interface';
 
 @Injectable()
 export class ReportEventUseCase {
@@ -26,7 +29,7 @@ export class ReportEventUseCase {
     userPersonId: string,
     eventId: string,
     dto: CreateEventReportDto,
-  ): Promise<EventReportResponseDto> {
+  ): Promise<MyEventReportResponseDto> {
     if (!userPersonId) {
       throw new PersonIdNotFoundError();
     }

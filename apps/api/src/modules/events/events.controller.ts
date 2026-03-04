@@ -12,7 +12,7 @@ import { EventParticipantsResponseDto } from "./application/responses/event-part
 import { EventWithPaginationResponseDto, EventWithParticipantsResponseDto } from "./application/responses/event/event.response-dto";
 import { DeleteEventParticipationStatusUseCase } from "./application/usecase/delete-event-participation-status.usecase";
 import { CreateEventReportDto } from "./application/dto/create-event-report.dto";
-import { EventReportResponseDto } from "./application/responses/event-reports/event-report.response-dto";
+import { MyEventReportResponseDto } from "./application/responses/event-reports/event-report.response-dto";
 import { ReportEventUseCase } from "./application/usecase/report-event.usecase";
 
 @Controller('events')
@@ -64,7 +64,7 @@ export class EventsController {
     // Reporta um evento
     @Post(':eventId/report')
     @HttpCode(HttpStatus.CREATED)
-    async reportEvent(@Req() req: AuthRequest, @Param('eventId') eventId: string, @Body() dto: CreateEventReportDto): Promise<EventReportResponseDto> {
+    async reportEvent(@Req() req: AuthRequest, @Param('eventId') eventId: string, @Body() dto: CreateEventReportDto): Promise<MyEventReportResponseDto> {
         return await this.reportEventUseCase.report(req.user.sub, eventId, dto)
     }
 }
