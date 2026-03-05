@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Inject, Injectable, Query } from "@nestjs/common";
-import { IsAdminValidator } from "../validators/is-admin.validator";
-import { AdminNotFoundError } from "../../domain/errors/admin-not-found.error";
+import { Inject, Injectable } from "@nestjs/common";
+import { IsAdminValidator } from "../../validators/is-admin.validator";
+import { AdminNotFoundError } from "../../../domain/errors/admin-not-found.error";
 import { PERSON_REPOSITORY, type PersonRepositoryInterface } from "src/modules/person/domain/person.repository-interface";
-import { FiltersOfUserDto } from "../dtos/filters-of-user.dto";
+import { FiltersOfUserDto } from "../../dtos/filters-of-user.dto";
 import { UserResponseDto } from "src/shared/responses/user/user-response.dto";
 import { PersonRepositoryFiltersInterface } from "src/modules/person/domain/person-repository-filters-interface";
 import { UserPresenter } from "src/shared/responses/user/user-presenter.response";

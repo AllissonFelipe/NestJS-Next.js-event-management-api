@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable } from "@nestjs/common";
-import { AdminUpdateUserDto } from "../dtos/update-user.dto";
-import { AdminIdNotFoundError } from "../../domain/errors/admin-id-not-found.error";
+import { AdminUpdateUserDto } from "../../dtos/update-user.dto";
+import { AdminIdNotFoundError } from "../../../domain/errors/admin-id-not-found.error";
 import { PERSON_REPOSITORY, type PersonRepositoryInterface } from "src/modules/person/domain/person.repository-interface";
 import { UserNotFoundError } from "src/shared/errors/user-not-found.error";
 import { EmptyUpdatePayloadError } from "src/shared/errors/empty-update-payload.error";
@@ -10,7 +10,7 @@ import { UNIT_OF_WORK } from "src/database/unit-of-work.interface";
 import { TypeOrmUnitOfWork } from "src/database/typeorm-unit-of-work";
 import { UserResponseDto } from "src/shared/responses/user/user-response.dto";
 import { UserPresenter } from "src/shared/responses/user/user-presenter.response";
-import { IsAdminValidator } from "../validators/is-admin.validator";
+import { IsAdminValidator } from "../../validators/is-admin.validator";
 import { CpfAlreadyInUseError } from "src/modules/person/domain/errors/cpf-already-in-use.error";
 
 @Injectable()

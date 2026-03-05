@@ -2,19 +2,19 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   EVENTS_REPOSITORY,
   type EventsRepositoryInterface,
-} from '../../domain/events.repository-interface';
-import { EventsStatusEnum } from '../../domain/events-status.enum';
-import { FindEventFilters } from '../dto/find-event-filters.dto';
+} from '../../../domain/events.repository-interface';
+import { EventsStatusEnum } from '../../../domain/events-status.enum';
+import { FindEventFilters } from '../../dto/find-event-filters.dto';
 import {
   EventWithPaginationResponseMapper,
   EventWithParticipantsResponseMapper,
-} from '../responses/event/event.response-mapper';
+} from '../../responses/event/event.response-mapper';
 import {
   EventWithPaginationResponseDto,
   EventWithParticipantsResponseDto,
-} from '../responses/event/event.response-dto';
+} from '../../responses/event/event.response-dto';
 import { EventAddressNotFoundError } from 'src/shared/errors/event-address-not-found-error';
-import { EventNotFoundError } from '../../domain/errors/event-not-found-error';
+import { EventNotFoundError } from '../../../domain/errors/event-not-found-error';
 
 @Injectable()
 export class FindEventsUseCase {

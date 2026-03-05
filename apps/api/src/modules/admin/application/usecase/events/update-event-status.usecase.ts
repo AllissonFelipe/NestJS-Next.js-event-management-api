@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { Inject } from "@nestjs/common";
-import { IsAdminValidator } from "../validators/is-admin.validator";
-import { EventResponseDto } from "../response/event/event-response.dto";
+import { IsAdminValidator } from "../../validators/is-admin.validator";
+import { EventResponseDto } from "../../response/event/event-response.dto";
 import { PERSON_REPOSITORY, type PersonRepositoryInterface } from "src/modules/person/domain/person.repository-interface";
 import { UserNotFoundError } from "src/shared/errors/user-not-found.error";
 import { EVENTS_REPOSITORY, type EventsRepositoryInterface } from "src/modules/events/domain/events.repository-interface";
-import { EventNotFoundError } from "../../domain/errors/admin-event-not-found.error";
-import { AdminInvalidUpdatePayloadError } from "../../domain/errors/admin-invalid-update-payload.error";
-import { EventPresenter } from "../response/event/event-presenter";
+import { EventNotFoundError } from "../../../domain/errors/admin-event-not-found.error";
+import { AdminInvalidUpdatePayloadError } from "../../../domain/errors/admin-invalid-update-payload.error";
+import { EventPresenter } from "../../response/event/event-presenter";
 import { EventAddressNotFoundError } from "src/modules/events/domain/errors/event-address-not-found.error";
-import { UpdateEventStatusDto } from "../dtos/update-event-status.dto";
-import { AdminIdNotFoundError } from "../../domain/errors/admin-id-not-found.error";
+import { UpdateEventStatusDto } from "../../dtos/update-event-status.dto";
+import { AdminIdNotFoundError } from "../../../domain/errors/admin-id-not-found.error";
 import { EmptyUpdatePayloadError } from "src/shared/errors/empty-update-payload.error";
 import { EventsStatusEnum } from "src/modules/events/domain/events-status.enum";
 

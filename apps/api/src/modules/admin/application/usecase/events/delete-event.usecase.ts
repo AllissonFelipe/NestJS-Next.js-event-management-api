@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable } from "@nestjs/common";
-import { AdminIdNotFoundError } from "../../domain/errors/admin-id-not-found.error";
-import { IsAdminValidator } from "../validators/is-admin.validator";
+import { AdminIdNotFoundError } from "../../../domain/errors/admin-id-not-found.error";
+import { IsAdminValidator } from "../../validators/is-admin.validator";
 import { EVENTS_REPOSITORY, type EventsRepositoryInterface } from "src/modules/events/domain/events.repository-interface";
-import { EventNotFoundError } from "../../domain/errors/admin-event-not-found.error";
+import { EventNotFoundError } from "../../../domain/errors/admin-event-not-found.error";
 
 @Injectable()
 export class DeleteEventUseCase {

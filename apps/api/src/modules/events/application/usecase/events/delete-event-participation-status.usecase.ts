@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EnsureEventExists } from '../validators/ensure-event-exist.validator';
-import { EnsurePersonExists } from '../validators/ensure-person-exist.validator';
-import { EnsureUserEventParticipationExist } from '../validators/ensure-user-event-participation-exist.validator';
+import { EnsureEventExists } from '../../validators/ensure-event-exist.validator';
+import { EnsurePersonExists } from '../../validators/ensure-person-exist.validator';
+import { EnsureUserEventParticipationExist } from '../../validators/ensure-user-event-participation-exist.validator';
 import {
   EVENT_PARTICIPANTS_REPOSITORY,
   type EventParticipantsRepositoryInterface,

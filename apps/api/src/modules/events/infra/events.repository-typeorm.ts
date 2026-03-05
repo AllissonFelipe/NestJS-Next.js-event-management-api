@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EventsOrmEntity } from './events.orm-entity';
 import { EventsMapper } from './events.mapper';
 import { FindEventFilters } from '../application/dto/find-event-filters.dto';
-import { EventsPaginatedResult } from '../domain/events-paginated-result.interface';
+import { PaginatedResult } from '../domain/paginated-result.interface';
 
 @Injectable()
 export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
@@ -134,7 +134,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     ownerId: string,
     filters: FindEventFilters,
     manager?: EntityManager,
-  ): Promise<EventsPaginatedResult<EventsDomainEntity>> {
+  ): Promise<PaginatedResult<EventsDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('events');
     qb.leftJoinAndSelect('events.event_address', 'address');
@@ -184,7 +184,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
   async findAllPublicEventsWithFilters(
     filters: FindEventFilters,
     manager?: EntityManager,
-  ): Promise<EventsPaginatedResult<EventsDomainEntity>> {
+  ): Promise<PaginatedResult<EventsDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('events');
     qb.leftJoinAndSelect('events.event_address', 'address');

@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable } from "@nestjs/common";
-import { AdminIdNotFoundError } from "../../domain/errors/admin-id-not-found.error";
-import { IsAdminValidator } from "../validators/is-admin.validator";
+import { AdminIdNotFoundError } from "../../../domain/errors/admin-id-not-found.error";
+import { IsAdminValidator } from "../../validators/is-admin.validator";
 import { PERSON_REPOSITORY, type PersonRepositoryInterface } from "src/modules/person/domain/person.repository-interface";
 import { UserNotFoundError } from "src/shared/errors/user-not-found.error";
 import { EVENTS_REPOSITORY, type EventsRepositoryInterface } from "src/modules/events/domain/events.repository-interface";
-import { EventIdNotFoundError } from "../../domain/errors/admin-event-id-not-found.error";
-import { UserPersonIdNotFoundError } from "../../domain/errors/admin-user-person-id-not-found.error";
-import { EventNotFoundError } from "../../domain/errors/admin-event-not-found.error";
-import { EventPresenter } from "../response/event/event-presenter";
+import { EventIdNotFoundError } from "../../../domain/errors/admin-event-id-not-found.error";
+import { UserPersonIdNotFoundError } from "../../../domain/errors/admin-user-person-id-not-found.error";
+import { EventNotFoundError } from "../../../domain/errors/admin-event-not-found.error";
+import { EventPresenter } from "../../response/event/event-presenter";
 import { EventAddressNotFoundError } from "src/modules/events/domain/errors/event-address-not-found.error";
-import { EventResponseDto, EventResponseWithPaginationDto } from "../response/event/event-response.dto";
+import { EventResponseDto, EventResponseWithPaginationDto } from "../../response/event/event-response.dto";
 import { FindEventFilters } from "src/modules/events/application/dto/find-event-filters.dto";
 import { EventsStatusEnum } from "src/modules/events/domain/events-status.enum";
 

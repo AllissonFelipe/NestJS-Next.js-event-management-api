@@ -5,20 +5,21 @@ import { Roles } from "../auth/decorators/roles.decorator";
 import { type AuthRequest } from "../auth/types/auth-request";
 import { FindAdminProfileUseCase } from "./application/usecase/find-admin-profile.usecase";
 import { AdminResponseDto } from "./application/response/admin/admin-response.dto";
-import { FindUsersUseCase } from "./application/usecase/find-users.usecase";
+import { FindUsersUseCase } from "./application/usecase/user/find-users.usecase";
 import { FiltersOfUserDto } from "./application/dtos/filters-of-user.dto";
 import { PaginationResultInterface } from "src/shared/interfaces/pagination-result.interface";
-import { FindEventsUseCase } from "./application/usecase/find-events.usecase";
+import { FindEventsUseCase } from "./application/usecase/events/find-events.usecase";
 
 import { FindEventFilters } from "../events/application/dto/find-event-filters.dto";
-import { UpdateEventStatusUseCase } from "./application/usecase/update-event-status.usecase";
+import { UpdateEventStatusUseCase } from "./application/usecase/events/update-event-status.usecase";
 import { UpdateEventStatusDto } from "./application/dtos/update-event-status.dto";
-import { DeleteEventUseCase } from "./application/usecase/delete-event.usecase";
-import { AdminUpdateUserUseCase } from "./application/usecase/update-user.usecase";
+import { DeleteEventUseCase } from "./application/usecase/events/delete-event.usecase";
+import { AdminUpdateUserUseCase } from "./application/usecase/user/update-user.usecase";
 import { AdminUpdateUserDto } from "./application/dtos/update-user.dto";
 import { UserResponseDto } from "src/shared/responses/user/user-response.dto";
-import { AdminDeleteUserUseCase } from "./application/usecase/delete-user.usecase";
+import { AdminDeleteUserUseCase } from "./application/usecase/user/delete-user.usecase";
 import { EventResponseDto, EventResponseWithPaginationDto } from "./application/response/event/event-response.dto";
+
 
 
 @Roles(PersonRoleEnum.ADMIN)
@@ -129,4 +130,10 @@ export class AdminController {
     async deleteEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<void> {
         await this.deleteEventUseCase.deleteEventById(req.user.sub, eventId);
     }
+
+    // ------------ ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ---------------
+    // ------------ ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ---------------
+    // ACHAR TODOS OS REPORTES DE UM EVENTO
+    // @Get('events/:eventId/reports')
+    // @HttpCode
 }

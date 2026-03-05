@@ -13,23 +13,26 @@ import {
 } from '@nestjs/common';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { PersonRoleEnum } from '../person-role/domain/person-role.enum';
-import { FindEventsUseCase } from './application/usecase/find-event.usecase';
+import { FindEventsUseCase } from './application/usecase/events/find-event.usecase';
 import { FindEventFilters } from './application/dto/find-event-filters.dto';
 import { type AuthRequest } from '../auth/types/auth-request';
 import { Public } from '../auth/decorators/public.decorator';
-import { SetEventParticipationStatusUseCase } from './application/usecase/set-event-participation-status.usecase';
+import { SetEventParticipationStatusUseCase } from './application/usecase/events/set-event-participation-status.usecase';
 import { SetParticipationStatusDto } from './application/dto/set-participation-status.dto';
 import { EventParticipantsResponseDto } from './application/responses/event-participants/event-participants.response-dto';
 import {
   EventWithPaginationResponseDto,
   EventWithParticipantsResponseDto,
 } from './application/responses/event/event.response-dto';
-import { DeleteEventParticipationStatusUseCase } from './application/usecase/delete-event-participation-status.usecase';
+import { DeleteEventParticipationStatusUseCase } from './application/usecase/events/delete-event-participation-status.usecase';
 import { CreateEventReportDto } from './application/dto/create-event-report.dto';
-import { MyEventReportResponseDto } from './application/responses/event-reports/my-event-report.response-dto';
-import { ReportEventUseCase } from './application/usecase/report-event.usecase';
+import {
+  MyEventReportResponseDto,
+  MyEventsReportsWithQueryResponseDto,
+} from './application/responses/event-reports/my-event-report.response-dto';
+import { ReportEventUseCase } from './application/usecase/events/report-event.usecase';
 import { MyEventReportsQueryDto } from './application/dto/my-event-reports-query.dto';
-import { FindMyEventReportsUseCase } from './application/usecase/find-my-event-reports.usecase';
+import { FindMyEventReportsUseCase } from './application/usecase/events/find-my-event-reports.usecase';
 
 @Controller('events')
 @Roles(PersonRoleEnum.USER)
@@ -110,10 +113,22 @@ export class EventsController {
   // Busca todos os meu reportes de eventos
   @Get('me/reports')
   @HttpCode(HttpStatus.OK)
-  async findMyEventReports(
+  async findMyEventsReports(
     @Req() req: AuthRequest,
-    @Query() query: MyEventReportsQueryDto,
+    @Query() queryDto: MyEventReportsQueryDto,
+  ): Promise<MyEventsReportsWithQueryResponseDto> {
+    return await this.findMyEventReportsUseCase.execute(req.user.sub, queryDto);
+  }
+  // Busca um reporte especifico meu de um evento
+  @Get(':eventId/me/report')
+  @HttpCode(HttpStatus.OK)
+  async findMyEventReport(
+    @Req() req: AuthRequest,
+    @Param('eventId') eventId: string,
   ): Promise<MyEventReportResponseDto> {
-    return await this.findMyEventReportsUseCase.execute(req.user.sub);
+    return await this.findMyEventReportsUseCase.executeFindOne(
+      req.user.sub,
+      eventId,
+    );
   }
 }

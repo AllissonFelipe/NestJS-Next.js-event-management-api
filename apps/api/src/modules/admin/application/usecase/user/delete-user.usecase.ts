@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable } from "@nestjs/common";
 import { PERSON_REPOSITORY, type PersonRepositoryInterface } from "src/modules/person/domain/person.repository-interface";
-import { AdminIdNotFoundError } from "../../domain/errors/admin-id-not-found.error";
-import { IsAdminValidator } from "../validators/is-admin.validator";
+import { AdminIdNotFoundError } from "../../../domain/errors/admin-id-not-found.error";
+import { IsAdminValidator } from "../../validators/is-admin.validator";
 import { UserNotFoundError } from "src/shared/errors/user-not-found.error";
 
 @Injectable()

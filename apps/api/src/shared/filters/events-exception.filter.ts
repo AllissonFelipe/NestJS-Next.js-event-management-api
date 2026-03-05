@@ -12,6 +12,7 @@ import { EventInFinalStatusError } from 'src/modules/events/domain/errors/event-
 import { EventInPendingStatusError } from 'src/modules/events/domain/errors/event-in-pending-status.error';
 import { EventNotFoundError } from 'src/modules/events/domain/errors/event-not-found-error';
 import { EventParticipationNotFoundError } from 'src/modules/events/domain/errors/event-participation-not-found.error';
+import { EventReportNotFoundError } from 'src/modules/events/domain/errors/event-report-not-found.error';
 import { EventStatusCannotBeChangedError } from 'src/modules/events/domain/errors/event-status-cannot-be-changed-error';
 import { InvalidEventDateError } from 'src/modules/events/domain/errors/invalid-event-data.error';
 import { InvalidEventDateRangeError } from 'src/modules/events/domain/errors/invalid-event-date-range-error';
@@ -28,6 +29,7 @@ import { NothingToUpdateError } from 'src/modules/events/domain/errors/nothing-t
   EventInFinalStatusError,
   EventInPendingStatusError,
   EventParticipationNotFoundError,
+  EventReportNotFoundError,
 )
 export class EventsExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -110,6 +112,13 @@ export class EventsExceptionFilter implements ExceptionFilter {
     }
     // Erro de event participation não encontrado
     if (exception instanceof EventParticipationNotFoundError) {
+      return response.status(HttpStatus.NOT_FOUND).json({
+        statusCode: 404,
+        message: exception.message,
+      });
+    }
+    // Erro de reporte de evento não encontrado
+    if (exception instanceof EventReportNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
         message: exception.message,

@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { SetParticipationStatusDto } from '../dto/set-participation-status.dto';
-import { EnsurePersonExists } from '../validators/ensure-person-exist.validator';
-import { EnsureEventExists } from '../validators/ensure-event-exist.validator';
+import { SetParticipationStatusDto } from '../../dto/set-participation-status.dto';
+import { EnsurePersonExists } from '../../validators/ensure-person-exist.validator';
+import { EnsureEventExists } from '../../validators/ensure-event-exist.validator';
 import {
   EVENT_PARTICIPANTS_REPOSITORY,
   type EventParticipantsRepositoryInterface,
 } from 'src/modules/event-participants/domain/event-participants.repository-interface';
 import { EventParticipantsDomainEntity } from 'src/modules/event-participants/domain/event-participants.domain-entity';
-import { EventParticipantsResponseMapper } from '../responses/event-participants/event-participants.reponse-mapper';
-import { EventParticipantsResponseDto } from '../responses/event-participants/event-participants.response-dto';
-import { EventsDomainEntity } from '../../domain/events.domain-entity';
+import { EventParticipantsResponseMapper } from '../../responses/event-participants/event-participants.reponse-mapper';
+import { EventParticipantsResponseDto } from '../../responses/event-participants/event-participants.response-dto';
+import { EventsDomainEntity } from '../../../domain/events.domain-entity';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
-import { EventInFinalStatusError } from '../../domain/errors/event-in-final-status.error';
-import { EventInPendingStatusError } from '../../domain/errors/event-in-pending-status.error';
+import { EventInFinalStatusError } from '../../../domain/errors/event-in-final-status.error';
+import { EventInPendingStatusError } from '../../../domain/errors/event-in-pending-status.error';
 
 @Injectable()
 export class SetEventParticipationStatusUseCase {
