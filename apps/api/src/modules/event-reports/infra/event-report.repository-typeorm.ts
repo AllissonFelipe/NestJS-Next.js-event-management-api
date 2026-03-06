@@ -8,6 +8,9 @@ import { EventReportMapper } from './event-report.mapper';
 import { PaginatedResult } from 'src/modules/events/domain/paginated-result.interface';
 import { MyEventReportsQueryDto } from 'src/modules/events/application/dto/my-event-reports-query.dto';
 import { PaginationInterface } from '../domain/pagination.interface';
+import { FindEventReportQueryDto } from 'src/modules/admin/application/dtos/find-event-report-query.dto';
+import { AdminPaginatedResultInterface } from 'src/modules/admin/domain/paginated-result.interface';
+import { AdminPaginationInterface } from 'src/modules/admin/domain/pagination.interface';
 
 @Injectable()
 export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterface {
@@ -105,5 +108,54 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
       ),
       total,
     };
+  }
+
+  async findAllOfEvent(
+    eventId: string,
+    query: FindEventReportQueryDto,
+    pagination: AdminPaginationInterface,
+    manager?: EntityManager,
+  ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>> {
+    const repository = this.getRepository(manager);
+    const qb = repository.createQueryBuilder('eventReports');
+    qb.leftJoinAndSelect('eventReports.event', 'event');
+    qb.leftJoinAndSelect('event.event_address', 'address');
+    qb.leftJoinAndSelect('eventReports.reporter', 'reporter');
+    qb.leftJoinAndSelect('reporter.person_role', 'reporterPersonRole');
+    qb.leftJoinAndSelect('reporter.person_profile', 'reporterPersonProfile');
+    qb.leftJoinAndSelect('event.created_by', 'eventCreatedBy');
+    qb.leftJoinAndSelect('eventCreatedBy.person_role', 'createByPersonRole');
+    qb.leftJoinAndSelect(
+      'eventCreatedBy.person_profile',
+      'createdByPersonProfile',
+    );
+    qb.where('event.id = :eventId', { eventId });
+
+    if (query.reason) {
+      qb.andWhere('eventReports.reason ILIKE :reason', {
+        reason: `%${query.reason}%`,
+      });
+    }
+    if (query.status) {
+      qb.andWhere('eventReports.status = :status', { status: query.status });
+    }
+    if (query.createdAt) {
+      qb.andWhere('eventReports.created_at >= :createdAt', {
+        createdAt: query.createdAt,
+      });
+    }
+
+    qb.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    const result = {
+      items: items.map((eventReport) =>
+        EventReportMapper.toDomain(eventReport),
+      ),
+      total,
+    };
+
+    return result;
   }
 }

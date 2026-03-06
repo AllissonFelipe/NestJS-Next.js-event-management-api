@@ -19,9 +19,9 @@ import { AdminUpdateUserDto } from "./application/dtos/update-user.dto";
 import { UserResponseDto } from "src/shared/responses/user/user-response.dto";
 import { AdminDeleteUserUseCase } from "./application/usecase/user/delete-user.usecase";
 import { EventResponseDto, EventResponseWithPaginationDto } from "./application/response/event/event-response.dto";
-
-
-
+import { AdminFindEventReportUseCase } from "./application/usecase/event-reports/find-event-report.usecase";
+import { FindEventReportQueryDto } from "./application/dtos/find-event-report-query.dto";
+import { AdminEventsReportsWithQueryResponseDto } from "./application/response/event-report/admin-event-report-response.dto";
 @Roles(PersonRoleEnum.ADMIN)
 @Controller('admin')
 export class AdminController {
@@ -40,6 +40,8 @@ export class AdminController {
         private readonly updateUserUseCase: AdminUpdateUserUseCase,
         @Inject()
         private readonly deleteUserUseCase: AdminDeleteUserUseCase,
+        @Inject()
+        private readonly adminFindEventReportUseCase: AdminFindEventReportUseCase,
     ) {}
 
     // PROCURAR O PROFILE DO ADMIN LOGADO
@@ -134,6 +136,9 @@ export class AdminController {
     // ------------ ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ---------------
     // ------------ ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ---------------
     // ACHAR TODOS OS REPORTES DE UM EVENTO
-    // @Get('events/:eventId/reports')
-    // @HttpCode
+    @Get('events/:eventId/reports')
+    @HttpCode(HttpStatus.OK)
+    async findAllReportsOfEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Query() query: FindEventReportQueryDto): Promise<AdminEventsReportsWithQueryResponseDto> {
+        return await this.adminFindEventReportUseCase.findAllOfEvent(req.user.sub, eventId, query)
+    }
 }

@@ -14,9 +14,18 @@ import { AdminUpdateUserUseCase } from './application/usecase/user/update-user.u
 import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
 import { AdminDeleteUserUseCase } from './application/usecase/user/delete-user.usecase';
+import { AdminFindEventReportUseCase } from './application/usecase/event-reports/find-event-report.usecase';
+import { AdminEnsureEventExistsValidator } from './application/validators/ensure-event-exist.validator';
+import { EventReportModule } from '../event-reports/event-report.module';
 
 @Module({
-  imports: [PersonModule, PersonRoleModule, PersonProfileModule, EventsModule],
+  imports: [
+    PersonModule,
+    PersonRoleModule,
+    PersonProfileModule,
+    EventsModule,
+    EventReportModule,
+  ],
   controllers: [AdminController],
   providers: [
     FindAdminProfileUseCase,
@@ -28,6 +37,8 @@ import { AdminDeleteUserUseCase } from './application/usecase/user/delete-user.u
     AdminUpdateUserUseCase,
     AdminUpdateUserUseCase,
     AdminDeleteUserUseCase,
+    AdminFindEventReportUseCase,
+    AdminEnsureEventExistsValidator,
     {
       provide: UNIT_OF_WORK,
       useClass: TypeOrmUnitOfWork,
