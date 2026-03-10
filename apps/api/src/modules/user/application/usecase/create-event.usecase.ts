@@ -12,6 +12,8 @@ import { EventsAddressDomainEntity } from "src/modules/events/events-addresses/d
 import { EVENTS_ADDRESSES_REPOSITORY, type EventsAddressesRepositoryInterface } from "src/modules/events/events-addresses/domain/events-addresses.repository-interface";
 import { EventResponseMapper } from "../response/event/event-response-mapper";
 import { EventResponseDto } from "../response/event/event-response.dto";
+import { PersonRoleEnum } from "src/modules/person-role/domain/person-role.enum";
+import { UserEventLimitReachedError } from "../../domain/errors/user-event-limit-reached.error";
 
 
 @Injectable()
@@ -34,6 +36,13 @@ export class UserCreateEventUseCase {
         const user = await this.ensureUserExist.ensureUserExistsByPersonId(userPersonId);
         if (!user) {
             throw new UserNotFoundError();
+        }
+        if (user.personRole.role === PersonRoleEnum.USER) {
+            const eventCount = await this.eventsRepository.countEventsById(user.id);
+            console.log(eventCount);
+            if (eventCount >= 1) {
+                throw new UserEventLimitReachedError();
+            }
         }
         const event = await this.uow.execute(async (manager) => {
             

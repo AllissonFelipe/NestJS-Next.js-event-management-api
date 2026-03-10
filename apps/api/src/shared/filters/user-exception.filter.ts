@@ -6,11 +6,17 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { UserEventLimitReachedError } from 'src/modules/user/domain/errors/user-event-limit-reached.error';
 import { UserNotFoundError } from 'src/modules/user/domain/errors/user-not-found.error';
 import { UserPersonIdNotFoundError } from 'src/modules/user/domain/errors/user-person-id-not-found.error';
 import { UserRoleRequiredError } from 'src/modules/user/domain/errors/user-role-required.error';
 
-@Catch(UserNotFoundError, UserRoleRequiredError, UserPersonIdNotFoundError)
+@Catch(
+  UserNotFoundError,
+  UserRoleRequiredError,
+  UserPersonIdNotFoundError,
+  UserEventLimitReachedError,
+)
 export class UserExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -37,11 +43,19 @@ export class UserExceptionFilter implements ExceptionFilter {
       });
     }
     // Erro de person id de user não encontrado
-    if (exception instanceof UserPersonIdNotFoundError)
+    if (exception instanceof UserPersonIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
         message: exception.message,
       });
+    }
+    // Erro de limite de eventos criados
+    if (exception instanceof UserEventLimitReachedError) {
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
+        message: exception.message,
+      });
+    }
 
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,

@@ -16,4 +16,5 @@ export interface EventsRepositoryInterface {
     findByEventId(eventId: string, manager?: EntityManager): Promise<EventsDomainEntity | null>;
     deleteEventById(eventId: string, manager?: EntityManager): Promise<boolean>;
     deleteByPersonIdAndEventId(personId: string, eventId: string, manager?: EntityManager): Promise<boolean>
+    countEventsById(personId: string, manager?: EntityManager): Promise<number>;
 }

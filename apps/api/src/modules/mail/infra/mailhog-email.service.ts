@@ -158,6 +158,7 @@ export class MailHogEmailService implements MailServiceInterface {
   async sendEventRejectedEmail(
     to: string,
     event: EventsDomainEntity,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reason?: string,
   ): Promise<void> {
     const formattedDate = new Date(event.createdAt).toLocaleString('pt-BR');

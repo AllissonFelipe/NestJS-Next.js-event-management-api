@@ -243,4 +243,15 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     }
     return false;
   }
+
+  async countEventsById(
+    personId: string,
+    manager?: EntityManager,
+  ): Promise<number> {
+    const repository = this.getRepository(manager);
+    const result = await repository.count({
+      where: { created_by: { id: personId } },
+    });
+    return result;
+  }
 }

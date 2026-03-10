@@ -89,7 +89,7 @@ export class ActivateAccountUseCase {
     })
     await this.accountActivationTokenRepository.save(token);
 
-    const link = `http://localhost:3000/auth/activate-account/${rawToken}`;
+    const link = `http://localhost:5555/auth/activate-account/${rawToken}`;
     console.log('Resend activation token: ', link);
     await this.mailService.sendAccountActivationEmail(person.email, link);
   }
