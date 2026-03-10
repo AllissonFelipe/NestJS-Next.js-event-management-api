@@ -21,11 +21,11 @@ export async function POST(req: NextRequest) {
       status: response.status,
     });
   } catch (error) {
-        console.error("API Route Error:", error);
-        const message = error instanceof Error ? error.message : "Erro interno no servidor.";
-        return NextResponse.json(
-            { message },
-            { status: 500 }
-        );
+      console.error("API Route Error:", error);
+      const message = error instanceof Error ? error.message : "Erro interno no servidor.";
+      return NextResponse.json(
+        { message },
+        { status: 500 }
+      );
     }
 }

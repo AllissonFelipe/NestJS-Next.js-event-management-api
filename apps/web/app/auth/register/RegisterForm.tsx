@@ -34,7 +34,6 @@ export default function RegisterForm() {
         }),
     });
 
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -47,6 +46,7 @@ export default function RegisterForm() {
         const message = err instanceof Error ? err.message : "Erro inesperado. Tente novamente.";
         setMessage(message);
     }
+
     setLoading(false);
   }
 
