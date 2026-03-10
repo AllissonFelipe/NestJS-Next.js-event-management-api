@@ -19,7 +19,6 @@ import {
   PERSON_REPOSITORY,
   type PersonRepositoryInterface,
 } from 'src/modules/person/domain/person.repository-interface';
-import { PASSWORD_HASHER, type PasswordHasherInterface } from '../create-account/password-hasher.interface';
 import { AccountNotActivatedError } from 'src/modules/person/domain/errors/account-not-activated.error';
 
 @Injectable()
@@ -33,8 +32,6 @@ export class ForgotPasswordUseCase {
     private readonly uow: UnitOfWorkInterface,
     @Inject(MAIL_SERVICE)
     private readonly mailService: MailServiceInterface,
-    @Inject(PASSWORD_HASHER)
-    private readonly passwordHasher: PasswordHasherInterface,
   ) {}
 
   async executeForgotPassword(email: string): Promise<void> {
@@ -43,7 +40,7 @@ export class ForgotPasswordUseCase {
       throw new PersonNotFoundError();
     }
     if (!person.isAccountActivated()) {
-        throw new AccountNotActivatedError()
+      throw new AccountNotActivatedError()
     }
 
     const rawToken = randomBytes(32).toString('hex');
@@ -62,6 +59,6 @@ export class ForgotPasswordUseCase {
     });
 
     const link = `http://localhost:3000/auth/reset-password/${rawToken}`;
-    await this.mailService.sendAccountActivationEmail(person.email, link);
+    await this.mailService.sendResetPasswordEmail(person.email, link);
   }
 }

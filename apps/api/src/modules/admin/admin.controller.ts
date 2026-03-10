@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, Patch, Query, Request } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, ParseUUIDPipe, Patch, Query, Request } from "@nestjs/common";
 import { PersonRoleEnum } from "../person-role/domain/person-role.enum";
 import { Roles } from "../auth/decorators/roles.decorator";
 import { type AuthRequest } from "../auth/types/auth-request";
@@ -21,7 +21,11 @@ import { AdminDeleteUserUseCase } from "./application/usecase/user/delete-user.u
 import { EventResponseDto, EventResponseWithPaginationDto } from "./application/response/event/event-response.dto";
 import { AdminFindEventReportUseCase } from "./application/usecase/event-reports/find-event-report.usecase";
 import { FindEventReportQueryDto } from "./application/dtos/find-event-report-query.dto";
-import { AdminEventsReportsWithQueryResponseDto } from "./application/response/event-report/admin-event-report-response.dto";
+import { AdminEventReportResponseDto, AdminEventsReportsWithQueryResponseDto } from "./application/response/event-report/admin-event-report-response.dto";
+import { AdminPatchEventReportStatusUseCase } from "./application/usecase/event-reports/patch-event-report-status.usecase";
+import { AdminApproveEventUseCase } from "./application/usecase/events/approve-event.usecase";
+import { AdminRejectEventUseCase } from "./application/usecase/events/reject-event.usecase";
+
 @Roles(PersonRoleEnum.ADMIN)
 @Controller('admin')
 export class AdminController {
@@ -33,6 +37,10 @@ export class AdminController {
         @Inject()
         private readonly findEventsUseCase: FindEventsUseCase,
         @Inject()
+        private readonly adminApproveEventUseCase: AdminApproveEventUseCase,
+        @Inject()
+        private readonly adminRejectEventUseCase: AdminRejectEventUseCase,
+        @Inject()
         private readonly updateEventStatusUseCase: UpdateEventStatusUseCase,
         @Inject()
         private readonly deleteEventUseCase: DeleteEventUseCase,
@@ -42,6 +50,8 @@ export class AdminController {
         private readonly deleteUserUseCase: AdminDeleteUserUseCase,
         @Inject()
         private readonly adminFindEventReportUseCase: AdminFindEventReportUseCase,
+        @Inject()
+        private readonly adminPatchEventReportStatusUseCase: AdminPatchEventReportStatusUseCase,
     ) {}
 
     // PROCURAR O PROFILE DO ADMIN LOGADO
@@ -105,6 +115,44 @@ export class AdminController {
         await this.deleteEventUseCase.deleteUserEvent(req.user.sub, userPersonId, eventId)
     }
     
+    // --------- ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ------------
+    // --------- ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ------------
+    // ACHAR TODOS O REPORTES DA PLATAFORMA
+    @Get('events/reports')
+    @HttpCode(HttpStatus.OK)
+    async findAll(@Request() req: AuthRequest, @Query() query: FindEventReportQueryDto): Promise<AdminEventsReportsWithQueryResponseDto> {
+        return await this.adminFindEventReportUseCase.findAllReports(req.user.sub, query);
+    }
+    // ACHAR TODOS OS REPORTES DE UM EVENTO
+    @Get('events/:eventId/reports')
+    @HttpCode(HttpStatus.OK)
+    async findAllReportsOfEvent(@Request() req: AuthRequest, @Param('eventId', new ParseUUIDPipe()) eventId: string, @Query() query: FindEventReportQueryDto): Promise<AdminEventsReportsWithQueryResponseDto> {
+        return await this.adminFindEventReportUseCase.findAllReportsOfEvent(req.user.sub, eventId, query)
+    }
+    // ACHAR UM REPORTE ESPECIFICO DE UM EVENTO ESPECIFICO
+    @Get('events/:eventId/reports/:eventReportId')
+    @HttpCode(HttpStatus.OK)
+    async findOneReportOfEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Param('eventReportId') eventReportId: string): Promise<AdminEventReportResponseDto> {
+        return await this.adminFindEventReportUseCase.findOneReportOfEvent(req.user.sub, eventId, eventReportId);
+    }
+    // MARCAR O REPORTE DO EVENTO COMO -REVIEWED-
+    @Patch('events/:eventId/reports/:eventReportId/reviewed')
+    @HttpCode(HttpStatus.OK)
+    async markReportAsReviewed(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Param('eventReportId') eventReportId: string): Promise<AdminEventReportResponseDto> {
+        return await this.adminPatchEventReportStatusUseCase.executeReviewed(req.user.sub, eventId, eventReportId);
+    }
+    // MARCAR O REPORTE DO EVENTO COMO -RESOLVED-
+    @Patch('events/:eventId/reports/:eventReportId/resolved')
+    @HttpCode(HttpStatus.OK)
+    async markReportAsResolved(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Param('eventReportId') eventReportId: string): Promise<AdminEventReportResponseDto> {
+        return await this.adminPatchEventReportStatusUseCase.executeResolved(req.user.sub, eventId, eventReportId);
+    }
+    // MARCAR O REPORTE DO EVENTO COMO -OPEN-
+    @Patch('events/:eventId/reports/:eventReportId/open')
+    @HttpCode(HttpStatus.OK)
+    async markReportAsOpen(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Param('eventReportId') eventReportId: string): Promise<AdminEventReportResponseDto> {
+        return await this.adminPatchEventReportStatusUseCase.executeOpen(req.user.sub, eventId, eventReportId);
+    }
 
     // ------------ ÁREA DE GERENCIAMENTO DE EVENTOS ---------------
     // ------------ ÁREA DE GERENCIAMENTO DE EVENTOS ---------------
@@ -120,6 +168,18 @@ export class AdminController {
     async findEventById(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<EventResponseDto> {
         return await this.findEventsUseCase.byEventId(req.user.sub, eventId);
     }
+    // APROVAR UM EVENTO ESPECIFICO
+    @Patch('events/:eventId/approve')
+    @HttpCode(HttpStatus.OK)
+    async approveEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<EventResponseDto> {
+        return await this.adminApproveEventUseCase.execute(req.user.sub, eventId)
+    }
+    // REJEITAR UM EVENTO ESPECIFICO
+    @Patch('events/:eventId/reject')
+    @HttpCode(HttpStatus.OK)
+    async rejectEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Body() reason?: string): Promise<EventResponseDto> {
+        return await this.adminRejectEventUseCase.execute(req.user.sub, eventId, reason)
+    }
     // ATUALIZAR STATUS DE UM EVENTO byEventId
     @Patch('events/:eventId')
     @HttpCode(HttpStatus.OK)
@@ -131,14 +191,5 @@ export class AdminController {
     @HttpCode(HttpStatus.NO_CONTENT)
     async deleteEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<void> {
         await this.deleteEventUseCase.deleteEventById(req.user.sub, eventId);
-    }
-
-    // ------------ ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ---------------
-    // ------------ ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ---------------
-    // ACHAR TODOS OS REPORTES DE UM EVENTO
-    @Get('events/:eventId/reports')
-    @HttpCode(HttpStatus.OK)
-    async findAllReportsOfEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string, @Query() query: FindEventReportQueryDto): Promise<AdminEventsReportsWithQueryResponseDto> {
-        return await this.adminFindEventReportUseCase.findAllOfEvent(req.user.sub, eventId, query)
     }
 }

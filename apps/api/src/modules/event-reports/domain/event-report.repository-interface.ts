@@ -31,4 +31,13 @@ export interface EventReportRepositoryInterface {
     pagination: AdminPaginationInterface,
     manager?: EntityManager,
   ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>>;
+  findAll(
+    query: FindEventReportQueryDto,
+    pagination: AdminPaginationInterface,
+  ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>>;
+  findOneReportOfEvent(
+    eventId: string,
+    eventReportId: string,
+    manager?: EntityManager,
+  ): Promise<EventReportDomainEntity | null>;
 }

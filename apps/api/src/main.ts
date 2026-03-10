@@ -10,6 +10,7 @@ import { SharedExceptionFilter } from './shared/filters/shared-exception.filter'
 import { UserExceptionFilter } from './shared/filters/user-exception.filter';
 import { EmailChageTokenExceptionFilter } from './shared/filters/email-change-token-exception.filter';
 import { AdminExceptionFilter } from './shared/filters/admin-exception.filter';
+import { EventReportExceptionFilter } from './shared/filters/event-report-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -34,7 +35,7 @@ async function bootstrap() {
     origin: 'http://localhost:5555', // Porta do Next.js
     methods: 'GET,POST,PUT,DELETE',
   });
-  app.useGlobalFilters(new PersonExceptionFilter(), new AccountActivationTokenExceptionFilter(), new PasswordResetTokenExceptionFilter(), new EventsExceptionFilter(), new SharedExceptionFilter(), new UserExceptionFilter(), new EmailChageTokenExceptionFilter(), new AdminExceptionFilter());
+  app.useGlobalFilters(new PersonExceptionFilter(), new AccountActivationTokenExceptionFilter(), new PasswordResetTokenExceptionFilter(), new EventsExceptionFilter(), new SharedExceptionFilter(), new UserExceptionFilter(), new EmailChageTokenExceptionFilter(), new AdminExceptionFilter(), new EventReportExceptionFilter());
   
   await app.listen(3000);
 

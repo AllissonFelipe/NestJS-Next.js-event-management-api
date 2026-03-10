@@ -89,7 +89,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
       ],
     });
     if (!reload) {
-      throw new Error(``);
+      throw new Error(`Evento salvo não encontrado.`);
     }
     return EventsMapper.toDomain(reload);
   }

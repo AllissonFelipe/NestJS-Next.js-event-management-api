@@ -14,7 +14,7 @@ export class AdminEnsureEventExistsValidator {
     private readonly eventsRepository: EventsRepositoryInterface,
   ) {}
 
-  async ensure(eventId: string): Promise<EventsDomainEntity> {
+  async ensureByEventId(eventId: string): Promise<EventsDomainEntity> {
     if (!eventId) {
       throw new EventIdNotFoundError();
     }

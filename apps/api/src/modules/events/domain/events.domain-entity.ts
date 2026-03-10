@@ -7,6 +7,8 @@ import { InvalidEventDateRangeError } from './errors/invalid-event-date-range-er
 import { EventsAddressDomainEntity } from '../events-addresses/domain/events-addresses.domain-entity';
 import { EventStatusCannotBeChangedError } from './errors/event-status-cannot-be-changed-error';
 import { EventParticipantsDomainEntity } from 'src/modules/event-participants/domain/event-participants.domain-entity';
+import { EventCannotBeApprovedError } from './errors/event-cannot-be-approved.error';
+import { EventIsAlreadyApprovedError } from './errors/event-is-already-approved.error';
 
 export class EventsDomainEntity {
   private _id: string;
@@ -176,6 +178,21 @@ export class EventsDomainEntity {
     return [EventsStatusEnum.PENDING].includes(this._status);
   }
 
+  markAsApproved(): void {
+    if (this.status === EventsStatusEnum.APPROVED) return;
+    if (this.isFinalStatus()) {
+      throw new EventCannotBeApprovedError();
+    }
+    this._status = EventsStatusEnum.APPROVED;
+    this.touch();
+  }
+  markAsRejected(): void {
+    if (this.status === EventsStatusEnum.REJECTED) return;
+    if (this.status === EventsStatusEnum.APPROVED) {
+      throw new EventIsAlreadyApprovedError();
+    }
+    this._status = EventsStatusEnum.REJECTED;
+  }
   /* =======================
    * INTERNALS
    * ======================= */

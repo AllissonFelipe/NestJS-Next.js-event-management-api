@@ -17,6 +17,11 @@ export interface AdminEventReportResponseDto {
   reason: string;
   status: EventReportStatusEnum;
   createdAt: Date;
+  createdBy: AdminEventReportCreatedByResponseDto;
+}
+export interface AdminEventReportCreatedByResponseDto {
+  id: string;
+  name: string;
 }
 export interface AdminEventReportEventResponseDto {
   id: string;

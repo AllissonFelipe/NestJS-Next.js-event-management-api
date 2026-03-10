@@ -17,6 +17,13 @@ import { AdminDeleteUserUseCase } from './application/usecase/user/delete-user.u
 import { AdminFindEventReportUseCase } from './application/usecase/event-reports/find-event-report.usecase';
 import { AdminEnsureEventExistsValidator } from './application/validators/ensure-event-exist.validator';
 import { EventReportModule } from '../event-reports/event-report.module';
+import { AdminPatchEventReportStatusUseCase } from './application/usecase/event-reports/patch-event-report-status.usecase';
+import { AdminEnsureEventReportExistsValidator } from './application/validators/ensure-event-report-exist.validator';
+import { AdminApproveEventUseCase } from './application/usecase/events/approve-event.usecase';
+import { AdminRejectEventUseCase } from './application/usecase/events/reject-event.usecase';
+import { EventApprovedListener } from './application/listeners/event-approved.listener';
+import { MailModule } from '../mail/mail.module';
+import { EventRejectedListener } from './application/listeners/event-rejected.listener';
 
 @Module({
   imports: [
@@ -25,20 +32,27 @@ import { EventReportModule } from '../event-reports/event-report.module';
     PersonProfileModule,
     EventsModule,
     EventReportModule,
+    MailModule,
   ],
   controllers: [AdminController],
   providers: [
     FindAdminProfileUseCase,
-    IsAdminValidator,
     FindUsersUseCase,
     FindEventsUseCase,
     UpdateEventStatusUseCase,
+    AdminApproveEventUseCase,
+    AdminRejectEventUseCase,
     DeleteEventUseCase,
     AdminUpdateUserUseCase,
     AdminUpdateUserUseCase,
     AdminDeleteUserUseCase,
     AdminFindEventReportUseCase,
+    AdminPatchEventReportStatusUseCase,
     AdminEnsureEventExistsValidator,
+    AdminEnsureEventReportExistsValidator,
+    IsAdminValidator,
+    EventApprovedListener,
+    EventRejectedListener,
     {
       provide: UNIT_OF_WORK,
       useClass: TypeOrmUnitOfWork,

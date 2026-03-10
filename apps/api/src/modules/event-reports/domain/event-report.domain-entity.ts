@@ -2,6 +2,9 @@ import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-enti
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
 import { EventReportStatusEnum } from './event-report-status.enum';
 import { randomUUID } from 'crypto';
+import { EventReportIsResolvedError } from './errors/event-report-is-resolved.error';
+import { EventReportIsReviewedError } from './errors/event-report-is-reviewed.error';
+import { EventReportIsOpenError } from './errors/event-report-is-open.error';
 
 export class EventReportDomainEntity {
   private _id: string;
@@ -44,6 +47,31 @@ export class EventReportDomainEntity {
   }
   get createdAt(): Date {
     return this._createdAt;
+  }
+
+  markAsReviewed(): void {
+    if (this.status === EventReportStatusEnum.RESOLVED) {
+      throw new EventReportIsResolvedError();
+    }
+    if (this.status === EventReportStatusEnum.REVIEWED) {
+      throw new EventReportIsReviewedError();
+    }
+    this._status = EventReportStatusEnum.REVIEWED;
+  }
+  markAsResolved(): void {
+    if (this.status === EventReportStatusEnum.OPEN) {
+      throw new EventReportIsOpenError();
+    }
+    if (this.status === EventReportStatusEnum.RESOLVED) {
+      throw new EventReportIsResolvedError();
+    }
+    this._status = EventReportStatusEnum.RESOLVED;
+  }
+  markAsOpen(): void {
+    if (this.status === EventReportStatusEnum.OPEN) {
+      throw new EventReportIsOpenError();
+    }
+    this._status = EventReportStatusEnum.OPEN;
   }
 
   static create(props: {

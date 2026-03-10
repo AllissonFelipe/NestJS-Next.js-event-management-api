@@ -7,9 +7,11 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { EventAddressNotFoundError } from 'src/modules/events/domain/errors/event-address-not-found.error';
+import { EventCannotBeApprovedError } from 'src/modules/events/domain/errors/event-cannot-be-approved.error';
 import { EventEndDateInPastError } from 'src/modules/events/domain/errors/event-end-date-in-past.error';
 import { EventInFinalStatusError } from 'src/modules/events/domain/errors/event-in-final-status.error';
 import { EventInPendingStatusError } from 'src/modules/events/domain/errors/event-in-pending-status.error';
+import { EventIsAlreadyApprovedError } from 'src/modules/events/domain/errors/event-is-already-approved.error';
 import { EventNotFoundError } from 'src/modules/events/domain/errors/event-not-found-error';
 import { EventParticipationNotFoundError } from 'src/modules/events/domain/errors/event-participation-not-found.error';
 import { EventReportNotFoundError } from 'src/modules/events/domain/errors/event-report-not-found.error';
@@ -30,6 +32,8 @@ import { NothingToUpdateError } from 'src/modules/events/domain/errors/nothing-t
   EventInPendingStatusError,
   EventParticipationNotFoundError,
   EventReportNotFoundError,
+  EventCannotBeApprovedError,
+  EventIsAlreadyApprovedError,
 )
 export class EventsExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -124,7 +128,20 @@ export class EventsExceptionFilter implements ExceptionFilter {
         message: exception.message,
       });
     }
-
+    // Erro do evento nao poder ser aprovado
+    if (exception instanceof EventCannotBeApprovedError) {
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
+        message: exception.message,
+      });
+    }
+    // Erro do evento ja estar aprovado
+    if (exception instanceof EventIsAlreadyApprovedError) {
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
+        message: exception.message,
+      });
+    }
     // outros erros podem ser tratados aqui
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,

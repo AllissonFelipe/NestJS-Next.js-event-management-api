@@ -1,6 +1,7 @@
 import { EventReportDomainEntity } from 'src/modules/event-reports/domain/event-report.domain-entity';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
 import {
+  AdminEventReportCreatedByResponseDto,
   AdminEventReportEventCreatedByResponseDto,
   AdminEventReportEventResponseDto,
   AdminEventReportResponseDto,
@@ -50,6 +51,19 @@ export class AdminEventReportResponseMapper {
       reason: eventReportDomain.reason,
       status: eventReportDomain.status,
       createdAt: eventReportDomain.createdAt,
+      createdBy: AdminEventReportCreatedByResponseMapper.toResponse(
+        eventReportDomain.reporter,
+      ),
+    };
+  }
+}
+export class AdminEventReportCreatedByResponseMapper {
+  static toResponse(
+    reporterOfEvent: PersonDomainEntity,
+  ): AdminEventReportCreatedByResponseDto {
+    return {
+      id: reporterOfEvent.id,
+      name: reporterOfEvent.fullName,
     };
   }
 }

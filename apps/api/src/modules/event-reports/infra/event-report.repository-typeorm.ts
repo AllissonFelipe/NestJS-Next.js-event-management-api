@@ -99,6 +99,8 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
 
     // PAGINAÇÃO
     qb.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+    // ORDER BY
+    qb.orderBy('eventReports.created_at', 'ASC');
     // RESULTADO
     const [result, total] = await qb.getManyAndCount();
     // RETORNANDO RESULTADO
@@ -146,6 +148,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     }
 
     qb.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+    qb.orderBy('eventReports.created_at', 'ASC');
 
     const [items, total] = await qb.getManyAndCount();
 
@@ -157,5 +160,79 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     };
 
     return result;
+  }
+
+  async findAll(
+    query: FindEventReportQueryDto,
+    pagination: AdminPaginationInterface,
+    manager?: EntityManager,
+  ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>> {
+    const repository = this.getRepository(manager);
+    const qb = repository.createQueryBuilder('eventReports');
+    qb.leftJoinAndSelect('eventReports.event', 'event');
+    qb.leftJoinAndSelect('event.event_address', 'address');
+    qb.leftJoinAndSelect('eventReports.reporter', 'reporter');
+    qb.leftJoinAndSelect('reporter.person_role', 'reporterPersonRole');
+    qb.leftJoinAndSelect('reporter.person_profile', 'reporterPersonProfile');
+    qb.leftJoinAndSelect('event.created_by', 'eventCreatedBy');
+    qb.leftJoinAndSelect('eventCreatedBy.person_role', 'createByPersonRole');
+    qb.leftJoinAndSelect(
+      'eventCreatedBy.person_profile',
+      'createdByPersonProfile',
+    );
+
+    // VERIFICAÇÃO DE FILTROS(query)
+    if (query.reason) {
+      qb.andWhere('eventReports.reason ILIKE :reason', {
+        reason: `%${query.reason}%`,
+      });
+    }
+    if (query.status) {
+      qb.andWhere('eventReports.status = :status', { status: query.status });
+    }
+    if (query.createdAt) {
+      qb.andWhere('eventReports.created_at >= :createdAt', {
+        createdAt: query.createdAt,
+      });
+    }
+
+    // PAGINAÇÃO
+    qb.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+
+    // RESULTADO
+    const [result, total] = await qb.getManyAndCount();
+
+    // RETORNANDO RESULT
+    return {
+      items: result.map((eventReport) =>
+        EventReportMapper.toDomain(eventReport),
+      ),
+      total,
+    };
+  }
+
+  async findOneReportOfEvent(
+    eventId: string,
+    eventReportId: string,
+    manager?: EntityManager,
+  ): Promise<EventReportDomainEntity | null> {
+    const repository = this.getRepository(manager);
+    const result = await repository.findOne({
+      where: { id: eventReportId, event: { id: eventId } },
+      relations: {
+        event: {
+          created_by: {
+            person_role: true,
+            person_profile: true,
+          },
+        },
+        reporter: {
+          person_role: true,
+          person_profile: true,
+        },
+      },
+    });
+    if (!result) return null;
+    return EventReportMapper.toDomain(result);
   }
 }
