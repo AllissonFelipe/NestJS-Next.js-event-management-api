@@ -15,7 +15,7 @@ import { FindEventFilters } from "src/modules/events/application/dto/find-event-
 import { EventsStatusEnum } from "src/modules/events/domain/events-status.enum";
 
 @Injectable()
-export class FindEventsUseCase {
+export class AdminFindEventsUseCase {
     constructor (
         @Inject(PERSON_REPOSITORY)
         private readonly personRepository: PersonRepositoryInterface,

@@ -14,6 +14,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { SubscriptionOrmEntity } from '../../subscription/infra/subscription.orm-entity';
 
 @Entity('person')
 export class PersonOrmEntity {
@@ -58,6 +59,9 @@ export class PersonOrmEntity {
 
   @OneToMany(() => EventReportOrmEntity, (report) => report.reporter)
   reportsMade: EventReportOrmEntity[];
+
+  @OneToMany(() => SubscriptionOrmEntity, (subscription) => subscription.person)
+  subscriptions: SubscriptionOrmEntity[];
 
   @CreateDateColumn()
   created_at: Date;

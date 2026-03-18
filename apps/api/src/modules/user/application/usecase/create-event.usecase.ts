@@ -39,7 +39,7 @@ export class UserCreateEventUseCase {
         }
         if (user.personRole.role === PersonRoleEnum.USER) {
             const eventCount = await this.eventsRepository.countEventsById(user.id);
-            console.log(eventCount);
+            console.log(`Role: ${user.personRole.role} | Quantitdade de eventos criado: ${eventCount}`);
             if (eventCount >= 1) {
                 throw new UserEventLimitReachedError();
             }

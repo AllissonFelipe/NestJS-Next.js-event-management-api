@@ -2,9 +2,6 @@ import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-enti
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
 import { EventReportStatusEnum } from './event-report-status.enum';
 import { randomUUID } from 'crypto';
-import { EventReportIsResolvedError } from './errors/event-report-is-resolved.error';
-import { EventReportIsReviewedError } from './errors/event-report-is-reviewed.error';
-import { EventReportIsOpenError } from './errors/event-report-is-open.error';
 
 export class EventReportDomainEntity {
   private _id: string;
@@ -49,29 +46,30 @@ export class EventReportDomainEntity {
     return this._createdAt;
   }
 
-  markAsReviewed(): void {
-    if (this.status === EventReportStatusEnum.RESOLVED) {
-      throw new EventReportIsResolvedError();
+  updateStatus(status?: EventReportStatusEnum) {
+    if (status === undefined) {
+      throw new Error(`Status do reporte de evento não está definido.`);
     }
-    if (this.status === EventReportStatusEnum.REVIEWED) {
-      throw new EventReportIsReviewedError();
+    if (status === this._status) return;
+
+    const validTransitions: Record<
+      EventReportStatusEnum,
+      EventReportStatusEnum[]
+    > = {
+      OPEN: [EventReportStatusEnum.REVIEWED],
+      REVIEWED: [EventReportStatusEnum.RESOLVED],
+      RESOLVED: [],
+    };
+
+    const canChange = validTransitions[this._status].includes(status);
+
+    if (!canChange) {
+      throw new Error(
+        `Transição do reporte de evento inválida: ${this._status} -> ${status}`,
+      );
     }
-    this._status = EventReportStatusEnum.REVIEWED;
-  }
-  markAsResolved(): void {
-    if (this.status === EventReportStatusEnum.OPEN) {
-      throw new EventReportIsOpenError();
-    }
-    if (this.status === EventReportStatusEnum.RESOLVED) {
-      throw new EventReportIsResolvedError();
-    }
-    this._status = EventReportStatusEnum.RESOLVED;
-  }
-  markAsOpen(): void {
-    if (this.status === EventReportStatusEnum.OPEN) {
-      throw new EventReportIsOpenError();
-    }
-    this._status = EventReportStatusEnum.OPEN;
+
+    this._status = status;
   }
 
   static create(props: {

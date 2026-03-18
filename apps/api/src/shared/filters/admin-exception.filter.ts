@@ -14,6 +14,9 @@ import { EventIdNotFoundError } from 'src/modules/admin/domain/errors/admin-even
 import { EventNotFoundError } from 'src/modules/admin/domain/errors/admin-event-not-found.error';
 import { AdminInvalidUpdatePayloadError } from 'src/modules/admin/domain/errors/admin-invalid-update-payload.error';
 import { AdminEventReportNotFoundError } from 'src/modules/admin/domain/errors/admin-event-report-not-found.error';
+import { AdminSubscriptionPlanNotFoundError } from 'src/modules/admin/domain/errors/admin-subscription-plan-not-found.error';
+import { AdminSubscriptionPlanAlreadyActivateError } from 'src/modules/admin/domain/errors/admin-subscription-plan-already-activate.error';
+import { AdminSubscriptionPlanAlreadyDeactivateError } from 'src/modules/admin/domain/errors/admin-subscription-plan-already-deactivate.error';
 
 @Catch(
   AdminIdNotFoundError,
@@ -24,6 +27,9 @@ import { AdminEventReportNotFoundError } from 'src/modules/admin/domain/errors/a
   EventNotFoundError,
   AdminInvalidUpdatePayloadError,
   AdminEventReportNotFoundError,
+  AdminSubscriptionPlanNotFoundError,
+  AdminSubscriptionPlanAlreadyActivateError,
+  AdminSubscriptionPlanAlreadyDeactivateError,
 )
 export class AdminExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -89,6 +95,27 @@ export class AdminExceptionFilter implements ExceptionFilter {
     if (exception instanceof AdminEventReportNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
+        message: exception.message,
+      });
+    }
+    // ERRO DE SUBSCRIPTION-PLAN NÃO ENCONTRADO
+    if (exception instanceof AdminSubscriptionPlanNotFoundError) {
+      return response.status(HttpStatus.NOT_FOUND).json({
+        statusCode: 404,
+        message: exception.message,
+      });
+    }
+    // ERRO DE SUBSCRIPTION-PLAN JÁ ATIVADO
+    if (exception instanceof AdminSubscriptionPlanAlreadyActivateError) {
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
+        message: exception.message,
+      });
+    }
+    // ERRO DE SUBSCRIPTION-PLAN JÁ DESATIVADO
+    if (exception instanceof AdminSubscriptionPlanAlreadyDeactivateError) {
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
         message: exception.message,
       });
     }

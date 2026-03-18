@@ -8,10 +8,10 @@ import { EmptyUpdatePayloadError } from "src/shared/errors/empty-update-payload.
 import { PERSON_PROFILE_REPOSITORY, type PersonProfileRepositoryInterface } from "src/modules/person-profile/domain/person-profile.repository-interface";
 import { UNIT_OF_WORK } from "src/database/unit-of-work.interface";
 import { TypeOrmUnitOfWork } from "src/database/typeorm-unit-of-work";
-import { UserResponseDto } from "src/shared/responses/user/user-response.dto";
-import { UserPresenter } from "src/shared/responses/user/user-presenter.response";
 import { IsAdminValidator } from "../../validators/is-admin.validator";
 import { CpfAlreadyInUseError } from "src/modules/person/domain/errors/cpf-already-in-use.error";
+import { UserResponseDto } from "../../response/user/user-response.dto";
+import { UserPresenter } from "../../response/user/user-presenter";
 
 @Injectable()
 export class AdminUpdateUserUseCase {
@@ -55,7 +55,7 @@ export class AdminUpdateUserUseCase {
                 await this.personProfileRepository.saveProfile(user.personProfile, manager);
             }
         })
-        return UserPresenter.toResponse(user);
+        return UserPresenter.toResponse(user, user.personRole, user.personProfile);
     }
 
     private ensureDtoHasData(dto: AdminUpdateUserDto): void {

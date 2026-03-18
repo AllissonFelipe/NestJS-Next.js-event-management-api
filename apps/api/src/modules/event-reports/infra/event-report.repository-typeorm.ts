@@ -112,6 +112,27 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     };
   }
 
+  async findOneReport(
+    eventReportId: string,
+    manager?: EntityManager,
+  ): Promise<EventReportDomainEntity | null> {
+    const repository = this.getRepository(manager);
+    const ormEntity = await repository.findOne({
+      where: { id: eventReportId },
+      relations: [
+        'reporter',
+        'reporter.person_role',
+        'reporter.person_profile',
+        'event',
+        'event.created_by',
+        'event.created_by.person_role',
+        'event.created_by.person_profile',
+      ],
+    });
+    if (!ormEntity) return null;
+    return EventReportMapper.toDomain(ormEntity);
+  }
+
   async findAllOfEvent(
     eventId: string,
     query: FindEventReportQueryDto,

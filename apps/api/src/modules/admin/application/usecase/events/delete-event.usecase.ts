@@ -6,7 +6,7 @@ import { EVENTS_REPOSITORY, type EventsRepositoryInterface } from "src/modules/e
 import { EventNotFoundError } from "../../../domain/errors/admin-event-not-found.error";
 
 @Injectable()
-export class DeleteEventUseCase {
+export class AdminDeleteEventUseCase {
     constructor (
         @Inject()
         private readonly isAdminValidator: IsAdminValidator,

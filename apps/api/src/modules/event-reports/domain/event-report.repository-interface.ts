@@ -14,6 +14,10 @@ export interface EventReportRepositoryInterface {
     eventReportDomain: EventReportDomainEntity,
     manager?: EntityManager,
   ): Promise<EventReportDomainEntity>;
+  findOneReport(
+    eventReportId: string,
+    manager?: EntityManager,
+  ): Promise<EventReportDomainEntity | null>;
   findByPersonIdAndEventId(
     personId: string,
     eventId: string,

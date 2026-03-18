@@ -100,4 +100,23 @@ export class AdminFindEventReportUseCase {
       result.event.createdBy,
     );
   }
+
+  async findOneReport(
+    adminPersonId: string,
+    eventReportId: string,
+  ): Promise<AdminEventReportResponseDto> {
+    await this.isAdminValidator.validate(adminPersonId);
+
+    const eventReport =
+      await this.eventReportRepository.findOneReport(eventReportId);
+    if (!eventReport) {
+      throw new AdminEventReportNotFoundError();
+    }
+
+    return AdminEventReportResponseMapper.toResponse(
+      eventReport,
+      eventReport.event,
+      eventReport.event.createdBy,
+    );
+  }
 }
