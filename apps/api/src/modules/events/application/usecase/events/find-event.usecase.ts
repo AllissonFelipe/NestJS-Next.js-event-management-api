@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
   EVENTS_REPOSITORY,
   type EventsRepositoryInterface,
@@ -15,6 +15,7 @@ import {
 } from '../../responses/event/event.response-dto';
 import { EventAddressNotFoundError } from 'src/shared/errors/event-address-not-found-error';
 import { EventNotFoundError } from '../../../domain/errors/event-not-found-error';
+import { InvalidEventDateRangeError } from 'src/modules/events/domain/errors/invalid-event-date-range-error';
 
 @Injectable()
 export class FindEventsUseCase {
@@ -27,6 +28,14 @@ export class FindEventsUseCase {
   async findAllPublicEvents(
     filters: FindEventFilters,
   ): Promise<EventWithPaginationResponseDto> {
+    if (filters.startAt && filters.endAt) {
+      const start = new Date(filters.startAt);
+      const end = new Date(filters.endAt);
+      if (start > end) {
+        throw new InvalidEventDateRangeError();
+      }
+    }
+
     const { items, total } =
       await this.eventsRepository.findAllPublicEventsWithFilters(filters);
 
