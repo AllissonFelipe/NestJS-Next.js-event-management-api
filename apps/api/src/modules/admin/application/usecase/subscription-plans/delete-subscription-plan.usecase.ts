@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import { SUBSCRIPTION_PLANS_REPOSITORY, type SubscriptionPlansRepositoryInterface } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
+import { AdminSubscriptionPlanNotFoundError } from 'src/modules/admin/domain/errors/admin-subscription-plan-not-found.error';
 
 @Injectable()
 export class AdminDeleteSubscriptionPlanUseCase {
@@ -16,6 +17,10 @@ export class AdminDeleteSubscriptionPlanUseCase {
     subscriptionPlanId: string,
   ): Promise<void> {
     await this.isAdminValidator.validate(adminPersonId);
-    await this.subscriptionPlanRepository.delete(subscriptionPlanId);
+    const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
+    if (!subscriptionPlan) {
+      throw new AdminSubscriptionPlanNotFoundError();
+    }
+    await this.subscriptionPlanRepository.delete(subscriptionPlan.id);
   }
 }
