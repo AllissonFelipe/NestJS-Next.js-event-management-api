@@ -1,46 +1,46 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
 
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
-        const res = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email,
-                password,
-            })
-        });
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (!res.ok) {
-            const message = Array.isArray(data.message) ? data.message.join("\n") : data.message;
-            setError(message);
-            return;
-        }
+      if (!res.ok) {
+        const message = Array.isArray(data.message) ? data.message.join('\n') : data.message;
+        setError(message);
+        return;
+      }
       // salvar token
-      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem('token', data.accessToken);
 
-      router.push("/dashboard");
+      router.push('/dashboard');
     } catch (err) {
-        console.error("Register error:", err);
-      setError("Email ou senha inválidos");
+      console.error('Register error:', err);
+      setError('Email ou senha inválidos');
     } finally {
       setLoading(false);
     }
@@ -71,19 +71,15 @@ export default function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-        {error && (
-            <div className="text-red-500 text-sm whitespace-pre-line">
-                {error}
-            </div>
-        )}
+      {error && <div className="text-red-500 text-sm whitespace-pre-line">{error}</div>}
 
       <button
         type="submit"
         disabled={loading || !email || !password}
         className="bg-black text-white py-2 rounded disabled:opacity-50"
-        >
-        {loading ? "Entrando..." : "Entrar"}
-        </button>
+      >
+        {loading ? 'Entrando...' : 'Entrar'}
+      </button>
     </form>
   );
 }

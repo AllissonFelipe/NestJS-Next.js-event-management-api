@@ -1,4 +1,4 @@
-import ResetPasswordForm from "./ResetPasswordForm";
+import ResetPasswordForm from './ResetPasswordForm';
 
 interface PageProps {
   params: Promise<{
@@ -7,8 +7,7 @@ interface PageProps {
 }
 
 export default async function ResetPasswordFormPage({ params }: PageProps) {
+  const { token } = await params;
 
-    const { token } = await params;
-    
-    return <ResetPasswordForm token={token} />;
+  return <ResetPasswordForm token={token} />;
 }

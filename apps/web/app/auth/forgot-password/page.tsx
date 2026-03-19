@@ -1,4 +1,4 @@
-import ForgotPasswordForm from "./ForgotPasswordForm";
+import ForgotPasswordForm from './ForgotPasswordForm';
 
 export default function LoginPage() {
   return (

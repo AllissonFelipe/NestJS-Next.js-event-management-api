@@ -1,87 +1,75 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function ResendActivationEmailForm() {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-    const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-    async function handleSubmit(e: React.FormEvent) {
-        
-        e.preventDefault();
-        
-        setLoading(true);
-        setMessage("");
-        
-        try {
-            const res = await fetch("/api/auth/resend-activation-email", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email,
-                })
-            })
+    setLoading(true);
+    setMessage('');
 
-            const data = await res.json();
+    try {
+      const res = await fetch('/api/auth/resend-activation-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+        }),
+      });
 
-            if (!res.ok) {
-                setError(data.message);
-                return;
-            }
+      const data = await res.json();
 
-            setMessage(data.message);
-        } catch (err) {
-            console.error("Resend activation email error:", err);
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("Erro ao reenviar email de ativação");
-            }
-        } finally {
-            setLoading(false);
-        }
-    } 
+      if (!res.ok) {
+        setError(data.message);
+        return;
+      }
 
-    return (
-        <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4 bg-white p-8 rounded-xl shadow-lg w-[350px]"
-        >
-            <h2 className="text-2xl font-bold text-center text-black">
-                Reenviar email de ativação
-            </h2>
+      setMessage(data.message);
+    } catch (err) {
+      console.error('Resend activation email error:', err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Erro ao reenviar email de ativação');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
 
-            {message && (
-                <div className="text-red-500 text-sm whitespace-pre-line">
-                    {message}
-                </div>
-            )}
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 bg-white p-8 rounded-xl shadow-lg w-[350px]"
+    >
+      <h2 className="text-2xl font-bold text-center text-black">Reenviar email de ativação</h2>
 
-            <input
-                type="email"
-                placeholder="Email"
-                className="border p-2 rounded text-black"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-            />
+      {message && <div className="text-red-500 text-sm whitespace-pre-line">{message}</div>}
 
-            {error && (
-                <div className="text-red-500 text-sm whitespace-pre-line">
-                    {error}
-                </div>
-            )}
+      <input
+        type="email"
+        placeholder="Email"
+        className="border p-2 rounded text-black"
+        value={email}
+        required
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-            <button
-                type="submit"
-                disabled={loading || !email}
-                className="bg-black text-white py-2 rounded disabled:opacity-50"
-                >
-                {loading ? "Enviando email..." : "Enviar"}
-            </button>
-        </form>
-    );
+      {error && <div className="text-red-500 text-sm whitespace-pre-line">{error}</div>}
+
+      <button
+        type="submit"
+        disabled={loading || !email}
+        className="bg-black text-white py-2 rounded disabled:opacity-50"
+      >
+        {loading ? 'Enviando email...' : 'Enviar'}
+      </button>
+    </form>
+  );
 }

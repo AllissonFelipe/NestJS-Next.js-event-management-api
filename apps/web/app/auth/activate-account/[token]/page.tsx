@@ -1,4 +1,4 @@
-import ActivateAccountForm from "./ActivateAccountForm";
+import ActivateAccountForm from './ActivateAccountForm';
 
 interface PageProps {
   params: Promise<{

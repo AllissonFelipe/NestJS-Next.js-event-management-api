@@ -1,50 +1,50 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function RegisterForm() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [message, setMessage] = useState("");
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (password !== confirm) {
-      setMessage("As senhas precisam ser iguais.");
+      setMessage('As senhas precisam ser iguais.');
       return;
     }
 
     setLoading(true);
-    setMessage("");
+    setMessage('');
 
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            fullName,
-            email,
-            cpf,
-            password,
+          fullName,
+          email,
+          cpf,
+          password,
         }),
-    });
+      });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setMessage(data.message || "Erro ao registrar.");
+        setMessage(data.message || 'Erro ao registrar.');
       } else {
-        setMessage(data.message || "Conta criada com sucesso! Faça login.");
+        setMessage(data.message || 'Conta criada com sucesso! Faça login.');
       }
     } catch (err) {
-        console.error("Register error:", err);
-        const message = err instanceof Error ? err.message : "Erro inesperado. Tente novamente.";
-        setMessage(message);
+      console.error('Register error:', err);
+      const message = err instanceof Error ? err.message : 'Erro inesperado. Tente novamente.';
+      setMessage(message);
     }
 
     setLoading(false);
@@ -95,7 +95,7 @@ export default function RegisterForm() {
       />
 
       <button type="submit" disabled={loading}>
-        {loading ? "Cadastrando..." : "Registrar"}
+        {loading ? 'Cadastrando...' : 'Registrar'}
       </button>
     </form>
   );
