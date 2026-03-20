@@ -40,7 +40,7 @@ export function EventsForm({ events, loading }: EventsFormProps) {
                       Inicio: 📅 {new Date(event.startAt).toLocaleDateString('pt-BR')}
                     </p>
                     <p className="text-sm text-gray-500">
-                        Termino: 📅 {new Date(event.endAt).toLocaleDateString('pt-BR')}
+                      Termino: 📅 {new Date(event.endAt).toLocaleDateString('pt-BR')}
                     </p>
 
                     <span className="inline-block text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-600">

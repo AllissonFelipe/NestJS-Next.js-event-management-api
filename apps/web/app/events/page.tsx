@@ -3,12 +3,12 @@
 import { EventsForm } from './components/EventsForm';
 import { FiltersForm } from './components/FiltersForm';
 import { PaginationForm } from './components/PaginationForm';
-import useEventsList from './hooks/use-events-list';
+import useFindEventsList from './hooks/use-find-events-list';
 
 export default function EventsPage() {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/events`;
   const LIMIT_PER_PAGE = 9;
-  const eventsHook = useEventsList(url, LIMIT_PER_PAGE);
+  const eventsHook = useFindEventsList(url, LIMIT_PER_PAGE);
 
   return (
     <>

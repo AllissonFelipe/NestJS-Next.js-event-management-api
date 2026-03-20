@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { EventsFiltersType } from '../types/events-filters.type';
 import { Events } from '../types/events.type';
 
-export default function useEventsList(urlFrontEnd: string, limitPerPage: number) {
+export default function useFindEventsList(urlFrontEnd: string, limitPerPage: number) {
   // EVENTOS E FILTROS
   const [events, setEvents] = useState<Events[]>([]);
   const [filters, setFilters] = useState<EventsFiltersType>({
