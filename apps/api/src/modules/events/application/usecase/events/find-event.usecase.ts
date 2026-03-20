@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   EVENTS_REPOSITORY,
   type EventsRepositoryInterface,

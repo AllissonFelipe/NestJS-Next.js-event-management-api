@@ -209,7 +209,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
       qb.andWhere('address.city ILIKE :city', { city: `%${filters.city}%` });
     }
     if (filters.startAt) {
-      qb.andWhere('events.end_at >= :startAt', { startAt: filters.startAt });
+      qb.andWhere('events.start_at >= :startAt', { startAt: filters.startAt });
     }
     if (filters.endAt) {
       qb.andWhere('events.start_at <= :endAt', { endAt: filters.endAt });
