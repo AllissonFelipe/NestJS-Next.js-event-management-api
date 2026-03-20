@@ -18,7 +18,11 @@ export default function EventsPage() {
           {/* FORMULÁRIO DE FILTROS */}
           <FiltersForm filters={eventsHook.filters} setFilters={eventsHook.setFilters} />
           {/* LISTA DE EVENTOS */}
-          <EventsForm events={eventsHook.events} loading={eventsHook.loading} />
+          <EventsForm
+            events={eventsHook.events}
+            loading={eventsHook.loading}
+            error={eventsHook.error}
+          />
           {/* PAGINAÇÃO */}
           <PaginationForm
             hasPreviousPage={eventsHook.hasPreviousPage}
