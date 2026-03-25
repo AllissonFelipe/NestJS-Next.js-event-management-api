@@ -125,7 +125,7 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
             qb.andWhere(`person.is_active = :isActive`, { isActive: filters.isActive })
         }
         if (filters.createdAt) {
-            qb.andWhere(`person.created_at ILIKE :createdAt`, { createdAt: `%${filters.createdAt}%` })
+            qb.andWhere(`person.created_at >= :createdAt`, { createdAt: filters.createdAt})
         }
         qb.orderBy('person.created_at', 'ASC')
         qb.skip((filters.page - 1) * filters.limit).take(filters.limit);

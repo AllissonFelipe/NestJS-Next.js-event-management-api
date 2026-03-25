@@ -11,9 +11,12 @@ import { UserExceptionFilter } from './shared/filters/user-exception.filter';
 import { EmailChageTokenExceptionFilter } from './shared/filters/email-change-token-exception.filter';
 import { AdminExceptionFilter } from './shared/filters/admin-exception.filter';
 import { EventReportExceptionFilter } from './shared/filters/event-report-exception.filter';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(cookieParser());  
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
@@ -34,6 +37,7 @@ async function bootstrap() {
   app.enableCors({
     origin: 'http://localhost:5555', // Porta do Next.js
     methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
   });
   app.useGlobalFilters(new PersonExceptionFilter(), new AccountActivationTokenExceptionFilter(), new PasswordResetTokenExceptionFilter(), new EventsExceptionFilter(), new SharedExceptionFilter(), new UserExceptionFilter(), new EmailChageTokenExceptionFilter(), new AdminExceptionFilter(), new EventReportExceptionFilter());
   
