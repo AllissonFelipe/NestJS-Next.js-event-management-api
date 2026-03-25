@@ -1,10 +1,10 @@
-import LoginForm from './components/LoginForm';
+import LogoutForm from './components/LogoutForm';
 
-export default function LoginPage() {
+export default function LogoutPage() {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <LoginForm />
+        <LogoutForm />
       </div>
     </>
   );

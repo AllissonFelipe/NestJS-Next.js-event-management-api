@@ -1,45 +1,63 @@
 'use client';
 
-import React from 'react';
-import useLogin from '../hooks/use-login';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type LoginFormProps = {
-  url: string;
-};
+export default function LoginForm() {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-export default function LoginForm({ url }: LoginFormProps) {
-  const loginHook = useLogin(url);
-  const rounter = useRouter();
-
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!loginHook.email || loginHook.password) {
-      loginHook.setError(`Preencha todos os campos`)
-      return; 
+    if (!email || !password) {
+      setError(`Preencha todos os campos`);
+      return;
     }
 
-    const data = await loginHook.handleLogin();
-    if (data) {
-      console.log('Login sucesso: ', data);
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        credentials: 'include',
+      });
 
-      // salvar token
-      localStorage.setItem("accessToken", data.accessToken);
-      // redirecionar
-      rounter.push('/events');
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Erro ao logar.');
+        return;
+      }
+      if (data) {
+        console.log('Login sucesso: ', data);
+
+        // redirecionar
+        router.push('/events');
+      }
+    } catch (error) {
+      setError(`Erro de conexão`);
+      console.log(`Erro ao logar: `, error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (    
+  return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm">
       <label htmlFor="email">Email:</label>
       <input
         type="email"
         id="email"
         placeholder="Email"
-        value={loginHook.email}
-        onChange={(e) => loginHook.setEmail(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         className="border p-2"
       />
       <label htmlFor="password">Senha:</label>
@@ -47,21 +65,15 @@ export default function LoginForm({ url }: LoginFormProps) {
         type="password"
         id="password"
         placeholder="Senha"
-        value={loginHook.password}
-        onChange={(e) => loginHook.setPassword(e.target.value)}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         className="border p-2"
       />
 
-      <button
-        type="submit"
-        disabled={loginHook.loading}
-        className="bg-blue-500 text-white p-2"
-      >
-        {loginHook.loading ? "Entrando..." : "Entrar"}
+      <button type="submit" disabled={loading} className="bg-blue-500 text-white p-2">
+        {loading ? 'Entrando...' : 'Entrar'}
       </button>
-      {loginHook.error && 
-        <span className='text-red-500'>{loginHook.error}</span>  
-      }
+      {error && <span className="text-red-500">{error}</span>}
     </form>
   );
 }
