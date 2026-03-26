@@ -15,9 +15,7 @@ export class EnsureUserExists {
     private readonly personRepository: PersonRepositoryInterface,
   ) {}
 
-  async ensureUserExistsByPersonId(
-    personId: string,
-  ): Promise<PersonDomainEntity> {
+  async ensureUserExistsByPersonId(personId: string): Promise<PersonDomainEntity> {
     const person = await this.personRepository.findPersonById(personId);
     if (!person) {
       throw new UserNotFoundError();

@@ -38,20 +38,14 @@ export class SetEventParticipationStatusUseCase {
     if (event.isEventStatusPending()) {
       throw new EventInPendingStatusError();
     }
-    const eventParticipant =
-      await this.eventParticipantRepository.findWithPersonIdAndEventId(
-        person,
-        event,
-      );
+    const eventParticipant = await this.eventParticipantRepository.findWithPersonIdAndEventId(
+      person,
+      event,
+    );
     if (!eventParticipant) {
       return await this.createParticipation(event, person, status);
     }
-    return await this.updateParticipation(
-      eventParticipant,
-      event,
-      person,
-      status,
-    );
+    return await this.updateParticipation(eventParticipant, event, person, status);
   }
 
   private async createParticipation(
@@ -64,8 +58,7 @@ export class SetEventParticipationStatusUseCase {
       person: person,
       status: status.status,
     });
-    const created =
-      await this.eventParticipantRepository.persist(eventParticipant);
+    const created = await this.eventParticipantRepository.persist(eventParticipant);
     return EventParticipantsResponseMapper.toResponse(created, event, person);
   }
 
@@ -77,13 +70,8 @@ export class SetEventParticipationStatusUseCase {
   ): Promise<EventParticipantsResponseDto> {
     eventParticipant.updateStatus(status.status);
 
-    const updatedEventParticipant =
-      await this.eventParticipantRepository.persist(eventParticipant);
+    const updatedEventParticipant = await this.eventParticipantRepository.persist(eventParticipant);
 
-    return EventParticipantsResponseMapper.toResponse(
-      updatedEventParticipant,
-      event,
-      person,
-    );
+    return EventParticipantsResponseMapper.toResponse(updatedEventParticipant, event, person);
   }
 }

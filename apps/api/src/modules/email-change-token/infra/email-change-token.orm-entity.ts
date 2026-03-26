@@ -1,11 +1,5 @@
 import { PersonOrmEntity } from '../../person/infra/person.orm-entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('email_change_token')
 export class EmailChangeTokenOrmEntity {

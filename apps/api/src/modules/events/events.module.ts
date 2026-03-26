@@ -24,11 +24,7 @@ import { FindMyEventReportsUseCase } from './application/usecase/events/find-my-
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      EventsOrmEntity,
-      EventsImagesOrmEntity,
-      EventsAddressesOrmEntity,
-    ]),
+    TypeOrmModule.forFeature([EventsOrmEntity, EventsImagesOrmEntity, EventsAddressesOrmEntity]),
     PersonModule,
     EventAddressesModule,
     EventParticipantsModule,

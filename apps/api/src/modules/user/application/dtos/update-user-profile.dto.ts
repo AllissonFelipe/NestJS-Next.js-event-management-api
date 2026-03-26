@@ -12,7 +12,7 @@ export class UpdatePersonDto {
 
   @IsOptional()
   @Transform(({ value }) => value?.replace(/\D/g, '')) // remove tudo que não for número
-  @Matches(/^\d{11}$/, { message: 'CPF inválido' })   // valida 11 dígitos
+  @Matches(/^\d{11}$/, { message: 'CPF inválido' }) // valida 11 dígitos
   @IsCPF()
   cpf?: string;
 }

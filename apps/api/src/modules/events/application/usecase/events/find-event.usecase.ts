@@ -25,9 +25,7 @@ export class FindEventsUseCase {
   ) {}
 
   // FIND EVENTS - ROTA PÚBLICA
-  async findAllPublicEvents(
-    filters: FindEventFilters,
-  ): Promise<EventWithPaginationResponseDto> {
+  async findAllPublicEvents(filters: FindEventFilters): Promise<EventWithPaginationResponseDto> {
     if (filters.startAt && filters.endAt) {
       const start = new Date(filters.startAt);
       const end = new Date(filters.endAt);
@@ -36,8 +34,7 @@ export class FindEventsUseCase {
       }
     }
 
-    const { items, total } =
-      await this.eventsRepository.findAllPublicEventsWithFilters(filters);
+    const { items, total } = await this.eventsRepository.findAllPublicEventsWithFilters(filters);
 
     const page = filters.page ?? 1;
     const limit = filters.limit ?? 10;
@@ -49,30 +46,19 @@ export class FindEventsUseCase {
         throw new EventAddressNotFoundError(event.id);
       }
       if (event.status === EventsStatusEnum.APPROVED) {
-        event.updateStatus(
-          this.resolveCurrentStatus(event.startAt, event.endAt, now),
-        );
+        event.updateStatus(this.resolveCurrentStatus(event.startAt, event.endAt, now));
       }
     });
-    return EventWithPaginationResponseMapper.toResponse(
-      items,
-      page,
-      limit,
-      total,
-    );
+    return EventWithPaginationResponseMapper.toResponse(items, page, limit, total);
   }
 
   // FIND ONE EVENT - ROTA PÚBLICA
-  async findOnePublicEvent(
-    eventId: string,
-  ): Promise<EventWithParticipantsResponseDto> {
+  async findOnePublicEvent(eventId: string): Promise<EventWithParticipantsResponseDto> {
     const event = await this.eventsRepository.findByEventId(eventId);
     if (!event) {
       throw new EventNotFoundError();
     }
-    event.updateStatus(
-      this.resolveCurrentStatus(event.startAt, event.endAt, new Date()),
-    );
+    event.updateStatus(this.resolveCurrentStatus(event.startAt, event.endAt, new Date()));
     return EventWithParticipantsResponseMapper.toResponse(event);
   }
 

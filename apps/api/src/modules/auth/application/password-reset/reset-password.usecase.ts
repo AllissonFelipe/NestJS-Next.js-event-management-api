@@ -11,10 +11,7 @@ import {
   PASSWORD_HASHER,
   type PasswordHasherInterface,
 } from '../create-account/password-hasher.interface';
-import {
-  UNIT_OF_WORK,
-  type UnitOfWorkInterface,
-} from 'src/database/unit-of-work.interface';
+import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
 import { PasswordResetTokenNotFoundError } from 'src/modules/password-reset-token/domain/errors/reset-token-not-found.error';
 import { ResetPasswordTokenExpiredError } from 'src/modules/password-reset-token/domain/errors/reset-token-expired.error';
 import { PasswordResetTokenAlreadyUsedError } from 'src/modules/password-reset-token/domain/errors/reset-token-already-used.error';
@@ -35,10 +32,7 @@ export class ResetPasswordUseCase {
     private readonly passwordHasher: PasswordHasherInterface,
   ) {}
 
-  async executeResetPassword(
-    rawToken: string,
-    newPassword: string,
-  ): Promise<void> {
+  async executeResetPassword(rawToken: string, newPassword: string): Promise<void> {
     const hashToken = createHash('sha256').update(rawToken).digest('hex');
     const token = await this.passwordResetRepository.findByToken(hashToken);
     if (!token) {
@@ -62,10 +56,7 @@ export class ResetPasswordUseCase {
       const hashPassword = await this.passwordHasher.hash(newPassword);
       person.updatePassword(hashPassword);
       await this.personRepository.updatePerson(person, manager);
-      await this.passwordResetRepository.markAllAsUsedByPerson(
-        person.id,
-        manager,
-      );
+      await this.passwordResetRepository.markAllAsUsedByPerson(person.id, manager);
     });
   }
 }

@@ -43,10 +43,7 @@ export class ChangeUserEmailUseCase {
     private readonly ensureEmailIsAvailable: EnsureEmailIsAvailable,
   ) {}
 
-  async requestEmailChange(
-    personId: string,
-    dto: ChangeUserEmailDto,
-  ): Promise<void> {
+  async requestEmailChange(personId: string, dto: ChangeUserEmailDto): Promise<void> {
     if (!personId) {
       throw new PersonIdNotFoundError();
     }
@@ -62,10 +59,7 @@ export class ChangeUserEmailUseCase {
     console.log('HASH TOKEN:', hashToken);
 
     await this.uow.execute(async (manager) => {
-      await this.emailChangeTokenRepository.markAllTokensAsUsed(
-        person.id,
-        manager,
-      );
+      await this.emailChangeTokenRepository.markAllTokensAsUsed(person.id, manager);
       const token = EmailChangeTokenDomainEntity.create({
         personId: person.id,
         token: hashToken,
@@ -82,9 +76,9 @@ export class ChangeUserEmailUseCase {
   }
 
   async resetEmail(rawToken: string): Promise<PersonResponseDto> {
-    console.log(`RAW TOKEN: ${rawToken}`)
+    console.log(`RAW TOKEN: ${rawToken}`);
     const hashToken = createHash('sha256').update(rawToken).digest('hex');
-    console.log(`HASH TOKEN: ${hashToken}`)
+    console.log(`HASH TOKEN: ${hashToken}`);
     const token = await this.emailChangeTokenRepository.findByHashToken(hashToken);
     if (!token) {
       throw new EmailChangeTokenNotFoundError();
@@ -99,9 +93,7 @@ export class ChangeUserEmailUseCase {
     if (!token.personId) {
       throw new PersonIdNotFoundError();
     }
-    const person = await this.ensureUserExists.ensureUserExistsByPersonId(
-      token.personId,
-    );
+    const person = await this.ensureUserExists.ensureUserExistsByPersonId(token.personId);
 
     const newPerson = await this.uow.execute(async (manager) => {
       await this.ensureEmailIsAvailable.ensure(token.newEmail);

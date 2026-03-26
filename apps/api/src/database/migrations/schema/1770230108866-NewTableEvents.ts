@@ -22,9 +22,7 @@ export class NewTableEvents1770230108866 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "events" DROP CONSTRAINT "FK_1a259861a2ce114f074b366eed2"`,
     );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_03dcebc1ab44daa177ae9479c4"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_03dcebc1ab44daa177ae9479c4"`);
     await queryRunner.query(`DROP TABLE "events"`);
     await queryRunner.query(`DROP TYPE "public"."events_status_enum"`);
   }

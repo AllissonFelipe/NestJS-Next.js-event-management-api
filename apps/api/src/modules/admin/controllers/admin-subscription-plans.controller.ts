@@ -48,10 +48,7 @@ export class AdminSubscriptionPlansController {
     @Request() req: AuthRequest,
     @Body() dto: CreateSubscriptionPlanDto,
   ): Promise<AdminSubscriptionPlanResponseDto> {
-    return await this.adminCreateSubscriptionPlanUseCase.execute(
-      req.user.sub,
-      dto,
-    );
+    return await this.adminCreateSubscriptionPlanUseCase.execute(req.user.sub, dto);
   }
   // ACHAR TODOS OS PLANOS DE INSCRIÇÃO
   @Get('plans')
@@ -59,9 +56,7 @@ export class AdminSubscriptionPlansController {
   async findSubscriptionsPlans(
     @Request() req: AuthRequest,
   ): Promise<AdminSubscriptionPlanResponseDto[]> {
-    return await this.adminFindSubscriptionPlanUseCase.executeFindAll(
-      req.user.sub,
-    );
+    return await this.adminFindSubscriptionPlanUseCase.executeFindAll(req.user.sub);
   }
   // ACHAR UM PLANO DE INSCRIÇÃO
   @Get('plans/:subscriptionPlanId')
@@ -120,9 +115,6 @@ export class AdminSubscriptionPlansController {
     @Request() req: AuthRequest,
     @Param('subscriptionPlanId') subscriptionPlanId: string,
   ): Promise<void> {
-    await this.adminDeleteSubscriptionPlanUseCase.execute(
-      req.user.sub,
-      subscriptionPlanId,
-    );
+    await this.adminDeleteSubscriptionPlanUseCase.execute(req.user.sub, subscriptionPlanId);
   }
 }

@@ -41,11 +41,7 @@ export class AdminFindEventReportUseCase {
       limit: query.limit ?? 10,
     };
 
-    const result = await this.eventReportRepository.findAllOfEvent(
-      event.id,
-      query,
-      pagination,
-    );
+    const result = await this.eventReportRepository.findAllOfEvent(event.id, query, pagination);
 
     return AdminEventsReportsWithQueryResponseMapper.toResponse(
       result.items,
@@ -85,20 +81,13 @@ export class AdminFindEventReportUseCase {
 
     const event = await this.ensureEventExistValidator.ensureByEventId(eventId);
 
-    const result = await this.eventReportRepository.findOneReportOfEvent(
-      event.id,
-      eventReportId,
-    );
+    const result = await this.eventReportRepository.findOneReportOfEvent(event.id, eventReportId);
 
     if (!result) {
       throw new AdminEventReportNotFoundError();
     }
 
-    return AdminEventReportResponseMapper.toResponse(
-      result,
-      result.event,
-      result.event.createdBy,
-    );
+    return AdminEventReportResponseMapper.toResponse(result, result.event, result.event.createdBy);
   }
 
   async findOneReport(
@@ -107,8 +96,7 @@ export class AdminFindEventReportUseCase {
   ): Promise<AdminEventReportResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
 
-    const eventReport =
-      await this.eventReportRepository.findOneReport(eventReportId);
+    const eventReport = await this.eventReportRepository.findOneReport(eventReportId);
     if (!eventReport) {
       throw new AdminEventReportNotFoundError();
     }

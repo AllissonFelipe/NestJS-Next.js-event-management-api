@@ -23,13 +23,9 @@ export class AdminApproveEventUseCase {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async execute(
-    adminPersonId: string,
-    eventId: string,
-  ): Promise<EventResponseDto> {
+  async execute(adminPersonId: string, eventId: string): Promise<EventResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
-    const event =
-      await this.ensureEventExistsValidator.ensureByEventId(eventId);
+    const event = await this.ensureEventExistsValidator.ensureByEventId(eventId);
     if (event.status === EventsStatusEnum.APPROVED) {
       throw new EventIsAlreadyApprovedError();
     }

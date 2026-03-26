@@ -35,10 +35,7 @@ export class SubscriptionPlansOrmEntity {
   @JoinColumn({ name: 'created_by' })
   created_by: PersonOrmEntity;
 
-  @OneToMany(
-    () => SubscriptionOrmEntity,
-    (subscription) => subscription.subscription_plan,
-  )
+  @OneToMany(() => SubscriptionOrmEntity, (subscription) => subscription.subscription_plan)
   subscriptions: SubscriptionOrmEntity[];
 
   @CreateDateColumn()

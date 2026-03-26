@@ -12,7 +12,6 @@ import { InvalidPasswordError } from 'src/modules/person/domain/errors/invalid-p
 import { PasswordChangeDataMissingError } from 'src/modules/person/domain/errors/password-change-data-missing.error';
 import { PersonNotFoundError } from 'src/modules/person/domain/errors/person-not-found.error';
 
-
 @Catch(
   AccountAlreadyActivatedError,
   AccountNotActivatedError,

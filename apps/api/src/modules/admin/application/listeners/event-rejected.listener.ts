@@ -15,10 +15,6 @@ export class EventRejectedListener {
 
   @OnEvent('event.rejected')
   async handle(event: EventsDomainEntity, reason?: string) {
-    await this.emailService.sendEventRejectedEmail(
-      event.createdBy.email,
-      event,
-      reason,
-    );
+    await this.emailService.sendEventRejectedEmail(event.createdBy.email, event, reason);
   }
 }

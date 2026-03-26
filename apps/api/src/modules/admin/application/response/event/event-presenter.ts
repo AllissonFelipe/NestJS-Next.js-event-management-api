@@ -63,9 +63,7 @@ export class EventPresenterWithPagination {
 }
 
 export class EventAddressPresenter {
-  static toResponse(
-    eventAddress: EventsAddressDomainEntity,
-  ): EventAddressResponseDto {
+  static toResponse(eventAddress: EventsAddressDomainEntity): EventAddressResponseDto {
     return {
       id: eventAddress.id,
       street: eventAddress.street,

@@ -13,9 +13,7 @@ export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepo
     private readonly eventParticipantsRepository: Repository<EventParticipantsOrmEntity>,
   ) {}
 
-  private getRepository(
-    manager?: EntityManager,
-  ): Repository<EventParticipantsOrmEntity> {
+  private getRepository(manager?: EntityManager): Repository<EventParticipantsOrmEntity> {
     return manager
       ? manager.getRepository(EventParticipantsOrmEntity)
       : this.eventParticipantsRepository;
@@ -53,10 +51,7 @@ export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepo
     if (!updatedOrmEntity) {
       throw new Error('EventParticipant not found after upsert');
     }
-    return EventParticipantMapper.toDomain(
-      updatedOrmEntity,
-      domainEntity.event,
-    );
+    return EventParticipantMapper.toDomain(updatedOrmEntity, domainEntity.event);
   }
 
   async findWithPersonIdAndEventId(

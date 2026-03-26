@@ -24,8 +24,7 @@ export class AdminUpdateEventReportStatusUseCase {
     dto: UpdateEventReportStatusDto,
   ): Promise<AdminEventReportResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
-    const eventReport =
-      await this.eventReportRepository.findOneReport(eventReportId);
+    const eventReport = await this.eventReportRepository.findOneReport(eventReportId);
     if (!eventReport) {
       throw new AdminEventReportNotFoundError();
     }
@@ -38,10 +37,6 @@ export class AdminUpdateEventReportStatusUseCase {
     }
     eventReport.updateStatus(dto.status);
     const result = await this.eventReportRepository.persist(eventReport);
-    return AdminEventReportResponseMapper.toResponse(
-      result,
-      result.event,
-      result.reporter,
-    );
+    return AdminEventReportResponseMapper.toResponse(result, result.event, result.reporter);
   }
 }

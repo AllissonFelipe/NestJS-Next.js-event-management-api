@@ -16,13 +16,16 @@ export class SubscriptionOrmEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => PersonOrmEntity, (person) => person.subscriptions)
+  @ManyToOne(() => PersonOrmEntity, (person) => person.subscriptions, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'person_id' })
   person: PersonOrmEntity;
 
   @ManyToOne(
     () => SubscriptionPlansOrmEntity,
     (subscriptionPlan) => subscriptionPlan.subscriptions,
+    { nullable: false },
   )
   @JoinColumn({ name: 'subscription_plan_id' })
   subscription_plan: SubscriptionPlansOrmEntity;

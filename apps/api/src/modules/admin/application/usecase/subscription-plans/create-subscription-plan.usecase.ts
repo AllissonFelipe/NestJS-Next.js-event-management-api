@@ -31,8 +31,7 @@ export class AdminCreateSubscriptionPlanUseCase {
       isActive: dto.isActive,
       createdBy: adminPerson,
     });
-    const result =
-      await this.subscriptionPlanRepository.persist(subscriptionPlan);
+    const result = await this.subscriptionPlanRepository.persist(subscriptionPlan);
     return AdminSubscriptionPlanResponseMapper.toResponse(result);
   }
 }

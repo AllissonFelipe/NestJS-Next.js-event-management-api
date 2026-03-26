@@ -16,36 +16,46 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.use(cookieParser());  
+  app.use(cookieParser());
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    transform: true,
-    validationError: {
-      target: false,
-      value: false,
-    },
-    exceptionFactory: (errors) => {
-      console.log(errors);
-      const messages = errors
-        .map(err => Object.values(err.constraints ?? {}))
-        .flat();
-      return new BadRequestException(messages);
-    },
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      validationError: {
+        target: false,
+        value: false,
+      },
+      exceptionFactory: (errors) => {
+        console.log(errors);
+        const messages = errors.map((err) => Object.values(err.constraints ?? {})).flat();
+        return new BadRequestException(messages);
+      },
+    }),
+  );
   app.enableCors({
     origin: 'http://localhost:5555', // Porta do Next.js
     methods: 'GET,POST,PUT,DELETE',
     credentials: true,
   });
-  app.useGlobalFilters(new PersonExceptionFilter(), new AccountActivationTokenExceptionFilter(), new PasswordResetTokenExceptionFilter(), new EventsExceptionFilter(), new SharedExceptionFilter(), new UserExceptionFilter(), new EmailChageTokenExceptionFilter(), new AdminExceptionFilter(), new EventReportExceptionFilter());
-  
+  app.useGlobalFilters(
+    new PersonExceptionFilter(),
+    new AccountActivationTokenExceptionFilter(),
+    new PasswordResetTokenExceptionFilter(),
+    new EventsExceptionFilter(),
+    new SharedExceptionFilter(),
+    new UserExceptionFilter(),
+    new EmailChageTokenExceptionFilter(),
+    new AdminExceptionFilter(),
+    new EventReportExceptionFilter(),
+  );
+
   await app.listen(3000);
 
   console.log('🚀 Backend rodando em http://localhost:3000');
   console.log('SENDGRID:', process.env.SENDGRID_API_KEY ? 'OK' : 'NOK');
 }
-bootstrap().catch(err => {
+bootstrap().catch((err) => {
   console.error(`Erro ao iniciar o app`, err);
 });

@@ -33,10 +33,7 @@ export class MailHogEmailService implements MailServiceInterface {
     });
   }
 
-  async sendAccountActivationEmail(
-    to: string,
-    activationLink: string,
-  ): Promise<void> {
+  async sendAccountActivationEmail(to: string, activationLink: string): Promise<void> {
     await this.transporter.sendMail({
       from: '"Enova Educacional" <no-reply@enovaeducacional.com>',
       to,
@@ -49,10 +46,7 @@ export class MailHogEmailService implements MailServiceInterface {
     });
   }
 
-  async sendResetPasswordEmail(
-    to: string,
-    resetPasswordLink: string,
-  ): Promise<void> {
+  async sendResetPasswordEmail(to: string, resetPasswordLink: string): Promise<void> {
     await this.transporter.sendMail({
       from: '"Enova Educacional" <no-reply@enovaeducacional.com>',
       to,
@@ -65,10 +59,7 @@ export class MailHogEmailService implements MailServiceInterface {
     });
   }
 
-  async sendEventApprovedEmail(
-    to: string,
-    event: EventsDomainEntity,
-  ): Promise<void> {
+  async sendEventApprovedEmail(to: string, event: EventsDomainEntity): Promise<void> {
     const formattedDate = new Date(event.startAt).toLocaleString('pt-BR');
     const eventUrl = `http://localhost:3000/events/${event.id}`;
     const address = `${event.address.street}, ${event.address.number} - ${event.address.neighborhood}<br>

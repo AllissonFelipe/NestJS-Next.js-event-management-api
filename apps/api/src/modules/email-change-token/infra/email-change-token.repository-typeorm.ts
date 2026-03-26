@@ -26,10 +26,7 @@ export class EmailChangeTokenRepositoryTypeOrm implements EmailChangeTokenReposi
     return EmailChangeTokenMapper.toDomain(tokenOrm);
   }
 
-  async markAllTokensAsUsed(
-    personId: string,
-    manager?: EntityManager,
-  ): Promise<void> {
+  async markAllTokensAsUsed(personId: string, manager?: EntityManager): Promise<void> {
     const repository = this.getRepository(manager);
     await repository.update(
       {
@@ -42,9 +39,7 @@ export class EmailChangeTokenRepositoryTypeOrm implements EmailChangeTokenReposi
     );
   }
 
-  private getRepository(
-    manager?: EntityManager,
-  ): Repository<EmailChangeTokenOrmEntity> {
+  private getRepository(manager?: EntityManager): Repository<EmailChangeTokenOrmEntity> {
     return manager
       ? manager.getRepository(EmailChangeTokenOrmEntity)
       : this.emailChangeTokenRepository;

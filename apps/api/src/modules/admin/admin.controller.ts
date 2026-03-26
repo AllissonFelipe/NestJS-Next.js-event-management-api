@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Inject,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Inject, Request } from '@nestjs/common';
 import { PersonRoleEnum } from '../person-role/domain/person-role.enum';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { type AuthRequest } from '../auth/types/auth-request';
@@ -23,9 +16,7 @@ export class AdminController {
   // PROCURAR O PROFILE DO ADMIN LOGADO
   @Get('profile')
   @HttpCode(HttpStatus.OK)
-  async findAdminProfileByPersonId(
-    @Request() req: AuthRequest,
-  ): Promise<AdminResponseDto> {
+  async findAdminProfileByPersonId(@Request() req: AuthRequest): Promise<AdminResponseDto> {
     return await this.findAdminProfileUseCase.execute(req.user.sub);
   }
 }

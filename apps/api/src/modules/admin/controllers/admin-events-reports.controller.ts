@@ -41,10 +41,7 @@ export class AdminEventsReportsController {
     @Request() req: AuthRequest,
     @Query() query: FindEventReportQueryDto,
   ): Promise<AdminEventsReportsWithQueryResponseDto> {
-    return await this.adminFindEventReportUseCase.findAllReports(
-      req.user.sub,
-      query,
-    );
+    return await this.adminFindEventReportUseCase.findAllReports(req.user.sub, query);
   }
   // ACHAR TODOS OS REPORTES DE UM EVENTO
   @Get('event/:eventId')
@@ -67,10 +64,7 @@ export class AdminEventsReportsController {
     @Request() req: AuthRequest,
     @Param('eventReportId') eventReportId: string,
   ): Promise<AdminEventReportResponseDto> {
-    return await this.adminFindEventReportUseCase.findOneReport(
-      req.user.sub,
-      eventReportId,
-    );
+    return await this.adminFindEventReportUseCase.findOneReport(req.user.sub, eventReportId);
   }
   // ATUALIZAR O STATUS DO REPORT
   @Patch(':eventReportId/status')
@@ -80,10 +74,6 @@ export class AdminEventsReportsController {
     @Param('eventReportId') eventReportId: string,
     @Body() dto: UpdateEventReportStatusDto,
   ): Promise<AdminEventReportResponseDto> {
-    return await this.adminUpdateEventReportStatusUseCase.execute(
-      req.user.sub,
-      eventReportId,
-      dto,
-    );
+    return await this.adminUpdateEventReportStatusUseCase.execute(req.user.sub, eventReportId, dto);
   }
 }

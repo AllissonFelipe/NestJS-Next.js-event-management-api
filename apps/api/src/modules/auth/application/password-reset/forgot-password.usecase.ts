@@ -1,10 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
 import { createHash, randomBytes } from 'crypto';
-import {
-  UNIT_OF_WORK,
-  type UnitOfWorkInterface,
-} from 'src/database/unit-of-work.interface';
+import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
 import {
   MAIL_SERVICE,
   type MailServiceInterface,
@@ -40,7 +37,7 @@ export class ForgotPasswordUseCase {
       throw new PersonNotFoundError();
     }
     if (!person.isAccountActivated()) {
-      throw new AccountNotActivatedError()
+      throw new AccountNotActivatedError();
     }
 
     const rawToken = randomBytes(32).toString('hex');
@@ -53,8 +50,7 @@ export class ForgotPasswordUseCase {
     });
 
     await this.uow.execute(async (manager) => {
-      await this.passwordResetRepository.markAllAsUsedByPerson(person.id, manager,
-      );
+      await this.passwordResetRepository.markAllAsUsedByPerson(person.id, manager);
       await this.passwordResetRepository.save(resetToken, manager);
     });
 

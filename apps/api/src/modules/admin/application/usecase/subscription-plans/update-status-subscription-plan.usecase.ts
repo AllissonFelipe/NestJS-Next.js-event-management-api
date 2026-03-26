@@ -24,8 +24,7 @@ export class AdminUpdateStatusSubscriptionPlanUseCase {
     subscriptionPlanId: string,
   ): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
-    const subscriptionPlan =
-      await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
+    const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
     if (!subscriptionPlan) {
       throw new AdminSubscriptionPlanNotFoundError();
     }
@@ -33,8 +32,7 @@ export class AdminUpdateStatusSubscriptionPlanUseCase {
       throw new AdminSubscriptionPlanAlreadyActivateError();
     }
     subscriptionPlan.activate();
-    const result =
-      await this.subscriptionPlanRepository.persist(subscriptionPlan);
+    const result = await this.subscriptionPlanRepository.persist(subscriptionPlan);
     return AdminSubscriptionPlanResponseMapper.toResponse(result);
   }
 
@@ -43,8 +41,7 @@ export class AdminUpdateStatusSubscriptionPlanUseCase {
     subscriptionPlanId: string,
   ): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
-    const subscriptionPlan =
-      await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
+    const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
     if (!subscriptionPlan) {
       throw new AdminSubscriptionPlanNotFoundError();
     }
@@ -52,8 +49,7 @@ export class AdminUpdateStatusSubscriptionPlanUseCase {
       throw new AdminSubscriptionPlanAlreadyDeactivateError();
     }
     subscriptionPlan.deactivate();
-    const result =
-      await this.subscriptionPlanRepository.persist(subscriptionPlan);
+    const result = await this.subscriptionPlanRepository.persist(subscriptionPlan);
     return AdminSubscriptionPlanResponseMapper.toResponse(result);
   }
 }

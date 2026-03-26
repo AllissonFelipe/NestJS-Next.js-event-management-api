@@ -7,9 +7,7 @@ export class PersonProfileMapper {
   /**
    * ORM -> Domain
    */
-  static toDomain(
-    orm: PersonProfileOrmEntity,
-  ): PersonProfileDomainEntity {
+  static toDomain(orm: PersonProfileOrmEntity): PersonProfileDomainEntity {
     return PersonProfileDomainEntity.restore({
       id: orm.id,
       avatarUrl: orm.avatar_url,
@@ -24,11 +22,9 @@ export class PersonProfileMapper {
   /**
    * Domain -> ORM
    */
-  static toOrm(
-    domain: PersonProfileDomainEntity,
-  ): PersonProfileOrmEntity {
+  static toOrm(domain: PersonProfileDomainEntity): PersonProfileOrmEntity {
     const orm = new PersonProfileOrmEntity();
-    
+
     orm.id = domain.id;
     orm.avatar_url = domain.avatarUrl;
     orm.bio = domain.bio;

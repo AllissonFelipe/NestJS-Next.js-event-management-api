@@ -1,9 +1,7 @@
 import { EntityManager } from 'typeorm';
 import { EmailChangeTokenDomainEntity } from './email-change-token.domain-entity';
 
-export const EMAIL_CHANGE_TOKEN_REPOSITORY = Symbol(
-  'EMAIL_CHANGE_TOKEN_REPOSITORY',
-);
+export const EMAIL_CHANGE_TOKEN_REPOSITORY = Symbol('EMAIL_CHANGE_TOKEN_REPOSITORY');
 
 export interface EmailChangeTokenRepositoryInterface {
   save(

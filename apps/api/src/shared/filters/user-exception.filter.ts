@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { UserEventLimitReachedError } from 'src/modules/user/domain/errors/user-event-limit-reached.error';
 import { UserNotFoundError } from 'src/modules/user/domain/errors/user-not-found.error';

@@ -1,20 +1,10 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { EventReportIsOpenError } from 'src/modules/event-reports/domain/errors/event-report-is-open.error';
 import { EventReportIsResolvedError } from 'src/modules/event-reports/domain/errors/event-report-is-resolved.error';
 import { EventReportIsReviewedError } from 'src/modules/event-reports/domain/errors/event-report-is-reviewed.error';
 
-@Catch(
-  EventReportIsResolvedError,
-  EventReportIsReviewedError,
-  EventReportIsOpenError,
-)
+@Catch(EventReportIsResolvedError, EventReportIsReviewedError, EventReportIsOpenError)
 export class EventReportExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();

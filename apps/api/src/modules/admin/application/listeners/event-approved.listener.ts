@@ -15,9 +15,6 @@ export class EventApprovedListener {
 
   @OnEvent('event.approved')
   async handle(event: EventsDomainEntity) {
-    await this.emailService.sendEventApprovedEmail(
-      event.createdBy.email,
-      event,
-    );
+    await this.emailService.sendEventApprovedEmail(event.createdBy.email, event);
   }
 }

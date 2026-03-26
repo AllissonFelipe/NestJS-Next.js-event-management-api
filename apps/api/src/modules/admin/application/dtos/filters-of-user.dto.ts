@@ -1,12 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import {
-  IsBoolean,
-  IsDateString,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsBoolean, IsDateString, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class FiltersOfUserDto {
   @IsOptional()

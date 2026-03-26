@@ -1,11 +1,4 @@
-import {
-  IsDateString,
-  IsEnum,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsDateString, IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { EventsStatusEnum } from '../../domain/events-status.enum';
 import { Type } from 'class-transformer';
 

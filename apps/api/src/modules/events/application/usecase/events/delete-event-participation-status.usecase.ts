@@ -31,13 +31,10 @@ export class DeleteEventParticipationStatusUseCase {
     }
     const personUserRole = await this.ensurePersonExist.ensure(userPersonId);
     const event = await this.ensureEventExist.ensure(eventId);
-    const eventParticipation =
-      await this.ensureUserEventParticipationExist.ensure(
-        personUserRole,
-        event,
-      );
-    await this.eventParticipantRepository.deleteParticipationOfUser(
-      eventParticipation.id,
+    const eventParticipation = await this.ensureUserEventParticipationExist.ensure(
+      personUserRole,
+      event,
     );
+    await this.eventParticipantRepository.deleteParticipationOfUser(eventParticipation.id);
   }
 }

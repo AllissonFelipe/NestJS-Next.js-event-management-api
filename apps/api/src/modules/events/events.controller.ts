@@ -82,23 +82,13 @@ export class EventsController {
     @Param('eventId') eventId: string,
     @Body() status: SetParticipationStatusDto,
   ): Promise<EventParticipantsResponseDto> {
-    return await this.setEventParticipationStatusUseCase.execute(
-      req.user.sub,
-      eventId,
-      status,
-    );
+    return await this.setEventParticipationStatusUseCase.execute(req.user.sub, eventId, status);
   }
   // Deleta a participação de um evento do usuário
   @Delete(':eventId/participation')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteParticipationStatus(
-    @Req() req: AuthRequest,
-    @Param('eventId') eventId: string,
-  ) {
-    await this.deleteEventParticipationStatusUseCase.execute(
-      req.user.sub,
-      eventId,
-    );
+  async deleteParticipationStatus(@Req() req: AuthRequest, @Param('eventId') eventId: string) {
+    await this.deleteEventParticipationStatusUseCase.execute(req.user.sub, eventId);
   }
   // Reporta um evento
   @Post(':eventId/report')
@@ -126,9 +116,6 @@ export class EventsController {
     @Req() req: AuthRequest,
     @Param('eventId') eventId: string,
   ): Promise<MyEventReportResponseDto> {
-    return await this.findMyEventReportsUseCase.executeFindOne(
-      req.user.sub,
-      eventId,
-    );
+    return await this.findMyEventReportsUseCase.executeFindOne(req.user.sub, eventId);
   }
 }

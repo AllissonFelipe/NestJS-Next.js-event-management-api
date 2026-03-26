@@ -5,17 +5,11 @@ import {
 } from 'src/modules/person/domain/person.repository-interface';
 import { CreateAccountDto } from './create-account.dto';
 import { EmailAndCpfValidator } from './email-and-cpf-validator';
-import {
-  PASSWORD_HASHER,
-  type PasswordHasherInterface,
-} from './password-hasher.interface';
+import { PASSWORD_HASHER, type PasswordHasherInterface } from './password-hasher.interface';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
 import { PersonProfileDomainEntity } from 'src/modules/person-profile/domain/person-profile.domain-entity';
 import { PersonRoleEnum } from 'src/modules/person-role/domain/person-role.enum';
-import {
-  UNIT_OF_WORK,
-  type UnitOfWorkInterface,
-} from 'src/database/unit-of-work.interface';
+import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
 import {
   PERSON_ROLE_REPOSITORY,
   type PersonRoleRepositoryInterface,
@@ -67,9 +61,7 @@ export class CreateAccountUseCase {
       id: randomUUID(),
     });
 
-    const personRole = await this.personRoleRepository.findByRole(
-      PersonRoleEnum.USER,
-    );
+    const personRole = await this.personRoleRepository.findByRole(PersonRoleEnum.USER);
 
     const person = PersonDomainEntity.create({
       fullName: dto.fullName,

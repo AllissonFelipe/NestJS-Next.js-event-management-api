@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsDateString,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsDateString, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class UserCreateEventAddressDto {
   @IsString({ message: 'Rua deve ser um texto' })

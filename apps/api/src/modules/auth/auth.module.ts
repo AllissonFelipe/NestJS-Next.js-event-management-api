@@ -36,9 +36,7 @@ import { LoginAccountUseCase } from './application/login-account/login-account.u
         const authConfig: AuthConfig = {
           jwt: {
             secret: configService.get<string>('JWT_SECRET')!,
-            expiresIn: configService.get<string>(
-              'JWT_EXPIRES_IN',
-            ) as StringValue,
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN') as StringValue,
           },
         };
         return {

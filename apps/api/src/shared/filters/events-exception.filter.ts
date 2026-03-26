@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { EventAddressNotFoundError } from 'src/modules/events/domain/errors/event-address-not-found.error';
 import { EventCannotBeApprovedError } from 'src/modules/events/domain/errors/event-cannot-be-approved.error';

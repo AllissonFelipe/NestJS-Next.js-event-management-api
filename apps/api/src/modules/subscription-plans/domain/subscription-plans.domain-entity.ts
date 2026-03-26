@@ -20,7 +20,7 @@ export class SubscriptionPlansDomainEntity {
     description: string;
     price: number;
     durationInDays: number;
-    isActive: boolean;
+    isActive?: boolean;
     createdBy: PersonDomainEntity;
     subscriptions?: SubscriptionDomainEntity[];
     createdAt?: Date;
@@ -31,7 +31,7 @@ export class SubscriptionPlansDomainEntity {
     this._description = props.description;
     this._price = props.price;
     this._durationInDays = props.durationInDays;
-    this._isActive = props.isActive;
+    this._isActive = props.isActive ?? false;
     this._createdBy = props.createdBy;
     this._subscriptions = props.subscriptions ?? [];
     this._createdAt = props.createdAt ?? new Date();
@@ -122,12 +122,7 @@ export class SubscriptionPlansDomainEntity {
     this.touch();
   }
 
-  update(props: {
-    name?: string;
-    description?: string;
-    price?: number;
-    durationInDays?: number;
-  }) {
+  update(props: { name?: string; description?: string; price?: number; durationInDays?: number }) {
     let updated = false;
 
     if (props.name !== undefined) {

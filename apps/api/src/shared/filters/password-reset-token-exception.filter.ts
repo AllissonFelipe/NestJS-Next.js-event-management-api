@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { PasswordResetTokenAlreadyUsedError } from 'src/modules/password-reset-token/domain/errors/reset-token-already-used.error';
 import { ResetPasswordTokenExpiredError } from 'src/modules/password-reset-token/domain/errors/reset-token-expired.error';
 import { PasswordResetTokenNotFoundError } from 'src/modules/password-reset-token/domain/errors/reset-token-not-found.error';

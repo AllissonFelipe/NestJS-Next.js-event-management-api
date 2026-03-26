@@ -12,11 +12,10 @@ export class EnsureEventAlreadyNotReportedByUser {
   ) {}
 
   async ensure(userPersonId: string, eventId: string): Promise<void> {
-    const eventReport =
-      await this.eventReportRepository.findByPersonIdAndEventId(
-        userPersonId,
-        eventId,
-      );
+    const eventReport = await this.eventReportRepository.findByPersonIdAndEventId(
+      userPersonId,
+      eventId,
+    );
     if (eventReport) {
       throw new EventAlreadyReportedByUser();
     }

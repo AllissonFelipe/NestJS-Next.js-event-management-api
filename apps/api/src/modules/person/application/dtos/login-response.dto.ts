@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsOptional, IsString } from "class-validator";
+import { IsOptional, IsString } from 'class-validator';
 
 export class LoginResponseDto {
   @IsString()

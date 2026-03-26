@@ -59,10 +59,7 @@ export class EventsOrmEntity {
   @OneToMany(() => EventsImagesOrmEntity, (eventImages) => eventImages.event)
   event_images: EventsImagesOrmEntity[];
 
-  @OneToMany(
-    () => EventParticipantsOrmEntity,
-    (participant) => participant.event,
-  )
+  @OneToMany(() => EventParticipantsOrmEntity, (participant) => participant.event)
   participants: EventParticipantsOrmEntity[];
 
   @OneToMany(() => EventReportOrmEntity, (reports) => reports.event)

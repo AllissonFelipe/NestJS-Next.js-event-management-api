@@ -7,10 +7,12 @@ import { ActivationTokenExpiredError } from 'src/modules/account-activation-toke
 import { ActivationTokenNotFoundError } from 'src/modules/account-activation-token/domain/errors/activation-token-not-found.error';
 import { ActivationTokenRequiredError } from 'src/modules/account-activation-token/domain/errors/activation-token-required.error';
 
-@Catch( ActivationTokenRequiredError,
+@Catch(
+  ActivationTokenRequiredError,
   ActivationTokenNotFoundError,
   ActivationTokenAlreadyUsedError,
-  ActivationTokenExpiredError)
+  ActivationTokenExpiredError,
+)
 export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -24,34 +26,34 @@ export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
 
     // Erro de token já usado
     if (exception instanceof ActivationTokenAlreadyUsedError) {
-            return response.status(HttpStatus.CONFLICT).json({
-            statusCode: 409,
-            message: exception.message,
-        });
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
+        message: exception.message,
+      });
     }
 
     // Erro de token já expirado
     if (exception instanceof ActivationTokenExpiredError) {
-            return response.status(HttpStatus.CONFLICT).json({
-            statusCode: 409,
-            message: exception.message,
-        });
+      return response.status(HttpStatus.CONFLICT).json({
+        statusCode: 409,
+        message: exception.message,
+      });
     }
 
     // Erro de token não encontrado
     if (exception instanceof ActivationTokenNotFoundError) {
-            return response.status(HttpStatus.NOT_FOUND).json({
-            statusCode: 404,
-            message: exception.message,
-        });
+      return response.status(HttpStatus.NOT_FOUND).json({
+        statusCode: 404,
+        message: exception.message,
+      });
     }
 
     // Erro de token requirido
     if (exception instanceof ActivationTokenRequiredError) {
-            return response.status(HttpStatus.BAD_REQUEST).json({
-            statusCode: 400,
-            message: exception.message,
-        });
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: exception.message,
+      });
     }
 
     // outros erros podem ser tratados aqui

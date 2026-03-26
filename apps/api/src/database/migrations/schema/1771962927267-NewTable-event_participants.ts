@@ -26,8 +26,6 @@ export class NewTableEventParticipants1771962927267 implements MigrationInterfac
       `ALTER TABLE "event_participants" DROP CONSTRAINT "FK_b5349807aae71193d0cc0f52e35"`,
     );
     await queryRunner.query(`DROP TABLE "event_participants"`);
-    await queryRunner.query(
-      `DROP TYPE "public"."event_participants_status_enum"`,
-    );
+    await queryRunner.query(`DROP TYPE "public"."event_participants_status_enum"`);
   }
 }

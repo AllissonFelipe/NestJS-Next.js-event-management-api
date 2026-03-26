@@ -5,6 +5,7 @@ import { EntityManager, Repository } from 'typeorm';
 import { SubscriptionPlansRepositoryInterface } from '../domain/subscription-plans.repository-interface';
 import { SubscriptionPlansDomainEntity } from '../domain/subscription-plans.domain-entity';
 import { SubscriptionPlansMapper } from './subscription-plans.mapper';
+import { SubscriptionMapper } from 'src/modules/subscription/infra/subscription.mapper';
 
 @Injectable()
 export class SubscriptionPlansRepositoryTypeOrm implements SubscriptionPlansRepositoryInterface {
@@ -13,9 +14,7 @@ export class SubscriptionPlansRepositoryTypeOrm implements SubscriptionPlansRepo
     private readonly subscriptionPlanRepository: Repository<SubscriptionPlansOrmEntity>,
   ) {}
 
-  private getRepository(
-    manager?: EntityManager,
-  ): Repository<SubscriptionPlansOrmEntity> {
+  private getRepository(manager?: EntityManager): Repository<SubscriptionPlansOrmEntity> {
     return manager
       ? manager.getRepository(SubscriptionPlansOrmEntity)
       : this.subscriptionPlanRepository;
@@ -31,20 +30,12 @@ export class SubscriptionPlansRepositoryTypeOrm implements SubscriptionPlansRepo
     return SubscriptionPlansMapper.toDomain(saved);
   }
 
-  async findAll(
-    manager?: EntityManager,
-  ): Promise<SubscriptionPlansDomainEntity[]> {
+  async findAll(manager?: EntityManager): Promise<SubscriptionPlansDomainEntity[]> {
     const repository = this.getRepository(manager);
     const ormEntities = await repository.find({
-      relations: [
-        'created_by',
-        'created_by.person_role',
-        'created_by.person_profile',
-      ],
+      relations: ['created_by', 'created_by.person_role', 'created_by.person_profile'],
     });
-    return ormEntities.map((entity) =>
-      SubscriptionPlansMapper.toDomain(entity),
-    );
+    return ormEntities.map((entity) => SubscriptionPlansMapper.toDomain(entity));
   }
 
   async findOne(
@@ -54,20 +45,13 @@ export class SubscriptionPlansRepositoryTypeOrm implements SubscriptionPlansRepo
     const repository = this.getRepository(manager);
     const ormEntity = await repository.findOne({
       where: { id: subscriptionPlanId },
-      relations: [
-        'created_by',
-        'created_by.person_role',
-        'created_by.person_profile',
-      ],
+      relations: ['created_by', 'created_by.person_role', 'created_by.person_profile'],
     });
     if (!ormEntity) return null;
     return SubscriptionPlansMapper.toDomain(ormEntity);
   }
 
-  async delete(
-    subscriptionPlanId: string,
-    manager?: EntityManager,
-  ): Promise<void> {
+  async delete(subscriptionPlanId: string, manager?: EntityManager): Promise<void> {
     const repository = this.getRepository(manager);
     await repository.delete(subscriptionPlanId);
   }

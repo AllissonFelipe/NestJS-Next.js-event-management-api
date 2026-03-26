@@ -21,6 +21,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { EventParticipantsModule } from './modules/event-participants/event-participants.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     UserModule,
     AdminModule,
     EventParticipantsModule,
+    SubscriptionModule,
     EventEmitterModule.forRoot(),
   ],
   controllers: [AppController],

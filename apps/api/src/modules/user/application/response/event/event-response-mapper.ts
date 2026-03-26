@@ -68,9 +68,7 @@ export class EventMapper {
   }
 }
 export class EventAddressMapper {
-  static toResponse(
-    eventAddress: EventsAddressDomainEntity,
-  ): EventAddressDetailsDto {
+  static toResponse(eventAddress: EventsAddressDomainEntity): EventAddressDetailsDto {
     return {
       street: eventAddress.street,
       number: eventAddress.number,
@@ -87,9 +85,7 @@ export class EventCreatedByMapper {
     return {
       id: user.id,
       fullName: user.fullName,
-      avatarUrl: user.personProfile.avatarUrl
-        ? user.personProfile.avatarUrl
-        : undefined,
+      avatarUrl: user.personProfile.avatarUrl ? user.personProfile.avatarUrl : undefined,
     };
   }
 }

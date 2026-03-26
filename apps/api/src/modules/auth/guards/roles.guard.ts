@@ -1,9 +1,4 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLE_HIERARCHY, ROLES_KEY } from '../decorators/roles.decorator';
 import { PersonRoleEnum } from '../../person-role/domain/person-role.enum';
@@ -24,10 +19,10 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const requiredRoles = this.reflector.getAllAndOverride<PersonRoleEnum[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const requiredRoles = this.reflector.getAllAndOverride<PersonRoleEnum[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
 
     if (!requiredRoles || requiredRoles.length === 0) {
       return true;
@@ -41,9 +36,7 @@ export class RolesGuard implements CanActivate {
     }
 
     // pega o MENOR nível exigido pela rota
-    const minRequiredLevel = Math.min(
-      ...requiredRoles.map((role) => ROLE_HIERARCHY[role]),
-    );
+    const minRequiredLevel = Math.min(...requiredRoles.map((role) => ROLE_HIERARCHY[role]));
 
     const userLevel = ROLE_HIERARCHY[userRole];
     if (!ROLE_HIERARCHY[userRole]) {

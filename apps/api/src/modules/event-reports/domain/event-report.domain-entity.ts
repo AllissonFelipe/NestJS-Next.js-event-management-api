@@ -52,10 +52,7 @@ export class EventReportDomainEntity {
     }
     if (status === this._status) return;
 
-    const validTransitions: Record<
-      EventReportStatusEnum,
-      EventReportStatusEnum[]
-    > = {
+    const validTransitions: Record<EventReportStatusEnum, EventReportStatusEnum[]> = {
       OPEN: [EventReportStatusEnum.REVIEWED],
       REVIEWED: [EventReportStatusEnum.RESOLVED],
       RESOLVED: [],
@@ -64,9 +61,7 @@ export class EventReportDomainEntity {
     const canChange = validTransitions[this._status].includes(status);
 
     if (!canChange) {
-      throw new Error(
-        `Transição do reporte de evento inválida: ${this._status} -> ${status}`,
-      );
+      throw new Error(`Transição do reporte de evento inválida: ${this._status} -> ${status}`);
     }
 
     this._status = status;

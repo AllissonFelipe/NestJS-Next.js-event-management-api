@@ -43,10 +43,7 @@ export class AdminUsersController {
     @Request() req: AuthRequest,
     @Query() filtersDto: FiltersOfUserDto,
   ): Promise<PaginationResultInterface<UserResponseDto>> {
-    return await this.adminFindUsersUseCase.withFilters(
-      req.user.sub,
-      filtersDto,
-    );
+    return await this.adminFindUsersUseCase.withFilters(req.user.sub, filtersDto);
   }
   // PROCURAR USER byUserPersonId
   @Get(':userPersonId')
@@ -65,11 +62,7 @@ export class AdminUsersController {
     @Param('userPersonId') userPersonId: string,
     @Body() dto: AdminUpdateUserDto,
   ): Promise<UserResponseDto> {
-    return await this.adminUpdateUserUseCase.execute(
-      req.user.sub,
-      userPersonId,
-      dto,
-    );
+    return await this.adminUpdateUserUseCase.execute(req.user.sub, userPersonId, dto);
   }
   // DELETAR UM USUÁRIO byUserPersonId
   @Delete(':userPersonId')

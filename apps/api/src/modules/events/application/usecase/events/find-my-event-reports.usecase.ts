@@ -39,12 +39,11 @@ export class FindMyEventReportsUseCase {
       limit: queryDto.limit ?? 10,
     };
 
-    const { items, total } =
-      await this.eventReportRepository.findAllMyEventsReports(
-        userPersonId,
-        queryDto,
-        pagination,
-      );
+    const { items, total } = await this.eventReportRepository.findAllMyEventsReports(
+      userPersonId,
+      queryDto,
+      pagination,
+    );
 
     return MyEventsReportsWithQueryResponseMapper.toResponse(
       items,
@@ -54,17 +53,13 @@ export class FindMyEventReportsUseCase {
     );
   }
 
-  async executeFindOne(
-    userPersonId: string,
-    eventId: string,
-  ): Promise<MyEventReportResponseDto> {
+  async executeFindOne(userPersonId: string, eventId: string): Promise<MyEventReportResponseDto> {
     const userPerson = await this.ensurePersonExist.ensure(userPersonId);
     const event = await this.ensureEventExist.ensure(eventId);
-    const eventReport =
-      await this.eventReportRepository.findByPersonIdAndEventId(
-        userPerson.id,
-        event.id,
-      );
+    const eventReport = await this.eventReportRepository.findByPersonIdAndEventId(
+      userPerson.id,
+      event.id,
+    );
     if (!eventReport) {
       throw new EventReportNotFoundError();
     }

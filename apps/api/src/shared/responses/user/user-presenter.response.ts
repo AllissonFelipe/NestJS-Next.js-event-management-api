@@ -1,11 +1,7 @@
 import { PersonProfileDomainEntity } from 'src/modules/person-profile/domain/person-profile.domain-entity';
 import { PersonRoleDomainEntity } from 'src/modules/person-role/domain/person-role.domain-entity';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
-import {
-  UserProfileResponseDto,
-  UserResponseDto,
-  UserRoleResponseDto,
-} from './user-response.dto';
+import { UserProfileResponseDto, UserResponseDto, UserRoleResponseDto } from './user-response.dto';
 
 export class UserPresenter {
   static toResponse(person: PersonDomainEntity): UserResponseDto {
@@ -31,9 +27,7 @@ export class UserRolePresenter {
 }
 
 export class UserProfilePresenter {
-  static toResponse(
-    personProfile: PersonProfileDomainEntity,
-  ): UserProfileResponseDto {
+  static toResponse(personProfile: PersonProfileDomainEntity): UserProfileResponseDto {
     return {
       avatarUrl: personProfile.avatarUrl,
       bio: personProfile.bio,

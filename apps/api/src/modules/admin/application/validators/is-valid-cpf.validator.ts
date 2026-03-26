@@ -1,9 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {
-  registerDecorator,
-  ValidationOptions,
-  ValidationArguments,
-} from 'class-validator';
+import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 
 function isValidCpf(cpf: string): boolean {
   if (!cpf) return false;

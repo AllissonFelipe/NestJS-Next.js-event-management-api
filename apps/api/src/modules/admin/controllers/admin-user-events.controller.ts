@@ -68,10 +68,6 @@ export class AdminUserEventsController {
     @Param('userPersonId') userPersonId: string,
     @Param('eventId') eventId: string,
   ): Promise<void> {
-    await this.adminDeleteEventUseCase.deleteUserEvent(
-      req.user.sub,
-      userPersonId,
-      eventId,
-    );
+    await this.adminDeleteEventUseCase.deleteUserEvent(req.user.sub, userPersonId, eventId);
   }
 }

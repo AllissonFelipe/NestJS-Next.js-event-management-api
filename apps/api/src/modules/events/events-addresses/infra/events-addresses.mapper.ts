@@ -3,14 +3,10 @@
 import { EventsAddressDomainEntity } from '../domain/events-addresses.domain-entity';
 import { EventsAddressesOrmEntity } from '../infra/events-addresses.orm-entity';
 
-
 export class EventsAddressMapper {
-  static toDomain(
-    ormEntity: EventsAddressesOrmEntity,
-  ): EventsAddressDomainEntity {
-
+  static toDomain(ormEntity: EventsAddressesOrmEntity): EventsAddressDomainEntity {
     if (!ormEntity) {
-      throw new Error(`não pode ser null`)
+      throw new Error(`não pode ser null`);
     }
 
     return EventsAddressDomainEntity.restore({
@@ -27,9 +23,7 @@ export class EventsAddressMapper {
     });
   }
 
-  static toOrm(
-    domainEntity: EventsAddressDomainEntity,
-  ): EventsAddressesOrmEntity {
+  static toOrm(domainEntity: EventsAddressDomainEntity): EventsAddressesOrmEntity {
     const ormEntity = new EventsAddressesOrmEntity();
 
     ormEntity.id = domainEntity.id;

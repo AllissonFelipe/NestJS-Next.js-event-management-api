@@ -30,9 +30,7 @@ export class AdminRolePresenter {
   }
 }
 export class AdminProfilePresenter {
-  static toResponse(
-    personProfile: PersonProfileDomainEntity,
-  ): AdminProfileResponseDto {
+  static toResponse(personProfile: PersonProfileDomainEntity): AdminProfileResponseDto {
     return {
       id: personProfile.id,
       avatarUrl: personProfile.avatarUrl,

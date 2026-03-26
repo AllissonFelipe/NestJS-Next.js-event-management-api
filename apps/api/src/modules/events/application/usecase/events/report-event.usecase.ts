@@ -39,20 +39,13 @@ export class ReportEventUseCase {
     }
     const userPerson = await this.ensurePersonExist.ensure(userPersonId);
     const event = await this.ensureEventExist.ensure(eventId);
-    await this.ensureEventAlreadyNotReportedByUser.ensure(
-      userPerson.id,
-      event.id,
-    );
+    await this.ensureEventAlreadyNotReportedByUser.ensure(userPerson.id, event.id);
     const newEventReport = EventReportDomainEntity.create({
       event: event,
       reporter: userPerson,
       reason: dto.reason,
     });
     await this.eventReportRepository.persist(newEventReport);
-    return MyEventReportResponseMapper.toResponse(
-      newEventReport,
-      event,
-      userPerson,
-    );
+    return MyEventReportResponseMapper.toResponse(newEventReport, event, userPerson);
   }
 }

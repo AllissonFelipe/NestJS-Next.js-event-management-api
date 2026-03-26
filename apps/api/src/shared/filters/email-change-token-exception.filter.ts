@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { EmailChangeTokenAlreadyUsedError } from 'src/modules/email-change-token/domain/errors/email-token-change-already-used.error';
 import { EmailChangeTokenExpiredError } from 'src/modules/email-change-token/domain/errors/email-token-change-expired.error';

@@ -19,12 +19,8 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     private readonly eventReportRepository: Repository<EventReportOrmEntity>,
   ) {}
 
-  private getRepository(
-    manager?: EntityManager,
-  ): Repository<EventReportOrmEntity> {
-    return manager
-      ? manager.getRepository(EventReportOrmEntity)
-      : this.eventReportRepository;
+  private getRepository(manager?: EntityManager): Repository<EventReportOrmEntity> {
+    return manager ? manager.getRepository(EventReportOrmEntity) : this.eventReportRepository;
   }
 
   async findByPersonIdAndEventId(
@@ -105,9 +101,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     const [result, total] = await qb.getManyAndCount();
     // RETORNANDO RESULTADO
     return {
-      items: result.map((eventReport) =>
-        EventReportMapper.toDomain(eventReport),
-      ),
+      items: result.map((eventReport) => EventReportMapper.toDomain(eventReport)),
       total,
     };
   }
@@ -148,10 +142,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     qb.leftJoinAndSelect('reporter.person_profile', 'reporterPersonProfile');
     qb.leftJoinAndSelect('event.created_by', 'eventCreatedBy');
     qb.leftJoinAndSelect('eventCreatedBy.person_role', 'createByPersonRole');
-    qb.leftJoinAndSelect(
-      'eventCreatedBy.person_profile',
-      'createdByPersonProfile',
-    );
+    qb.leftJoinAndSelect('eventCreatedBy.person_profile', 'createdByPersonProfile');
     qb.where('event.id = :eventId', { eventId });
 
     if (query.reason) {
@@ -174,9 +165,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     const [items, total] = await qb.getManyAndCount();
 
     const result = {
-      items: items.map((eventReport) =>
-        EventReportMapper.toDomain(eventReport),
-      ),
+      items: items.map((eventReport) => EventReportMapper.toDomain(eventReport)),
       total,
     };
 
@@ -197,10 +186,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     qb.leftJoinAndSelect('reporter.person_profile', 'reporterPersonProfile');
     qb.leftJoinAndSelect('event.created_by', 'eventCreatedBy');
     qb.leftJoinAndSelect('eventCreatedBy.person_role', 'createByPersonRole');
-    qb.leftJoinAndSelect(
-      'eventCreatedBy.person_profile',
-      'createdByPersonProfile',
-    );
+    qb.leftJoinAndSelect('eventCreatedBy.person_profile', 'createdByPersonProfile');
 
     // VERIFICAÇÃO DE FILTROS(query)
     if (query.reason) {
@@ -225,9 +211,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
 
     // RETORNANDO RESULT
     return {
-      items: result.map((eventReport) =>
-        EventReportMapper.toDomain(eventReport),
-      ),
+      items: result.map((eventReport) => EventReportMapper.toDomain(eventReport)),
       total,
     };
   }

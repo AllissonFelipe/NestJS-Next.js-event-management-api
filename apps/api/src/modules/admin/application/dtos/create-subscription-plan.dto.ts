@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class CreateSubscriptionPlanDto {
   @IsNotEmpty()

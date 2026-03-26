@@ -17,9 +17,7 @@ export class AdminFindSubscriptionPlanUseCase {
     private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface,
   ) {}
 
-  async executeFindAll(
-    adminPersonId: string,
-  ): Promise<AdminSubscriptionPlanResponseDto[]> {
+  async executeFindAll(adminPersonId: string): Promise<AdminSubscriptionPlanResponseDto[]> {
     await this.isAdminValidator.validate(adminPersonId);
     const subscriptionPlans = await this.subscriptionPlanRepository.findAll();
     return subscriptionPlans.map((entity) =>
@@ -27,7 +25,10 @@ export class AdminFindSubscriptionPlanUseCase {
     );
   }
 
-  async executeFindOne(adminPersonId: string, subscriptionPlanId: string): Promise<AdminSubscriptionPlanResponseDto> {
+  async executeFindOne(
+    adminPersonId: string,
+    subscriptionPlanId: string,
+  ): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
     const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
     if (!subscriptionPlan) {

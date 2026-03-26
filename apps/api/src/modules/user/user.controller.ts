@@ -58,12 +58,8 @@ export class UserController {
   // Find user profile
   @Get('profile')
   @HttpCode(HttpStatus.OK)
-  async findUserProfileByPersonId(
-    @Request() req: AuthRequest,
-  ): Promise<UserResponseDto> {
-    return await this.findUserProfileUseCase.findUserProfileByPersonId(
-      req.user.sub,
-    );
+  async findUserProfileByPersonId(@Request() req: AuthRequest): Promise<UserResponseDto> {
+    return await this.findUserProfileUseCase.findUserProfileByPersonId(req.user.sub);
   }
   // Update user Profile
   @Patch('profile')
@@ -72,10 +68,7 @@ export class UserController {
     @Request() req: AuthRequest,
     @Body() dto: UpdateUserProfileDto,
   ): Promise<UserResponseDto> {
-    return await this.updateUserProfileUseCase.updateUserProfileByPersonId(
-      req.user.sub,
-      dto,
-    );
+    return await this.updateUserProfileUseCase.updateUserProfileByPersonId(req.user.sub, dto);
   }
 
   // --------- ÁREA DE GERENCIAMENTO DE TROCA DE EMAIL ---------------
@@ -83,10 +76,7 @@ export class UserController {
   // Request email change
   @Patch('profile/email-change/request')
   @HttpCode(HttpStatus.OK)
-  async sendRequestToEmailChange(
-    @Request() req: AuthRequest,
-    @Body() dto: ChangeUserEmailDto,
-  ) {
+  async sendRequestToEmailChange(@Request() req: AuthRequest, @Body() dto: ChangeUserEmailDto) {
     await this.updateUserEmailUseCase.requestEmailChange(req.user.sub, dto);
     return {
       message: `Email enviado para ${dto.email}`,
@@ -126,10 +116,7 @@ export class UserController {
     @Request() req: AuthRequest,
     @Param('eventId') eventId: string,
   ): Promise<EventResponseDto> {
-    return await this.findEventsUseCase.findOneEventByUserAndEventId(
-      req.user.sub,
-      eventId,
-    );
+    return await this.findEventsUseCase.findOneEventByUserAndEventId(req.user.sub, eventId);
   }
   // Atualizar um evento meu
   @Patch('events/:eventId')

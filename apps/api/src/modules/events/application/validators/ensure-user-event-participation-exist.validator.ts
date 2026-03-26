@@ -19,11 +19,10 @@ export class EnsureUserEventParticipationExist {
     userPerson: PersonDomainEntity,
     event: EventsDomainEntity,
   ): Promise<EventParticipantsDomainEntity> {
-    const eventParticipation =
-      await this.eventParticipantsRepository.findWithPersonIdAndEventId(
-        userPerson,
-        event,
-      );
+    const eventParticipation = await this.eventParticipantsRepository.findWithPersonIdAndEventId(
+      userPerson,
+      event,
+    );
     if (!eventParticipation) {
       throw new EventParticipationNotFoundError();
     }

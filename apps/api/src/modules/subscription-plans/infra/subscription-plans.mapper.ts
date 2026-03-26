@@ -1,11 +1,10 @@
 import { PersonMapper } from 'src/modules/person/infra/person.mapper';
 import { SubscriptionPlansDomainEntity } from '../domain/subscription-plans.domain-entity';
 import { SubscriptionPlansOrmEntity } from './subscription-plans.orm-entity';
+import { SubscriptionMapper } from 'src/modules/subscription/infra/subscription.mapper';
 
 export class SubscriptionPlansMapper {
-  static toOrm(
-    domain: SubscriptionPlansDomainEntity,
-  ): SubscriptionPlansOrmEntity {
+  static toOrm(domain: SubscriptionPlansDomainEntity): SubscriptionPlansOrmEntity {
     const orm = new SubscriptionPlansOrmEntity();
 
     orm.id = domain.id;
@@ -21,9 +20,7 @@ export class SubscriptionPlansMapper {
     return orm;
   }
 
-  static toDomain(
-    orm: SubscriptionPlansOrmEntity,
-  ): SubscriptionPlansDomainEntity {
+  static toDomain(orm: SubscriptionPlansOrmEntity): SubscriptionPlansDomainEntity {
     return SubscriptionPlansDomainEntity.restore({
       id: orm.id,
       name: orm.name,
@@ -33,7 +30,9 @@ export class SubscriptionPlansMapper {
       isActive: orm.is_active,
       createdBy: PersonMapper.toDomain(orm.created_by),
       // TODO: Arrumar depois que criar subscription domain
-      subscriptions: orm.subscriptions ?? [],
+      subscriptions: orm.subscriptions
+        ? orm.subscriptions.map((sub) => SubscriptionMapper.toDomain(sub))
+        : [],
       createdAt: orm.created_at,
       updatedAt: orm.updated_at,
     });

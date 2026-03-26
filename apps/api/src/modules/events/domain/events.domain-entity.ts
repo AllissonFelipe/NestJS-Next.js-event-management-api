@@ -170,9 +170,7 @@ export class EventsDomainEntity {
   }
 
   isFinalStatus(): boolean {
-    return [EventsStatusEnum.CANCELLED, EventsStatusEnum.REJECTED].includes(
-      this._status,
-    );
+    return [EventsStatusEnum.CANCELLED, EventsStatusEnum.REJECTED].includes(this._status);
   }
   isEventStatusPending(): boolean {
     return [EventsStatusEnum.PENDING].includes(this._status);

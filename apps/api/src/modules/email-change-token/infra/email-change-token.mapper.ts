@@ -3,9 +3,7 @@ import { EmailChangeTokenDomainEntity } from '../domain/email-change-token.domai
 import { EmailChangeTokenOrmEntity } from './email-change-token.orm-entity';
 
 export class EmailChangeTokenMapper {
-  static toDomain(
-    orm: EmailChangeTokenOrmEntity,
-  ): EmailChangeTokenDomainEntity {
+  static toDomain(orm: EmailChangeTokenOrmEntity): EmailChangeTokenDomainEntity {
     return EmailChangeTokenDomainEntity.restore({
       id: orm.id,
       personId: orm.person_id.id,
@@ -16,9 +14,7 @@ export class EmailChangeTokenMapper {
     });
   }
 
-  static toOrm(
-    domain: EmailChangeTokenDomainEntity,
-  ): EmailChangeTokenOrmEntity {
+  static toOrm(domain: EmailChangeTokenDomainEntity): EmailChangeTokenOrmEntity {
     const orm = new EmailChangeTokenOrmEntity();
 
     orm.id = domain.id;

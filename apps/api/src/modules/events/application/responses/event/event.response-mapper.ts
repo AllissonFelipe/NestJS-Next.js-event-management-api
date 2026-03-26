@@ -52,20 +52,16 @@ export class EventResponseMapper {
         avatarUrl: event.createdBy.personProfile.avatarUrl,
       },
       goingCount: event.participants.filter(
-        (participants) =>
-          participants.status === EventParticipantStatusEnum.GOING,
+        (participants) => participants.status === EventParticipantStatusEnum.GOING,
       ).length,
       interestedCount: event.participants.filter(
-        (participants) =>
-          participants.status === EventParticipantStatusEnum.INTERESTED,
+        (participants) => participants.status === EventParticipantStatusEnum.INTERESTED,
       ).length,
     };
   }
 }
 export class EventWithParticipantsResponseMapper {
-  static toResponse(
-    event: EventsDomainEntity,
-  ): EventWithParticipantsResponseDto {
+  static toResponse(event: EventsDomainEntity): EventWithParticipantsResponseDto {
     return {
       id: event.id,
       title: event.title,
@@ -83,39 +79,25 @@ export class EventWithParticipantsResponseMapper {
       },
       going: {
         count: event.participants.filter(
-          (participants) =>
-            participants.status === EventParticipantStatusEnum.GOING,
+          (participants) => participants.status === EventParticipantStatusEnum.GOING,
         ).length,
         participants: event.participants
-          .filter(
-            (participant) =>
-              participant.status === EventParticipantStatusEnum.GOING,
-          )
-          .map((participant) =>
-            EventParticipantsResponseMapper.toResponse(participant.person),
-          ),
+          .filter((participant) => participant.status === EventParticipantStatusEnum.GOING)
+          .map((participant) => EventParticipantsResponseMapper.toResponse(participant.person)),
       },
       interested: {
         count: event.participants.filter(
-          (participants) =>
-            participants.status === EventParticipantStatusEnum.INTERESTED,
+          (participants) => participants.status === EventParticipantStatusEnum.INTERESTED,
         ).length,
         participants: event.participants
-          .filter(
-            (participant) =>
-              participant.status === EventParticipantStatusEnum.INTERESTED,
-          )
-          .map((participant) =>
-            EventParticipantsResponseMapper.toResponse(participant.person),
-          ),
+          .filter((participant) => participant.status === EventParticipantStatusEnum.INTERESTED)
+          .map((participant) => EventParticipantsResponseMapper.toResponse(participant.person)),
       },
     };
   }
 }
 export class EventAddressResponseMapper {
-  static toResponse(
-    eventAddress: EventsAddressDomainEntity,
-  ): EventAddressResponseDto {
+  static toResponse(eventAddress: EventsAddressDomainEntity): EventAddressResponseDto {
     return {
       id: eventAddress.id,
       street: eventAddress.street,
@@ -135,9 +117,7 @@ export class EventAddressResponseMapper {
 //   ): EventWithParticipantsResponseDto {}
 // }
 export class EventParticipantsResponseMapper {
-  static toResponse(
-    eventParticipants: PersonDomainEntity,
-  ): EventParticipantsResponseDto {
+  static toResponse(eventParticipants: PersonDomainEntity): EventParticipantsResponseDto {
     return {
       id: eventParticipants.id,
       fullName: eventParticipants.fullName,

@@ -47,10 +47,7 @@ export class AdminEventsController {
     @Request() req: AuthRequest,
     @Query() filters: FindEventFilters,
   ): Promise<EventResponseWithPaginationDto> {
-    return await this.adminFindEventsUseCase.allEventsWithFilters(
-      req.user.sub,
-      filters,
-    );
+    return await this.adminFindEventsUseCase.allEventsWithFilters(req.user.sub, filters);
   }
   // PROCURAR UM EVENTO ESPECÍFICO byEventId
   @Get(':eventId')
@@ -78,19 +75,12 @@ export class AdminEventsController {
     @Param('eventId') eventId: string,
     @Body() reason?: string,
   ): Promise<EventResponseDto> {
-    return await this.adminRejectEventUseCase.execute(
-      req.user.sub,
-      eventId,
-      reason,
-    );
+    return await this.adminRejectEventUseCase.execute(req.user.sub, eventId, reason);
   }
   // DELETAR UM EVENTO
   @Delete(':eventId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteEvent(
-    @Request() req: AuthRequest,
-    @Param('eventId') eventId: string,
-  ): Promise<void> {
+  async deleteEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<void> {
     await this.adminDeleteEventUseCase.deleteEventById(req.user.sub, eventId);
   }
 }

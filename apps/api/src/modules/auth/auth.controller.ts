@@ -36,8 +36,8 @@ export class AuthController {
   async register(@Body() dto: CreateAccountDto) {
     await this.createUseCase.execute(dto);
     return {
-      message: 'Conta criada com sucesso. Uma mensagem de ativação foi enviado para o seu email.'
-    }
+      message: 'Conta criada com sucesso. Uma mensagem de ativação foi enviado para o seu email.',
+    };
   }
 
   // ATIVAR CONTA
@@ -54,8 +54,7 @@ export class AuthController {
   async resendActivationEmail(@Body() dto: ResendActivationEmailDto) {
     await this.activateAccountUseCase.executeResendActivationEmail(dto.email);
     return {
-      message:
-        'Se conta estiver inativa e email existir, um email de ativação será logo enviado',
+      message: 'Se conta estiver inativa e email existir, um email de ativação será logo enviado',
     };
   }
 
@@ -72,17 +71,13 @@ export class AuthController {
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
     await this.forgotPasswordUseCase.executeForgotPassword(dto.email);
     return {
-      message:
-        'Se conta com este email existir, um email de alteração da senha será logo enviado',
+      message: 'Se conta com este email existir, um email de alteração da senha será logo enviado',
     };
   }
   // RESET PASSWORD
   @Post('reset-password/:token')
   async resetPassword(@Param('token') token: string, @Body() dto: ResetPasswordDto) {
-    await this.resetPasswordUseCase.executeResetPassword(
-      token,
-      dto.newPassword,
-    );
+    await this.resetPasswordUseCase.executeResetPassword(token, dto.newPassword);
     return {
       message: 'Senha alterada com sucesso',
     };

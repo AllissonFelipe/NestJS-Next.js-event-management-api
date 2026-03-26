@@ -16,15 +16,10 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
   ) {}
 
   private getRepository(manager?: EntityManager): Repository<EventsOrmEntity> {
-    return manager
-      ? manager.getRepository(EventsOrmEntity)
-      : this.eventsRepository;
+    return manager ? manager.getRepository(EventsOrmEntity) : this.eventsRepository;
   }
 
-  async deleteEventById(
-    eventId: string,
-    manager?: EntityManager,
-  ): Promise<boolean> {
+  async deleteEventById(eventId: string, manager?: EntityManager): Promise<boolean> {
     const repository = this.getRepository(manager);
     const result = await repository.delete(eventId);
     if (result.affected && result.affected > 0) {
@@ -70,10 +65,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     return EventsMapper.toDomain(eventOrm);
   }
 
-  async saveEvent(
-    event: EventsDomainEntity,
-    manager?: EntityManager,
-  ): Promise<EventsDomainEntity> {
+  async saveEvent(event: EventsDomainEntity, manager?: EntityManager): Promise<EventsDomainEntity> {
     const repository = this.getRepository(manager);
     const eventOrm = EventsMapper.toOrm(event);
     const saved = await repository.save(eventOrm);
@@ -143,14 +135,8 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     qb.leftJoinAndSelect('createdBy.person_profile', 'personProfile');
     qb.leftJoinAndSelect('events.participants', 'participants');
     qb.leftJoinAndSelect('participants.person', 'participantPerson');
-    qb.leftJoinAndSelect(
-      'participantPerson.person_role',
-      'participantPersonRole',
-    );
-    qb.leftJoinAndSelect(
-      'participantPerson.person_profile',
-      'participantPersonProfile',
-    );
+    qb.leftJoinAndSelect('participantPerson.person_role', 'participantPersonRole');
+    qb.leftJoinAndSelect('participantPerson.person_profile', 'participantPersonProfile');
     // FILTROS
     if (filters.title) {
       qb.andWhere(`events.title ILIKE :title`, { title: `%${filters.title}%` });
@@ -193,14 +179,8 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     qb.leftJoinAndSelect('createdBy.person_profile', 'personProfile');
     qb.leftJoinAndSelect('events.participants', 'participants');
     qb.leftJoinAndSelect('participants.person', 'participantPerson');
-    qb.leftJoinAndSelect(
-      'participantPerson.person_role',
-      'participantPersonRole',
-    );
-    qb.leftJoinAndSelect(
-      'participantPerson.person_profile',
-      'participantPersonProfile',
-    );
+    qb.leftJoinAndSelect('participantPerson.person_role', 'participantPersonRole');
+    qb.leftJoinAndSelect('participantPerson.person_profile', 'participantPersonProfile');
     // FILTROS
     if (filters.title) {
       qb.andWhere(`events.title ILIKE :title`, { title: `%${filters.title}%` });
@@ -244,10 +224,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     return false;
   }
 
-  async countEventsById(
-    personId: string,
-    manager?: EntityManager,
-  ): Promise<number> {
+  async countEventsById(personId: string, manager?: EntityManager): Promise<number> {
     const repository = this.getRepository(manager);
     const result = await repository.count({
       where: { created_by: { id: personId } },

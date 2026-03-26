@@ -24,14 +24,12 @@ export class AdminUpdateSubscriptionPlanUseCase {
     dto: UpdateSubscriptionPlanDto,
   ): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
-    const subscriptionPlan =
-      await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
+    const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
     if (!subscriptionPlan) {
       throw new AdminSubscriptionPlanNotFoundError();
     }
     subscriptionPlan.update(dto);
-    const result =
-      await this.subscriptionPlanRepository.persist(subscriptionPlan);
+    const result = await this.subscriptionPlanRepository.persist(subscriptionPlan);
     return AdminSubscriptionPlanResponseMapper.toResponse(result);
   }
 }

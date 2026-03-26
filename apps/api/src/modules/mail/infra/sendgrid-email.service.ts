@@ -35,10 +35,7 @@ export class SendGridEmailService implements MailServiceInterface {
             `,
       });
     } catch (error) {
-      console.error(
-        'Erro ao enviar email SendGrid:',
-        error.response?.body || error,
-      );
+      console.error('Erro ao enviar email SendGrid:', error.response?.body || error);
       throw error;
     }
   }
@@ -56,18 +53,12 @@ export class SendGridEmailService implements MailServiceInterface {
             `,
       });
     } catch (error) {
-      console.error(
-        'Erro ao enviar email SendGrid:',
-        error.response?.body || error,
-      );
+      console.error('Erro ao enviar email SendGrid:', error.response?.body || error);
       throw error;
     }
   }
 
-  async sendEventApprovedEmail(
-    email: string,
-    event: EventsDomainEntity,
-  ): Promise<void> {
+  async sendEventApprovedEmail(email: string, event: EventsDomainEntity): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

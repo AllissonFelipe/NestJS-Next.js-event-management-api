@@ -58,10 +58,7 @@ export class UpdateUserProfileUsecase {
         person.personProfile.updateAll(dto.profile);
       }
       await this.personRepository.updatePerson(person, manager);
-      await this.personProfileRepository.saveProfile(
-        person.personProfile,
-        manager,
-      );
+      await this.personProfileRepository.saveProfile(person.personProfile, manager);
     });
     const updatePerson = await this.personRepository.findPersonById(person.id);
     if (!updatePerson) {

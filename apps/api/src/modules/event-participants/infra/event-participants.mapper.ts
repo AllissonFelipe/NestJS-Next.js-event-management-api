@@ -19,9 +19,7 @@ export class EventParticipantMapper {
     });
   }
 
-  static toOrm(
-    domainEntity: EventParticipantsDomainEntity,
-  ): EventParticipantsOrmEntity {
+  static toOrm(domainEntity: EventParticipantsDomainEntity): EventParticipantsOrmEntity {
     const orm = new EventParticipantsOrmEntity();
 
     orm.id = domainEntity.id;

@@ -10,9 +10,7 @@ import { PersonRoleDomainEntity } from 'src/modules/person-role/domain/person-ro
 import { PersonProfileDomainEntity } from 'src/modules/person-profile/domain/person-profile.domain-entity';
 
 export class AdminSubscriptionPlanResponseMapper {
-  static toResponse(
-    entityDomain: SubscriptionPlansDomainEntity,
-  ): AdminSubscriptionPlanResponseDto {
+  static toResponse(entityDomain: SubscriptionPlansDomainEntity): AdminSubscriptionPlanResponseDto {
     return {
       id: entityDomain.id,
       name: entityDomain.name,
@@ -26,9 +24,7 @@ export class AdminSubscriptionPlanResponseMapper {
     };
   }
 
-  static createdByResponse(
-    entityDomain: PersonDomainEntity,
-  ): AdminPersonResponseDto {
+  static createdByResponse(entityDomain: PersonDomainEntity): AdminPersonResponseDto {
     return {
       id: entityDomain.id,
       fullName: entityDomain.fullName,
@@ -38,9 +34,7 @@ export class AdminSubscriptionPlanResponseMapper {
     };
   }
 
-  static personRoleResponse(
-    entityDomain: PersonRoleDomainEntity,
-  ): AdminPersonRoleResponseDto {
+  static personRoleResponse(entityDomain: PersonRoleDomainEntity): AdminPersonRoleResponseDto {
     return {
       id: entityDomain.id,
       role: entityDomain.role,

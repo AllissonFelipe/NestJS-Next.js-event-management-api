@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { randomUUID } from "crypto";
-import { PersonRoleEnum } from "./person-role.enum";
-
+import { randomUUID } from 'crypto';
+import { PersonRoleEnum } from './person-role.enum';
 
 export class PersonRoleDomainEntity {
   private _id: string;
@@ -41,11 +40,11 @@ export class PersonRoleDomainEntity {
 
   // ----------------- BEHAVIOR -----------------
 
-//   updateRole(role: PersonRoleEnum) {
-//     if (!role) throw new Error('Role is required');
-//     this._role = role;
-//     this.touch();
-//   }
+  //   updateRole(role: PersonRoleEnum) {
+  //     if (!role) throw new Error('Role is required');
+  //     this._role = role;
+  //     this.touch();
+  //   }
 
   private touch() {
     this._updatedAt = new Date();
@@ -56,10 +55,7 @@ export class PersonRoleDomainEntity {
   /**
    * Cria um novo Role (ex: seed inicial do sistema)
    */
-  static create(params: {
-    id?: string;
-    role: PersonRoleEnum;
-  }): PersonRoleDomainEntity {
+  static create(params: { id?: string; role: PersonRoleEnum }): PersonRoleDomainEntity {
     if (!params.role) {
       throw new Error('Person role is required');
     }

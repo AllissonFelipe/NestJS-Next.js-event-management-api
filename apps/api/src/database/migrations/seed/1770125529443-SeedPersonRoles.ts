@@ -4,8 +4,8 @@ import { randomUUID } from 'crypto';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class SeedPersonRoles1770125529443 implements MigrationInterface {
-    name = 'SeedPersonRoles1770125529443';
-    public async up(queryRunner: QueryRunner): Promise<void> {
+  name = 'SeedPersonRoles1770125529443';
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `
       INSERT INTO person_role (id, role, created_at, updated_at)
@@ -18,7 +18,5 @@ export class SeedPersonRoles1770125529443 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
-
-  }
+  public async down(queryRunner: QueryRunner): Promise<void> {}
 }
