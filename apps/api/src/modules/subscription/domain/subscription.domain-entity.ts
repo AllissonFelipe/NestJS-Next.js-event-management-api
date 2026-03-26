@@ -7,8 +7,8 @@ export class SubscriptionDomainEntity {
   private _id: string;
   private _person: PersonDomainEntity;
   private _subscriptionPlanId: string;
-  private _startAt: Date;
-  private _endAt: Date;
+  private _startAt?: Date;
+  private _endAt?: Date;
   private _status: SubscriptionStatusEnum;
   private _createdAt: Date;
   private _updatedAt: Date;
@@ -17,8 +17,8 @@ export class SubscriptionDomainEntity {
     id: string;
     person: PersonDomainEntity;
     subscriptionPlanId: string;
-    startAt: Date;
-    endAt: Date;
+    startAt?: Date;
+    endAt?: Date;
     status: SubscriptionStatusEnum;
     createdAt?: Date;
     updatedAt?: Date;
@@ -45,11 +45,17 @@ export class SubscriptionDomainEntity {
     return this._subscriptionPlanId;
   }
 
-  get startAt(): Date {
+  get startAt(): Date | undefined {
+    // if (!this._startAt) {
+    //   throw new Error('Subscription ainda não foi ativada');
+    // }
     return this._startAt;
   }
 
-  get endAt(): Date {
+  get endAt(): Date | undefined {
+    // if (!this._endAt) {
+    //   throw new Error('Subscription ainda não foi ativada');
+    // }
     return this._endAt;
   }
 
@@ -65,26 +71,38 @@ export class SubscriptionDomainEntity {
     return this._updatedAt;
   }
 
+  activate(durationInDays: number) {
+    if (this._status === SubscriptionStatusEnum.ACTIVE) {
+      throw new Error(`Usuário já é VIP.`);
+    }
+
+    const startAt = new Date();
+
+    this._startAt = startAt;
+    this._endAt = new Date(startAt.getTime() + durationInDays * 86400000);
+    this._status = SubscriptionStatusEnum.ACTIVE;
+    this._updatedAt = new Date();
+  }
+
+  isActive(): boolean {
+    return this._status === SubscriptionStatusEnum.ACTIVE;
+  }
+
   static create(props: {
     id?: string;
     person: PersonDomainEntity;
     subscriptionPlanId: SubscriptionPlansDomainEntity;
-    startAt: Date;
     status?: SubscriptionStatusEnum;
+    createdAt?: Date;
+    updatedAt?: Date;
   }) {
-    const startAt = props.startAt;
-    const endAt = new Date(startAt);
-    endAt.setDate(endAt.getDate() + props.subscriptionPlanId.durationInDays);
-
     return new SubscriptionDomainEntity({
       id: props.id ?? randomUUID(),
       person: props.person,
       subscriptionPlanId: props.subscriptionPlanId.id,
-      startAt,
-      endAt,
       status: props.status ?? SubscriptionStatusEnum.PENDING,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: props.createdAt ?? new Date(),
+      updatedAt: props.updatedAt ?? new Date()
     });
   }
 
@@ -92,8 +110,8 @@ export class SubscriptionDomainEntity {
     id: string;
     person: PersonDomainEntity;
     subscriptionPlanId: string;
-    startAt: Date;
-    endAt: Date;
+    startAt?: Date;
+    endAt?: Date;
     status: SubscriptionStatusEnum;
     createdAt: Date;
     updatedAt: Date;

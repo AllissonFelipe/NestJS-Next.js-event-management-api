@@ -1,4 +1,4 @@
-import { SubscriptionOrmEntity } from 'src/modules/subscription/infra/subscription.orm-entity';
+import { SubscriptionOrmEntity } from '../../subscription/infra/subscription.orm-entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { ProvidersEnum } from '../domain/providers.enum';
 import { PaymentsStatusEnum } from '../domain/payments-status.enum';
-import { PaymentMethodEnum } from '../domain/payment-method.enum';
+import { PaymentMethodEnum } from '../domain/payments-method.enum';
 
 @Entity('payments')
 export class PaymentsOrmEntity {
@@ -28,20 +28,21 @@ export class PaymentsOrmEntity {
   provider: ProvidersEnum;
 
   @Column({ name: 'external_session_id', nullable: true })
-  external_session_id: string;
+  external_session_id?: string;
 
   @Column({ name: 'external_payment_id', nullable: true })
-  external_payment_id: string;
+  external_payment_id?: string;
 
   @Column({ name: 'payment_url', nullable: true })
-  payment_url: string;
+  payment_url?: string;
 
   @Column({
     type: 'enum',
     enum: PaymentMethodEnum,
-    name: 'payment_method'
+    name: 'payment_method',
+    nullable: true
   })
-  payment_method: PaymentMethodEnum;
+  payment_method?: PaymentMethodEnum;
 
   @Column({ name: 'amount', type: 'decimal', precision: 10, scale: 2 })
   amount: number;
@@ -57,7 +58,7 @@ export class PaymentsOrmEntity {
   status: PaymentsStatusEnum;
 
   @Column({ name: 'paid_at', nullable: true })
-  paid_at: Date;
+  paid_at?: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;

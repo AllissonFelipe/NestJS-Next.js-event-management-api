@@ -28,11 +28,11 @@ export class SubscriptionOrmEntity {
   @JoinColumn({ name: 'subscription_plan_id' })
   subscription_plan: SubscriptionPlansOrmEntity;
 
-  @Column()
-  start_at: Date;
+  @Column({ nullable: true })
+  start_at?: Date;
 
-  @Column()
-  end_at: Date;
+  @Column({ nullable: true })
+  end_at?: Date;
 
   @Column({
     type: 'enum',

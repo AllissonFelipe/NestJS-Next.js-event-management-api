@@ -1,4 +1,5 @@
-import { Controller, Get, Inject, Param, Post, Request } from '@nestjs/common';
+
+import { Controller, Get, Inject, Param, Post, Request, Res,  } from '@nestjs/common';
 import { Public } from '../auth/decorators/public.decorator';
 import { type AuthRequest } from '../auth/types/auth-request';
 import { FindSubscriptionPlansUseCase } from './application/usecase/find-subscription-plans.usecase';
@@ -14,7 +15,7 @@ export class SubscriptionController {
     @Inject()
     private readonly findSubscriptionPlansUseCase: FindSubscriptionPlansUseCase,
     @Inject()
-    private readonly createSubscriptionUseCase: CreateSubscriptionUseCase
+    private readonly createSubscriptionUseCase: CreateSubscriptionUseCase,
   ) {}
 
   // --------------------- ROTAS PÚBLICA ------------------
@@ -35,8 +36,7 @@ export class SubscriptionController {
   // SE INSCREVER EM ALGUM PLANO
   // ---------------------- ROTAS PRIVADAS ---------------------
   @Post('plans/:planId/subscribe')
-  async subscribe(@Request() req: AuthRequest, @Param('planId') planId: string): Promise<SubscriptionPlanResponseDto> {
-    await this.createSubscriptionUseCase.execute(req.user.sub, planId);
-    throw new Error(`Parando retorno`);
+  async subscribe(@Request() req: AuthRequest, @Param('planId') planId: string): Promise<any> {
+    return await this.createSubscriptionUseCase.execute(req.user.sub, planId);
   }
 }

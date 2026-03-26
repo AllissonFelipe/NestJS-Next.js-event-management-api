@@ -1,6 +1,7 @@
 import { PersonMapper } from 'src/modules/person/infra/person.mapper';
 import { SubscriptionDomainEntity } from '../domain/subscription.domain-entity';
 import { SubscriptionOrmEntity } from './subscription.orm-entity';
+import { SubscriptionPlansOrmEntity } from 'src/modules/subscription-plans/infra/subscription-plans.orm-entity';
 
 export class SubscriptionMapper {
   static toOrm(domain: SubscriptionDomainEntity): SubscriptionOrmEntity {
@@ -8,7 +9,11 @@ export class SubscriptionMapper {
 
     orm.id = domain.id;
     orm.person = PersonMapper.toOrm(domain.person);
-    orm.subscription_plan.id = domain.subscriptionPlanId;
+
+    const plan = new SubscriptionPlansOrmEntity();
+    plan.id = domain.subscriptionPlanId;
+    orm.subscription_plan = plan;
+
     orm.start_at = domain.startAt;
     orm.end_at = domain.endAt;
     orm.status = domain.status;
