@@ -31,23 +31,23 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
       useFactory: (configService: TypedConfigService) => {
         const dbConfig = configService.get<TypeOrmModuleOptions>('database');
         return {
-          ...dbConfig,
+          ...dbConfig
         };
-      },
+      }
     }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeOrmConfig, authConfig],
       validationSchema: appConfigSchema,
       validationOptions: {
-        abortEarly: true,
-      },
+        abortEarly: true
+      }
     }),
     ThrottlerModule.forRoot([
       {
         ttl: 60,
-        limit: 5,
-      },
+        limit: 5
+      }
     ]),
     AuthModule,
     PersonModule,
@@ -58,7 +58,7 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
     AdminModule,
     EventParticipantsModule,
     SubscriptionModule,
-    EventEmitterModule.forRoot(),
+    EventEmitterModule.forRoot()
   ],
   controllers: [AppController],
   providers: [
@@ -66,20 +66,20 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
     AppService,
     {
       provide: TypedConfigService,
-      useExisting: ConfigService,
+      useExisting: ConfigService
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: ThrottlerGuard
     },
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useClass: AuthGuard
     },
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+      useClass: RolesGuard
+    }
+  ]
 })
 export class AppModule {}

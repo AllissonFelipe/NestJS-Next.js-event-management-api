@@ -5,12 +5,7 @@ import { UserNotFoundError } from 'src/modules/user/domain/errors/user-not-found
 import { UserPersonIdNotFoundError } from 'src/modules/user/domain/errors/user-person-id-not-found.error';
 import { UserRoleRequiredError } from 'src/modules/user/domain/errors/user-role-required.error';
 
-@Catch(
-  UserNotFoundError,
-  UserRoleRequiredError,
-  UserPersonIdNotFoundError,
-  UserEventLimitReachedError,
-)
+@Catch(UserNotFoundError, UserRoleRequiredError, UserPersonIdNotFoundError, UserEventLimitReachedError)
 export class UserExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -26,34 +21,34 @@ export class UserExceptionFilter implements ExceptionFilter {
     if (exception instanceof UserNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de usuário que não possui a Role de USER
     if (exception instanceof UserRoleRequiredError) {
       return response.status(HttpStatus.FORBIDDEN).json({
         statusCode: 403,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de person id de user não encontrado
     if (exception instanceof UserPersonIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de limite de eventos criados
     if (exception instanceof UserEventLimitReachedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

@@ -9,9 +9,9 @@ import { AccountActivationTokenRepositoryTypeOrm } from './infra/account-activat
   providers: [
     {
       provide: ACCOUNT_ACTIVATION_TOKEN,
-      useClass: AccountActivationTokenRepositoryTypeOrm,
-    },
+      useClass: AccountActivationTokenRepositoryTypeOrm
+    }
   ],
-  exports: [ACCOUNT_ACTIVATION_TOKEN],
+  exports: [ACCOUNT_ACTIVATION_TOKEN]
 })
 export class AccountActivationTokenModule {}

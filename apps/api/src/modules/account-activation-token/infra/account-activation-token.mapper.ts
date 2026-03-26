@@ -10,7 +10,7 @@ export class AccountActivationTokenMapper {
       personId: orm.person_id.id,
       token: orm.token,
       expiresAt: orm.expires_at,
-      usedAt: orm.used_at ?? null,
+      usedAt: orm.used_at ?? null
     });
   }
 

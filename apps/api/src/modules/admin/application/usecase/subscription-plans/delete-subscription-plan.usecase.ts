@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import {
   SUBSCRIPTION_PLANS_REPOSITORY,
-  type SubscriptionPlansRepositoryInterface,
+  type SubscriptionPlansRepositoryInterface
 } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
 import { AdminSubscriptionPlanNotFoundError } from 'src/modules/admin/domain/errors/admin-subscription-plan-not-found.error';
 
@@ -12,7 +12,7 @@ export class AdminDeleteSubscriptionPlanUseCase {
     @Inject(SUBSCRIPTION_PLANS_REPOSITORY)
     private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface,
     @Inject()
-    private readonly isAdminValidator: IsAdminValidator,
+    private readonly isAdminValidator: IsAdminValidator
   ) {}
 
   async execute(adminPersonId: string, subscriptionPlanId: string): Promise<void> {

@@ -25,19 +25,19 @@ async function bootstrap() {
       transform: true,
       validationError: {
         target: false,
-        value: false,
+        value: false
       },
       exceptionFactory: (errors) => {
         console.log(errors);
         const messages = errors.map((err) => Object.values(err.constraints ?? {})).flat();
         return new BadRequestException(messages);
-      },
-    }),
+      }
+    })
   );
   app.enableCors({
     origin: 'http://localhost:5555', // Porta do Next.js
     methods: 'GET,POST,PUT,DELETE',
-    credentials: true,
+    credentials: true
   });
   app.useGlobalFilters(
     new PersonExceptionFilter(),
@@ -48,7 +48,7 @@ async function bootstrap() {
     new UserExceptionFilter(),
     new EmailChageTokenExceptionFilter(),
     new AdminExceptionFilter(),
-    new EventReportExceptionFilter(),
+    new EventReportExceptionFilter()
   );
 
   await app.listen(3000);

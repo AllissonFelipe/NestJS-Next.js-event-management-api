@@ -10,38 +10,32 @@ import { AdminPaginationInterface } from 'src/modules/admin/domain/pagination.in
 export const EVENT_REPORT_REPOSITORY = Symbol('EVENT_REPORT_REPOSITORY');
 
 export interface EventReportRepositoryInterface {
-  persist(
-    eventReportDomain: EventReportDomainEntity,
-    manager?: EntityManager,
-  ): Promise<EventReportDomainEntity>;
-  findOneReport(
-    eventReportId: string,
-    manager?: EntityManager,
-  ): Promise<EventReportDomainEntity | null>;
+  persist(eventReportDomain: EventReportDomainEntity, manager?: EntityManager): Promise<EventReportDomainEntity>;
+  findOneReport(eventReportId: string, manager?: EntityManager): Promise<EventReportDomainEntity | null>;
   findByPersonIdAndEventId(
     personId: string,
     eventId: string,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventReportDomainEntity | null>;
   findAllMyEventsReports(
     userPersonId: string,
     queryDto: MyEventReportsQueryDto,
     pagination: PaginationInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<PaginatedResult<EventReportDomainEntity>>;
   findAllOfEvent(
     eventId: string,
     query: FindEventReportQueryDto,
     pagination: AdminPaginationInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>>;
   findAll(
     query: FindEventReportQueryDto,
-    pagination: AdminPaginationInterface,
+    pagination: AdminPaginationInterface
   ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>>;
   findOneReportOfEvent(
     eventId: string,
     eventReportId: string,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventReportDomainEntity | null>;
 }

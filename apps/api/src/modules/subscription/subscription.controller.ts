@@ -14,7 +14,7 @@ export class SubscriptionController {
     @Inject()
     private readonly findSubscriptionPlansUseCase: FindSubscriptionPlansUseCase,
     @Inject()
-    private readonly createSubscriptionUseCase: CreateSubscriptionUseCase,
+    private readonly createSubscriptionUseCase: CreateSubscriptionUseCase
   ) {}
 
   // --------------------- ROTAS PÚBLICA ------------------
@@ -27,9 +27,7 @@ export class SubscriptionController {
   }
   @Public()
   @Get('plans/:planId')
-  async findSubscriptionPlan(
-    @Param('planId') planId: string,
-  ): Promise<SubscriptionPlanResponseDto> {
+  async findSubscriptionPlan(@Param('planId') planId: string): Promise<SubscriptionPlanResponseDto> {
     return await this.findSubscriptionPlansUseCase.executeFindOne(planId);
   }
 
@@ -37,10 +35,7 @@ export class SubscriptionController {
   // SE INSCREVER EM ALGUM PLANO
   // ---------------------- ROTAS PRIVADAS ---------------------
   @Post('plans/:planId/subscribe')
-  async subscribe(
-    @Request() req: AuthRequest,
-    @Param('planId') planId: string,
-  ): Promise<SubscriptionPlanResponseDto> {
+  async subscribe(@Request() req: AuthRequest, @Param('planId') planId: string): Promise<SubscriptionPlanResponseDto> {
     await this.createSubscriptionUseCase.execute(req.user.sub, planId);
     throw new Error(`Parando retorno`);
   }

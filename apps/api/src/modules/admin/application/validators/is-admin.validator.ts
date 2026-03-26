@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { AdminNotFoundError } from '../../domain/errors/admin-not-found.error';
 import { PersonRoleEnum } from 'src/modules/person-role/domain/person-role.enum';
@@ -13,7 +13,7 @@ import { AdminRoleRequiredError } from '../../domain/errors/admin-role-required.
 export class IsAdminValidator {
   constructor(
     @Inject(PERSON_REPOSITORY)
-    private readonly personRepository: PersonRepositoryInterface,
+    private readonly personRepository: PersonRepositoryInterface
   ) {}
 
   async validate(adminPersonId: string): Promise<PersonDomainEntity> {

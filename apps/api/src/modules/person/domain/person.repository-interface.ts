@@ -11,14 +11,11 @@ export interface PersonRepositoryInterface {
   updatePerson(person: PersonDomainEntity, manager?: EntityManager): Promise<PersonDomainEntity>;
   findAllPersons(manager?: EntityManager): Promise<PersonDomainEntity[]>;
   findPersonById(personId: string, manager?: EntityManager): Promise<PersonDomainEntity | null>;
-  findPersonByEmail(
-    personEmail: string,
-    manager?: EntityManager,
-  ): Promise<PersonDomainEntity | null>;
+  findPersonByEmail(personEmail: string, manager?: EntityManager): Promise<PersonDomainEntity | null>;
   findPersonByCPF(personCPF: string, manager?: EntityManager): Promise<PersonDomainEntity | null>;
   deletePerson(personId: string, manager?: EntityManager): Promise<boolean>;
   findWithFilters(
     filter: PersonRepositoryFiltersInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<PaginationResultInterface<PersonDomainEntity>>;
 }

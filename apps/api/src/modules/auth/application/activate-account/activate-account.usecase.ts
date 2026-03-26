@@ -5,21 +5,18 @@ import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-wor
 import { AccountActivationTokenDomainEntity } from 'src/modules/account-activation-token/domain/account-activation-token.domain-entity';
 import {
   ACCOUNT_ACTIVATION_TOKEN,
-  type AccountActivationTokenRepositoryInterface,
+  type AccountActivationTokenRepositoryInterface
 } from 'src/modules/account-activation-token/domain/account-activation-token.repository-interface';
 import { ActivationTokenAlreadyUsedError } from 'src/modules/account-activation-token/domain/errors/activation-token-already-used.error';
 import { ActivationTokenExpiredError } from 'src/modules/account-activation-token/domain/errors/activation-token-expired.error';
 import { ActivationTokenNotFoundError } from 'src/modules/account-activation-token/domain/errors/activation-token-not-found.error';
 import { ActivationTokenRequiredError } from 'src/modules/account-activation-token/domain/errors/activation-token-required.error';
-import {
-  MAIL_SERVICE,
-  type MailServiceInterface,
-} from 'src/modules/mail/domain/mail-service.interface';
+import { MAIL_SERVICE, type MailServiceInterface } from 'src/modules/mail/domain/mail-service.interface';
 import { AccountAlreadyActivatedError } from 'src/modules/person/domain/errors/account-already-activated.error';
 import { PersonNotFoundError } from 'src/modules/person/domain/errors/person-not-found.error';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 
 @Injectable()
@@ -32,7 +29,7 @@ export class ActivateAccountUseCase {
     @Inject(PERSON_REPOSITORY)
     private readonly personRepository: PersonRepositoryInterface,
     @Inject(MAIL_SERVICE)
-    private readonly mailService: MailServiceInterface,
+    private readonly mailService: MailServiceInterface
   ) {}
 
   async executeActivateAccount(rawToken: string): Promise<void> {
@@ -84,7 +81,7 @@ export class ActivateAccountUseCase {
     const token = AccountActivationTokenDomainEntity.create({
       personId: person.id,
       token: hashToken,
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24h
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24) // 24h
     });
     await this.accountActivationTokenRepository.save(token);
 

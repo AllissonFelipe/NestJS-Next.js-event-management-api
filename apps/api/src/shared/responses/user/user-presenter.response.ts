@@ -13,7 +13,7 @@ export class UserPresenter {
       userRole: UserRolePresenter.toResponse(person.personRole),
       userProfile: UserProfilePresenter.toResponse(person.personProfile),
       createdAt: person.createdAt,
-      updatedAt: person.updatedAt,
+      updatedAt: person.updatedAt
     };
   }
 }
@@ -21,7 +21,7 @@ export class UserPresenter {
 export class UserRolePresenter {
   static toResponse(personRole: PersonRoleDomainEntity): UserRoleResponseDto {
     return {
-      role: personRole.role,
+      role: personRole.role
     };
   }
 }
@@ -34,7 +34,7 @@ export class UserProfilePresenter {
       phone: personProfile.phone,
       birthDate: personProfile.birthDate,
       createdAt: personProfile.createdAt,
-      updatedAt: personProfile.updatedAt,
+      updatedAt: personProfile.updatedAt
     };
   }
 }

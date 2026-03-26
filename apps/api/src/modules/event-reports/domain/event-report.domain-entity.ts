@@ -55,7 +55,7 @@ export class EventReportDomainEntity {
     const validTransitions: Record<EventReportStatusEnum, EventReportStatusEnum[]> = {
       OPEN: [EventReportStatusEnum.REVIEWED],
       REVIEWED: [EventReportStatusEnum.RESOLVED],
-      RESOLVED: [],
+      RESOLVED: []
     };
 
     const canChange = validTransitions[this._status].includes(status);
@@ -79,7 +79,7 @@ export class EventReportDomainEntity {
       id: props.id ?? randomUUID(),
       ...props,
       status: props.status ?? EventReportStatusEnum.OPEN,
-      createdAt: props.createdAt ?? new Date(),
+      createdAt: props.createdAt ?? new Date()
     });
   }
   static restore(props: {
@@ -96,7 +96,7 @@ export class EventReportDomainEntity {
       reporter: props.reporter,
       reason: props.reason,
       status: props.status,
-      createdAt: props.createdAt,
+      createdAt: props.createdAt
     });
   }
 }

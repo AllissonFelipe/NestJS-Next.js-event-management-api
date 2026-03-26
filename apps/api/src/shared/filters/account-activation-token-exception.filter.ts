@@ -11,7 +11,7 @@ import { ActivationTokenRequiredError } from 'src/modules/account-activation-tok
   ActivationTokenRequiredError,
   ActivationTokenNotFoundError,
   ActivationTokenAlreadyUsedError,
-  ActivationTokenExpiredError,
+  ActivationTokenExpiredError
 )
 export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -28,7 +28,7 @@ export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof ActivationTokenAlreadyUsedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -36,7 +36,7 @@ export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof ActivationTokenExpiredError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -44,7 +44,7 @@ export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof ActivationTokenNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -52,14 +52,14 @@ export class AccountActivationTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof ActivationTokenRequiredError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
     // outros erros podem ser tratados aqui
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

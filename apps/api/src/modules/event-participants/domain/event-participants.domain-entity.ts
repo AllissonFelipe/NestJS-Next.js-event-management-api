@@ -72,7 +72,7 @@ export class EventParticipantsDomainEntity {
       event: props.event,
       person: props.person,
       status: props.status,
-      createdAt: props.createdAt ?? now,
+      createdAt: props.createdAt ?? now
     });
   }
 
@@ -92,7 +92,7 @@ export class EventParticipantsDomainEntity {
       event: props.event,
       person: props.person,
       status: props.status,
-      createdAt: props.createdAt,
+      createdAt: props.createdAt
     });
   }
 }

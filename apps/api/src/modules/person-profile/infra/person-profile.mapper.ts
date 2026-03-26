@@ -15,7 +15,7 @@ export class PersonProfileMapper {
       phone: orm.phone,
       birthDate: orm.birth_date,
       createdAt: orm.created_at,
-      updatedAt: orm.updated_at,
+      updatedAt: orm.updated_at
     });
   }
 

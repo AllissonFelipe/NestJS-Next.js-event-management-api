@@ -11,9 +11,9 @@ import { PersonRoleOrmEntity } from './infra/person-role.orm-entity';
   providers: [
     {
       provide: PERSON_ROLE_REPOSITORY,
-      useClass: PersonRoleRepositoryTypeOrm,
-    },
+      useClass: PersonRoleRepositoryTypeOrm
+    }
   ],
-  exports: [PERSON_ROLE_REPOSITORY],
+  exports: [PERSON_ROLE_REPOSITORY]
 })
 export class PersonRoleModule {}

@@ -7,5 +7,5 @@ export enum EventsStatusEnum {
 
   UPCOMING = 'UPCOMING',
   IN_PROGRESS = 'IN_PROGRESS',
-  CONCLUDED = 'CONCLUDED',
+  CONCLUDED = 'CONCLUDED'
 }

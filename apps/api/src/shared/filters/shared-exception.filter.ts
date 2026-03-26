@@ -24,7 +24,7 @@ import { EventReportNotFoundError } from '../errors/event-report-not-found.error
   EventParticipantNotFoundError,
   EventAddressNotFoundError,
   EventAlreadyReportedByUser,
-  EventReportNotFoundError,
+  EventReportNotFoundError
 )
 export class SharedExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -41,83 +41,83 @@ export class SharedExceptionFilter implements ExceptionFilter {
     if (exception instanceof PersonIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de person não encontrado
     if (exception instanceof PersonNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de person.role não permitido
     if (exception instanceof PersonRoleNotAllowedError) {
       return response.status(HttpStatus.FORBIDDEN).json({
         statusCode: 403,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de eventId não encontrado
     if (exception instanceof EventIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de evento não encontrado
     if (exception instanceof EventNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de event participant não encontrado
     if (exception instanceof EventParticipantNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de nenhum campo para atualização preenchido
     if (exception instanceof EmptyUpdatePayloadError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro de endereço do evento não encontrado
     if (exception instanceof EventAddressNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE USUÁRIO NÃO ENCONTRADO
     if (exception instanceof UserNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de evento ja reportado pelo usuário
     if (exception instanceof EventAlreadyReportedByUser) {
       return response.status(HttpStatus.CONFLICT).json({
         statuscode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de reporte de evento não encontrado
     if (exception instanceof EventReportNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statuscode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
 
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

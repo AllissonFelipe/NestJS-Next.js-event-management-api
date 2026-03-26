@@ -5,13 +5,7 @@ import { AccountActivationTokenDomainEntity } from './account-activation-token.d
 export const ACCOUNT_ACTIVATION_TOKEN = Symbol('ACCOUNT_ACTIVATION_TOKEN');
 
 export interface AccountActivationTokenRepositoryInterface {
-  save(
-    token: AccountActivationTokenDomainEntity,
-    manager?: EntityManager,
-  ): Promise<AccountActivationTokenDomainEntity>;
-  findByToken(
-    token: string,
-    manager?: EntityManager,
-  ): Promise<AccountActivationTokenDomainEntity | null>;
+  save(token: AccountActivationTokenDomainEntity, manager?: EntityManager): Promise<AccountActivationTokenDomainEntity>;
+  findByToken(token: string, manager?: EntityManager): Promise<AccountActivationTokenDomainEntity | null>;
   deleteAllForPerson(personId: string, manager?: EntityManager): Promise<void>;
 }

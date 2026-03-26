@@ -116,7 +116,7 @@ export class PersonProfileDomainEntity {
       phone: params.phone,
       birthDate: params.birthDate,
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     });
   }
 
@@ -139,7 +139,7 @@ export class PersonProfileDomainEntity {
       phone: params.phone,
       birthDate: params.birthDate,
       createdAt: params.createdAt,
-      updatedAt: params.updatedAt,
+      updatedAt: params.updatedAt
     });
   }
 }

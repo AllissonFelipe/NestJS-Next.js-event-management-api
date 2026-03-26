@@ -8,13 +8,9 @@ import { CreateSubscriptionUseCase } from './application/usecase/create-subscrip
 import { PersonModule } from '../person/person.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SubscriptionOrmEntity]),
-    PersonModule,
-    SubscriptionPlansModule,
-  ],
+  imports: [TypeOrmModule.forFeature([SubscriptionOrmEntity]), PersonModule, SubscriptionPlansModule],
   controllers: [SubscriptionController],
   providers: [FindSubscriptionPlansUseCase, CreateSubscriptionUseCase],
-  exports: [],
+  exports: []
 })
 export class SubscriptionModule {}

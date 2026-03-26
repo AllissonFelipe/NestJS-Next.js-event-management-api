@@ -10,17 +10,14 @@ import { EmailChangeTokenMapper } from './email-change-token.mapper';
 export class EmailChangeTokenRepositoryTypeOrm implements EmailChangeTokenRepositoryInterface {
   constructor(
     @InjectRepository(EmailChangeTokenOrmEntity)
-    private readonly emailChangeTokenRepository: Repository<EmailChangeTokenOrmEntity>,
+    private readonly emailChangeTokenRepository: Repository<EmailChangeTokenOrmEntity>
   ) {}
 
-  async findByHashToken(
-    hashToken: string,
-    manager?: EntityManager,
-  ): Promise<EmailChangeTokenDomainEntity | null> {
+  async findByHashToken(hashToken: string, manager?: EntityManager): Promise<EmailChangeTokenDomainEntity | null> {
     const repository = this.getRepository(manager);
     const tokenOrm = await repository.findOne({
       where: { token: hashToken },
-      relations: ['person_id'],
+      relations: ['person_id']
     });
     if (!tokenOrm) return null;
     return EmailChangeTokenMapper.toDomain(tokenOrm);
@@ -31,24 +28,19 @@ export class EmailChangeTokenRepositoryTypeOrm implements EmailChangeTokenReposi
     await repository.update(
       {
         person_id: { id: personId },
-        used_at: IsNull(),
+        used_at: IsNull()
       },
       {
-        used_at: new Date(),
-      },
+        used_at: new Date()
+      }
     );
   }
 
   private getRepository(manager?: EntityManager): Repository<EmailChangeTokenOrmEntity> {
-    return manager
-      ? manager.getRepository(EmailChangeTokenOrmEntity)
-      : this.emailChangeTokenRepository;
+    return manager ? manager.getRepository(EmailChangeTokenOrmEntity) : this.emailChangeTokenRepository;
   }
 
-  async save(
-    token: EmailChangeTokenDomainEntity,
-    manager?: EntityManager,
-  ): Promise<EmailChangeTokenDomainEntity> {
+  async save(token: EmailChangeTokenDomainEntity, manager?: EntityManager): Promise<EmailChangeTokenDomainEntity> {
     const repository = this.getRepository(manager);
     const tokenOrm = EmailChangeTokenMapper.toOrm(token);
     await repository.save(tokenOrm);

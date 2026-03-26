@@ -10,7 +10,7 @@ export class PersonRoleMapper {
       id: ormEntity.id,
       role: ormEntity.role,
       createdAt: ormEntity.created_at,
-      updatedAt: ormEntity.updated_at,
+      updatedAt: ormEntity.updated_at
     });
   }
 

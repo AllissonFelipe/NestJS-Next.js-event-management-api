@@ -10,9 +10,9 @@ import { EVENT_REPORT_REPOSITORY } from './domain/event-report.repository-interf
   providers: [
     {
       provide: EVENT_REPORT_REPOSITORY,
-      useClass: EventReportRepositoryTypeOrm,
-    },
+      useClass: EventReportRepositoryTypeOrm
+    }
   ],
-  exports: [EVENT_REPORT_REPOSITORY],
+  exports: [EVENT_REPORT_REPOSITORY]
 })
 export class EventReportModule {}

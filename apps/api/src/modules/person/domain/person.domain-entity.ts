@@ -172,7 +172,7 @@ export class PersonDomainEntity {
       personProfile: params.personProfile,
       isActive: params.isActive,
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     });
   }
   /**
@@ -200,7 +200,7 @@ export class PersonDomainEntity {
       personProfile: params.personProfile,
       isActive: params.isActive,
       createdAt: params.createdAt,
-      updatedAt: params.updatedAt,
+      updatedAt: params.updatedAt
     });
   }
 }

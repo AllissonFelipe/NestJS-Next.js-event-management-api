@@ -12,7 +12,7 @@ import { PaginatedResult } from '../domain/paginated-result.interface';
 export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
   constructor(
     @InjectRepository(EventsOrmEntity)
-    private readonly eventsRepository: Repository<EventsOrmEntity>,
+    private readonly eventsRepository: Repository<EventsOrmEntity>
   ) {}
 
   private getRepository(manager?: EntityManager): Repository<EventsOrmEntity> {
@@ -28,15 +28,11 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     return false;
   }
 
-  async deleteByPersonIdAndEventId(
-    personId: string,
-    eventId: string,
-    manager?: EntityManager,
-  ): Promise<boolean> {
+  async deleteByPersonIdAndEventId(personId: string, eventId: string, manager?: EntityManager): Promise<boolean> {
     const repository = this.getRepository(manager);
     const result = await repository.delete({
       created_by: { id: personId },
-      id: eventId,
+      id: eventId
     });
     if (result.affected && result.affected > 0) {
       return true;
@@ -44,10 +40,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     return false;
   }
 
-  async findByEventId(
-    eventId: string,
-    manager?: EntityManager,
-  ): Promise<EventsDomainEntity | null> {
+  async findByEventId(eventId: string, manager?: EntityManager): Promise<EventsDomainEntity | null> {
     const repository = this.getRepository(manager);
     const eventOrm = await repository
       .createQueryBuilder('event')
@@ -77,8 +70,8 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
         'created_by.person_profile',
         'event_address',
         'participants',
-        'participants.person',
-      ],
+        'participants.person'
+      ]
     });
     if (!reload) {
       throw new Error(`Evento salvo não encontrado.`);
@@ -86,10 +79,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     return EventsMapper.toDomain(reload);
   }
 
-  async createEvent(
-    event: EventsDomainEntity,
-    manager?: EntityManager,
-  ): Promise<EventsDomainEntity> {
+  async createEvent(event: EventsDomainEntity, manager?: EntityManager): Promise<EventsDomainEntity> {
     const repository = this.getRepository(manager);
     const eventOrm = EventsMapper.toOrm(event);
     await repository.save(eventOrm);
@@ -99,13 +89,13 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
   async findByOwnerAndId(
     ownerId: string,
     eventId: string,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventsDomainEntity | null> {
     const repository = this.getRepository(manager);
     const eventOrm = await repository.findOne({
       where: {
         id: eventId,
-        created_by: { id: ownerId },
+        created_by: { id: ownerId }
       },
       relations: [
         'created_by',
@@ -115,8 +105,8 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
         'participants',
         'participants.person',
         'participants.person.person_role',
-        'participants.person.person_profile',
-      ],
+        'participants.person.person_profile'
+      ]
     });
     if (!eventOrm) return null;
     return EventsMapper.toDomain(eventOrm);
@@ -125,7 +115,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
   async findAllMyEventsWithFiltersByOwnerId(
     ownerId: string,
     filters: FindEventFilters,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<PaginatedResult<EventsDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('events');
@@ -163,13 +153,13 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     const [result, total] = await qb.getManyAndCount();
     return {
       items: result.map((event) => EventsMapper.toDomain(event)),
-      total,
+      total
     };
   }
 
   async findAllPublicEventsWithFilters(
     filters: FindEventFilters,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<PaginatedResult<EventsDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('events');
@@ -204,19 +194,15 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
     const [result, total] = await qb.getManyAndCount();
     return {
       items: result.map((event) => EventsMapper.toDomain(event)),
-      total,
+      total
     };
   }
 
-  async deleteByOwnerAndId(
-    ownerId: string,
-    eventId: string,
-    manager?: EntityManager,
-  ): Promise<boolean> {
+  async deleteByOwnerAndId(ownerId: string, eventId: string, manager?: EntityManager): Promise<boolean> {
     const repository = this.getRepository(manager);
     const result = await repository.delete({
       created_by: { id: ownerId },
-      id: eventId,
+      id: eventId
     });
     if (result.affected && result.affected > 0) {
       return true;
@@ -227,7 +213,7 @@ export class EventsRepositoryTypeOrm implements EventsRepositoryInterface {
   async countEventsById(personId: string, manager?: EntityManager): Promise<number> {
     const repository = this.getRepository(manager);
     const result = await repository.count({
-      where: { created_by: { id: personId } },
+      where: { created_by: { id: personId } }
     });
     return result;
   }

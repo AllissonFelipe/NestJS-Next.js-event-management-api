@@ -9,7 +9,7 @@ import { CpfAlreadyInUseError } from '../../../person/domain/errors/cpf-already-
 export class EmailAndCpfValidator {
   constructor(
     @Inject(PERSON_REPOSITORY)
-    private readonly personRepo: PersonRepositoryInterface,
+    private readonly personRepo: PersonRepositoryInterface
   ) {}
 
   async ensureEmailIsAvailable(personEmail: string): Promise<void> {

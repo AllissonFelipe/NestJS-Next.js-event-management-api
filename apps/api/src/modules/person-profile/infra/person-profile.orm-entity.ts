@@ -1,13 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { PersonOrmEntity } from '../../person/infra/person.orm-entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('person_profile')
 export class PersonProfileOrmEntity {

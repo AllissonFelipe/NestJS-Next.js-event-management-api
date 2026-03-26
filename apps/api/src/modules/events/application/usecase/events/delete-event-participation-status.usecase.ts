@@ -4,7 +4,7 @@ import { EnsurePersonExists } from '../../validators/ensure-person-exist.validat
 import { EnsureUserEventParticipationExist } from '../../validators/ensure-user-event-participation-exist.validator';
 import {
   EVENT_PARTICIPANTS_REPOSITORY,
-  type EventParticipantsRepositoryInterface,
+  type EventParticipantsRepositoryInterface
 } from 'src/modules/event-participants/domain/event-participants.repository-interface';
 import { PersonIdNotFoundError } from 'src/shared/errors/person-id-not-found.error';
 import { EventIdNotFoundError } from 'src/shared/errors/event-id-not-found.error';
@@ -19,7 +19,7 @@ export class DeleteEventParticipationStatusUseCase {
     @Inject()
     private readonly ensurePersonExist: EnsurePersonExists,
     @Inject()
-    private readonly ensureUserEventParticipationExist: EnsureUserEventParticipationExist,
+    private readonly ensureUserEventParticipationExist: EnsureUserEventParticipationExist
   ) {}
 
   async execute(userPersonId: string, eventId: string): Promise<void> {
@@ -31,10 +31,7 @@ export class DeleteEventParticipationStatusUseCase {
     }
     const personUserRole = await this.ensurePersonExist.ensure(userPersonId);
     const event = await this.ensureEventExist.ensure(eventId);
-    const eventParticipation = await this.ensureUserEventParticipationExist.ensure(
-      personUserRole,
-      event,
-    );
+    const eventParticipation = await this.ensureUserEventParticipationExist.ensure(personUserRole, event);
     await this.eventParticipantRepository.deleteParticipationOfUser(eventParticipation.id);
   }
 }

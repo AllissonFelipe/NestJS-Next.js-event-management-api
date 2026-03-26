@@ -4,11 +4,7 @@ import { ResetPasswordTokenExpiredError } from 'src/modules/password-reset-token
 import { PasswordResetTokenNotFoundError } from 'src/modules/password-reset-token/domain/errors/reset-token-not-found.error';
 import { Response } from 'express';
 
-@Catch(
-  PasswordResetTokenAlreadyUsedError,
-  ResetPasswordTokenExpiredError,
-  PasswordResetTokenNotFoundError,
-)
+@Catch(PasswordResetTokenAlreadyUsedError, ResetPasswordTokenExpiredError, PasswordResetTokenNotFoundError)
 export class PasswordResetTokenExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -24,7 +20,7 @@ export class PasswordResetTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof PasswordResetTokenAlreadyUsedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -32,7 +28,7 @@ export class PasswordResetTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof ResetPasswordTokenExpiredError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -40,7 +36,7 @@ export class PasswordResetTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof PasswordResetTokenNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // outros erros podem ser tratados aqui
@@ -48,7 +44,7 @@ export class PasswordResetTokenExceptionFilter implements ExceptionFilter {
     // e nenhum erro acima ocorrer - lançar internal_server_error / code: 500
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

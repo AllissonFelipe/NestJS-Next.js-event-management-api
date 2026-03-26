@@ -27,7 +27,7 @@ import { EventAddressesModule } from '../events/events-addresses/event-addresses
     PersonProfileModule,
     EmailChangeTokenModule,
     EventsModule,
-    EventAddressesModule,
+    EventAddressesModule
   ],
   controllers: [UserController],
   providers: [
@@ -42,13 +42,13 @@ import { EventAddressesModule } from '../events/events-addresses/event-addresses
     UserDeleteEventUseCase,
     {
       provide: UNIT_OF_WORK,
-      useClass: TypeOrmUnitOfWork,
+      useClass: TypeOrmUnitOfWork
     },
     {
       provide: MAIL_SERVICE,
-      useClass: MailHogEmailService,
-    },
+      useClass: MailHogEmailService
+    }
   ],
-  exports: [],
+  exports: []
 })
 export class UserModule {}

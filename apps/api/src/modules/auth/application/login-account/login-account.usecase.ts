@@ -2,12 +2,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
-import {
-  PASSWORD_HASHER,
-  type PasswordHasherInterface,
-} from '../create-account/password-hasher.interface';
+import { PASSWORD_HASHER, type PasswordHasherInterface } from '../create-account/password-hasher.interface';
 import { InvalidCredentialsError } from 'src/modules/person/domain/errors/invalid-credential.error';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayLoad } from '../../types/jwt-payload';
@@ -22,7 +19,7 @@ export class LoginAccountUseCase {
     @Inject(PASSWORD_HASHER)
     private readonly passwordHasher: PasswordHasherInterface,
     @Inject()
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ) {}
 
   async executeLogin(email: string, password: string): Promise<AuthResponse> {
@@ -35,12 +32,12 @@ export class LoginAccountUseCase {
     }
     const payload: JwtPayLoad = {
       sub: person.id,
-      role: person.personRole.role,
+      role: person.personRole.role
     };
     return {
       accessToken: this.jwtService.sign(payload, {
-        expiresIn: '7d',
-      }),
+        expiresIn: '7d'
+      })
     };
   }
 }

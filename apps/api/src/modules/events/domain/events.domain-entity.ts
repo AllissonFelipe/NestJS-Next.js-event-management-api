@@ -130,12 +130,7 @@ export class EventsDomainEntity {
     this.touch();
   }
 
-  updateEvent(props: {
-    title?: string;
-    description?: string;
-    startAt?: Date | string;
-    endAt?: Date | string;
-  }): void {
+  updateEvent(props: { title?: string; description?: string; startAt?: Date | string; endAt?: Date | string }): void {
     // --- Filtrar strings vazias ---
     if (props.title !== undefined && props.title.trim() !== '') {
       this.updateTitle(props.title.trim());
@@ -236,7 +231,7 @@ export class EventsDomainEntity {
       address: props.address,
       participants: [],
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     });
   }
 
@@ -268,7 +263,7 @@ export class EventsDomainEntity {
       address: props.address,
       participants: props.participants,
       createdAt: props.createdAt,
-      updatedAt: props.updatedAt,
+      updatedAt: props.updatedAt
     });
   }
 }

@@ -1,17 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
-} from '../../../domain/events.repository-interface';
+import { EVENTS_REPOSITORY, type EventsRepositoryInterface } from '../../../domain/events.repository-interface';
 import { EventsStatusEnum } from '../../../domain/events-status.enum';
 import { FindEventFilters } from '../../dto/find-event-filters.dto';
 import {
   EventWithPaginationResponseMapper,
-  EventWithParticipantsResponseMapper,
+  EventWithParticipantsResponseMapper
 } from '../../responses/event/event.response-mapper';
 import {
   EventWithPaginationResponseDto,
-  EventWithParticipantsResponseDto,
+  EventWithParticipantsResponseDto
 } from '../../responses/event/event.response-dto';
 import { EventAddressNotFoundError } from 'src/shared/errors/event-address-not-found-error';
 import { EventNotFoundError } from '../../../domain/errors/event-not-found-error';
@@ -21,7 +18,7 @@ import { InvalidEventDateRangeError } from 'src/modules/events/domain/errors/inv
 export class FindEventsUseCase {
   constructor(
     @Inject(EVENTS_REPOSITORY)
-    private readonly eventsRepository: EventsRepositoryInterface,
+    private readonly eventsRepository: EventsRepositoryInterface
   ) {}
 
   // FIND EVENTS - ROTA PÚBLICA

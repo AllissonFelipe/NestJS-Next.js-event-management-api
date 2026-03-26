@@ -3,16 +3,13 @@ import {
   EventAddressResponseDto,
   EventPaginationDto,
   EventResponseDto,
-  EventResponseWithPaginationDto,
+  EventResponseWithPaginationDto
 } from './event-response.dto';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
 import { EventAddressNotFoundError } from 'src/modules/events/domain/errors/event-address-not-found.error';
 
 export class EventPresenter {
-  static toResponse(
-    event: EventsDomainEntity,
-    eventAddress: EventsAddressDomainEntity,
-  ): EventResponseDto {
+  static toResponse(event: EventsDomainEntity, eventAddress: EventsAddressDomainEntity): EventResponseDto {
     return {
       id: event.id,
       title: event.title,
@@ -26,8 +23,8 @@ export class EventPresenter {
       createdBy: {
         id: event.createdBy.id,
         fullName: event.createdBy.fullName,
-        avatarUrl: event.createdBy.personProfile.avatarUrl,
-      },
+        avatarUrl: event.createdBy.personProfile.avatarUrl
+      }
     };
   }
 }
@@ -37,7 +34,7 @@ export class EventPresenterWithPagination {
     events: EventsDomainEntity[],
     page: number,
     limit: number,
-    total: number,
+    total: number
   ): EventResponseWithPaginationDto {
     const totalPages = Math.max(1, Math.ceil(total / limit));
 
@@ -47,7 +44,7 @@ export class EventPresenterWithPagination {
       total,
       totalPages,
       hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1,
+      hasPreviousPage: page > 1
     };
 
     return {
@@ -57,7 +54,7 @@ export class EventPresenterWithPagination {
         }
         return EventPresenter.toResponse(event, event.address);
       }),
-      meta,
+      meta
     };
   }
 }
@@ -72,7 +69,7 @@ export class EventAddressPresenter {
       neighborhood: eventAddress.neighborhood,
       city: eventAddress.city,
       state: eventAddress.state,
-      zipCode: eventAddress.zipCode,
+      zipCode: eventAddress.zipCode
     };
   }
 }

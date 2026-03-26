@@ -11,9 +11,9 @@ import { PasswordResetTokenRepositoryTypeOrm } from './infra/password-reset-toke
   providers: [
     {
       provide: PASSWORD_RESET_TOKEN,
-      useClass: PasswordResetTokenRepositoryTypeOrm,
-    },
+      useClass: PasswordResetTokenRepositoryTypeOrm
+    }
   ],
-  exports: [PASSWORD_RESET_TOKEN],
+  exports: [PASSWORD_RESET_TOKEN]
 })
 export class PasswordResetTokenModule {}

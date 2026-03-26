@@ -19,7 +19,7 @@ export class EventsAddressMapper {
       state: ormEntity.state,
       zipCode: ormEntity.zip_code,
       createdAt: ormEntity.created_at,
-      updatedAt: ormEntity.updated_at,
+      updatedAt: ormEntity.updated_at
     });
   }
 

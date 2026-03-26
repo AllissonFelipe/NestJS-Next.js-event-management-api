@@ -9,7 +9,7 @@ import {
   Param,
   Patch,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 import { PersonRoleEnum } from 'src/modules/person-role/domain/person-role.enum';
@@ -31,7 +31,7 @@ export class AdminUsersController {
     @Inject()
     private readonly adminUpdateUserUseCase: AdminUpdateUserUseCase,
     @Inject()
-    private readonly adminDeleteUserUseCase: AdminDeleteUserUseCase,
+    private readonly adminDeleteUserUseCase: AdminDeleteUserUseCase
   ) {}
 
   // ---------- ÁREA DE GERENCIAMENTO DO USUÁRIO ---------------
@@ -41,7 +41,7 @@ export class AdminUsersController {
   @HttpCode(HttpStatus.OK)
   async listOfUsersWithFilters(
     @Request() req: AuthRequest,
-    @Query() filtersDto: FiltersOfUserDto,
+    @Query() filtersDto: FiltersOfUserDto
   ): Promise<PaginationResultInterface<UserResponseDto>> {
     return await this.adminFindUsersUseCase.withFilters(req.user.sub, filtersDto);
   }
@@ -50,7 +50,7 @@ export class AdminUsersController {
   @HttpCode(HttpStatus.OK)
   async findUserById(
     @Request() req: AuthRequest,
-    @Param('userPersonId') userPersonId: string,
+    @Param('userPersonId') userPersonId: string
   ): Promise<UserResponseDto> {
     return await this.adminFindUsersUseCase.byId(req.user.sub, userPersonId);
   }
@@ -60,17 +60,14 @@ export class AdminUsersController {
   async updateUser(
     @Request() req: AuthRequest,
     @Param('userPersonId') userPersonId: string,
-    @Body() dto: AdminUpdateUserDto,
+    @Body() dto: AdminUpdateUserDto
   ): Promise<UserResponseDto> {
     return await this.adminUpdateUserUseCase.execute(req.user.sub, userPersonId, dto);
   }
   // DELETAR UM USUÁRIO byUserPersonId
   @Delete(':userPersonId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteUser(
-    @Request() req: AuthRequest,
-    @Param('userPersonId') userPersonId: string,
-  ): Promise<void> {
+  async deleteUser(@Request() req: AuthRequest, @Param('userPersonId') userPersonId: string): Promise<void> {
     await this.adminDeleteUserUseCase.execute(req.user.sub, userPersonId);
   }
 }

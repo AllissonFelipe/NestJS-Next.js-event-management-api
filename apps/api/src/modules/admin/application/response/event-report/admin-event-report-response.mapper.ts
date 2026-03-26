@@ -5,7 +5,7 @@ import {
   AdminEventReportEventCreatedByResponseDto,
   AdminEventReportEventResponseDto,
   AdminEventReportResponseDto,
-  AdminEventsReportsWithQueryResponseDto,
+  AdminEventsReportsWithQueryResponseDto
 } from './admin-event-report-response.dto';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
 
@@ -14,16 +14,12 @@ export class AdminEventsReportsWithQueryResponseMapper {
     eventReportDomain: EventReportDomainEntity[],
     page: number,
     limit: number,
-    total: number,
+    total: number
   ): AdminEventsReportsWithQueryResponseDto {
     const totalPages = Math.max(1, Math.ceil(total / limit));
     return {
       items: eventReportDomain.map((eventReport) =>
-        AdminEventReportResponseMapper.toResponse(
-          eventReport,
-          eventReport.event,
-          eventReport.event.createdBy,
-        ),
+        AdminEventReportResponseMapper.toResponse(eventReport, eventReport.event, eventReport.event.createdBy)
       ),
       meta: {
         page,
@@ -31,8 +27,8 @@ export class AdminEventsReportsWithQueryResponseMapper {
         total,
         totalPages: totalPages,
         hasNextPage: page < totalPages,
-        hasPreviousPage: page > 1,
-      },
+        hasPreviousPage: page > 1
+      }
     };
   }
 }
@@ -40,7 +36,7 @@ export class AdminEventReportResponseMapper {
   static toResponse(
     eventReportDomain: EventReportDomainEntity,
     eventDomain: EventsDomainEntity,
-    userPersonDomain: PersonDomainEntity,
+    userPersonDomain: PersonDomainEntity
   ): AdminEventReportResponseDto {
     return {
       id: eventReportDomain.id,
@@ -48,7 +44,7 @@ export class AdminEventReportResponseMapper {
       reason: eventReportDomain.reason,
       status: eventReportDomain.status,
       createdAt: eventReportDomain.createdAt,
-      createdBy: AdminEventReportCreatedByResponseMapper.toResponse(eventReportDomain.reporter),
+      createdBy: AdminEventReportCreatedByResponseMapper.toResponse(eventReportDomain.reporter)
     };
   }
 }
@@ -56,14 +52,14 @@ export class AdminEventReportCreatedByResponseMapper {
   static toResponse(reporterOfEvent: PersonDomainEntity): AdminEventReportCreatedByResponseDto {
     return {
       id: reporterOfEvent.id,
-      name: reporterOfEvent.fullName,
+      name: reporterOfEvent.fullName
     };
   }
 }
 export class AdminEventReportEventResponseMapper {
   static toResponse(
     eventDomain: EventsDomainEntity,
-    userPersonDomain: PersonDomainEntity,
+    userPersonDomain: PersonDomainEntity
   ): AdminEventReportEventResponseDto {
     return {
       id: eventDomain.id,
@@ -71,20 +67,16 @@ export class AdminEventReportEventResponseMapper {
       description: eventDomain.description,
       startAt: eventDomain.startAt,
       endAt: eventDomain.endAt,
-      createdBy: AdminEventReportEventCreatedByResponseMapper.toResponse(userPersonDomain),
+      createdBy: AdminEventReportEventCreatedByResponseMapper.toResponse(userPersonDomain)
     };
   }
 }
 export class AdminEventReportEventCreatedByResponseMapper {
-  static toResponse(
-    userPersonDomain: PersonDomainEntity,
-  ): AdminEventReportEventCreatedByResponseDto {
+  static toResponse(userPersonDomain: PersonDomainEntity): AdminEventReportEventCreatedByResponseDto {
     return {
       id: userPersonDomain.id,
       name: userPersonDomain.fullName,
-      avatarUrl: userPersonDomain.personProfile.avatarUrl
-        ? userPersonDomain.personProfile.avatarUrl
-        : undefined,
+      avatarUrl: userPersonDomain.personProfile.avatarUrl ? userPersonDomain.personProfile.avatarUrl : undefined
     };
   }
 }

@@ -9,7 +9,7 @@ import { AdminResponseDto } from '../response/admin/admin-response.dto';
 export class FindAdminProfileUseCase {
   constructor(
     @Inject()
-    private readonly isAdminValidator: IsAdminValidator,
+    private readonly isAdminValidator: IsAdminValidator
   ) {}
 
   async execute(adminPersonId: string): Promise<AdminResponseDto> {

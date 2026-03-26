@@ -7,7 +7,7 @@ import {
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { EventsOrmEntity } from '../../infra/events.orm-entity';
 
@@ -39,7 +39,7 @@ export class EventsAddressesOrmEntity {
 
   @OneToOne(() => EventsOrmEntity, (event) => event.event_address, {
     nullable: false,
-    onDelete: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   @Index({ unique: true })
   @JoinColumn({ name: 'event_id' })

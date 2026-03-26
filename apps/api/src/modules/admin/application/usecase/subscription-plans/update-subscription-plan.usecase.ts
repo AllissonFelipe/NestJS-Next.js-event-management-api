@@ -4,7 +4,7 @@ import { UpdateSubscriptionPlanDto } from '../../dtos/update-subscription-plan.d
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import {
   SUBSCRIPTION_PLANS_REPOSITORY,
-  type SubscriptionPlansRepositoryInterface,
+  type SubscriptionPlansRepositoryInterface
 } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
 import { AdminSubscriptionPlanNotFoundError } from 'src/modules/admin/domain/errors/admin-subscription-plan-not-found.error';
 import { AdminSubscriptionPlanResponseMapper } from '../../response/subscription-plan/admin-subscription-plan-response.mapper';
@@ -15,13 +15,13 @@ export class AdminUpdateSubscriptionPlanUseCase {
     @Inject()
     private readonly isAdminValidator: IsAdminValidator,
     @Inject(SUBSCRIPTION_PLANS_REPOSITORY)
-    private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface,
+    private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface
   ) {}
 
   async execute(
     adminPersonId: string,
     subscriptionPlanId: string,
-    dto: UpdateSubscriptionPlanDto,
+    dto: UpdateSubscriptionPlanDto
   ): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
     const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);

@@ -1,11 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { PersonRoleEnum } from '../domain/person-role.enum';
 import { PersonOrmEntity } from '../../person/infra/person.orm-entity';
 
@@ -17,7 +10,7 @@ export class PersonRoleOrmEntity {
   @Column({
     type: 'enum',
     enum: PersonRoleEnum,
-    unique: true,
+    unique: true
   })
   role: PersonRoleEnum;
 

@@ -8,12 +8,7 @@ export class PersonRoleDomainEntity {
   private _createdAt: Date;
   private _updatedAt: Date;
 
-  private constructor(props: {
-    id: string;
-    role: PersonRoleEnum;
-    createdAt: Date;
-    updatedAt: Date;
-  }) {
+  private constructor(props: { id: string; role: PersonRoleEnum; createdAt: Date; updatedAt: Date }) {
     this._id = props.id;
     this._role = props.role;
     this._createdAt = props.createdAt;
@@ -66,7 +61,7 @@ export class PersonRoleDomainEntity {
       id: params.id || randomUUID(),
       role: params.role,
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     });
   }
 
@@ -83,7 +78,7 @@ export class PersonRoleDomainEntity {
       id: params.id,
       role: params.role,
       createdAt: params.createdAt,
-      updatedAt: params.updatedAt,
+      updatedAt: params.updatedAt
     });
   }
 }

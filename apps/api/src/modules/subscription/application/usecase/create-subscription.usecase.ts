@@ -2,11 +2,11 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { SubscriptionPlanResponseDto } from '../response/subscription-plan-response.dto';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import {
   SUBSCRIPTION_PLANS_REPOSITORY,
-  type SubscriptionPlansRepositoryInterface,
+  type SubscriptionPlansRepositoryInterface
 } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class CreateSubscriptionUseCase {
     @Inject(PERSON_REPOSITORY)
     private readonly personRepository: PersonRepositoryInterface,
     @Inject(SUBSCRIPTION_PLANS_REPOSITORY)
-    private readonly subscriptionPlansRepository: SubscriptionPlansRepositoryInterface,
+    private readonly subscriptionPlansRepository: SubscriptionPlansRepositoryInterface
   ) {}
 
   async execute(personId: string, planId: string): Promise<SubscriptionPlanResponseDto> {

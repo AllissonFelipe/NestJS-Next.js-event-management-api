@@ -4,11 +4,7 @@ import { EmailChangeTokenAlreadyUsedError } from 'src/modules/email-change-token
 import { EmailChangeTokenExpiredError } from 'src/modules/email-change-token/domain/errors/email-token-change-expired.error';
 import { EmailChangeTokenNotFoundError } from 'src/modules/email-change-token/domain/errors/email-token-change-not-found.error';
 
-@Catch(
-  EmailChangeTokenNotFoundError,
-  EmailChangeTokenExpiredError,
-  EmailChangeTokenAlreadyUsedError,
-)
+@Catch(EmailChangeTokenNotFoundError, EmailChangeTokenExpiredError, EmailChangeTokenAlreadyUsedError)
 export class EmailChageTokenExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -24,27 +20,27 @@ export class EmailChageTokenExceptionFilter implements ExceptionFilter {
     if (exception instanceof EmailChangeTokenNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de email change token expirado
     if (exception instanceof EmailChangeTokenExpiredError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de email change token ja usado
     if (exception instanceof EmailChangeTokenAlreadyUsedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

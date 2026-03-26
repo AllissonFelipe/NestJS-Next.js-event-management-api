@@ -27,7 +27,7 @@ export class SubscriptionMapper {
       endAt: orm.end_at,
       status: orm.status,
       createdAt: orm.created_at,
-      updatedAt: orm.updated_at,
+      updatedAt: orm.updated_at
     });
   }
 }

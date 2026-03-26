@@ -7,14 +7,11 @@ export const EVENTS_ADDRESSES_REPOSITORY = Symbol('EVENTS_ADDRESSES_REPOSITORY')
 export interface EventsAddressesRepositoryInterface {
   createEventAddress(
     eventAddress: EventsAddressDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventsAddressDomainEntity>;
-  findByEventId(
-    eventId: string,
-    manager?: EntityManager,
-  ): Promise<EventsAddressDomainEntity | null>;
+  findByEventId(eventId: string, manager?: EntityManager): Promise<EventsAddressDomainEntity | null>;
   updateEventAddress(
     eventAddress: EventsAddressDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventsAddressDomainEntity>;
 }

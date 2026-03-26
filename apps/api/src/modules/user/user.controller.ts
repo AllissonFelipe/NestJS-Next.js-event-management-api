@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { type AuthRequest } from '../auth/types/auth-request';
 import { PersonRoleEnum } from '../person-role/domain/person-role.enum';
@@ -25,10 +25,7 @@ import { UserCreateEventUseCase } from './application/usecase/create-event.useca
 import { UserCreateEventDto } from './application/dtos/create-event.dto';
 import { UserFindEventsUseCase } from './application/usecase/find-events.usecase';
 import { FindEventFilters } from '../events/application/dto/find-event-filters.dto';
-import {
-  EventPaginationReponseDto,
-  EventResponseDto,
-} from './application/response/event/event-response.dto';
+import { EventPaginationReponseDto, EventResponseDto } from './application/response/event/event-response.dto';
 import { UserUpdateEventDto } from './application/dtos/update-event.dto';
 import { UserUpdateEventUseCase } from './application/usecase/update-event.usecase';
 import { UserDeleteEventUseCase } from './application/usecase/delete-event.usecase';
@@ -50,7 +47,7 @@ export class UserController {
     @Inject()
     private readonly updateEventUseCase: UserUpdateEventUseCase,
     @Inject()
-    private readonly deleteEventUseCase: UserDeleteEventUseCase,
+    private readonly deleteEventUseCase: UserDeleteEventUseCase
   ) {}
 
   // -------------------- ÁREA DE GERENCIAMENTO DO USUÁRIO ----------------
@@ -66,7 +63,7 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async updateUserProfileByPersonId(
     @Request() req: AuthRequest,
-    @Body() dto: UpdateUserProfileDto,
+    @Body() dto: UpdateUserProfileDto
   ): Promise<UserResponseDto> {
     return await this.updateUserProfileUseCase.updateUserProfileByPersonId(req.user.sub, dto);
   }
@@ -79,7 +76,7 @@ export class UserController {
   async sendRequestToEmailChange(@Request() req: AuthRequest, @Body() dto: ChangeUserEmailDto) {
     await this.updateUserEmailUseCase.requestEmailChange(req.user.sub, dto);
     return {
-      message: `Email enviado para ${dto.email}`,
+      message: `Email enviado para ${dto.email}`
     };
   }
   // Reset email
@@ -94,10 +91,7 @@ export class UserController {
   // Criar evento meu
   @Post('events')
   @HttpCode(HttpStatus.CREATED)
-  async createEvent(
-    @Request() req: AuthRequest,
-    @Body() dto: UserCreateEventDto,
-  ): Promise<EventResponseDto> {
+  async createEvent(@Request() req: AuthRequest, @Body() dto: UserCreateEventDto): Promise<EventResponseDto> {
     return await this.createEventUseCase.execute(req.user.sub, dto);
   }
   // Achar todos os meus eventos - com filtros
@@ -105,17 +99,14 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async findAllMyEvents(
     @Request() req: AuthRequest,
-    @Query() filter: FindEventFilters,
+    @Query() filter: FindEventFilters
   ): Promise<EventPaginationReponseDto> {
     return await this.findEventsUseCase.findAll(req.user.sub, filter);
   }
   // Achar um evento meu
   @Get('events/:eventId')
   @HttpCode(HttpStatus.OK)
-  async findOneEvent(
-    @Request() req: AuthRequest,
-    @Param('eventId') eventId: string,
-  ): Promise<EventResponseDto> {
+  async findOneEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<EventResponseDto> {
     return await this.findEventsUseCase.findOneEventByUserAndEventId(req.user.sub, eventId);
   }
   // Atualizar um evento meu
@@ -124,17 +115,14 @@ export class UserController {
   async updateOneEvent(
     @Request() req: AuthRequest,
     @Param('eventId') eventId: string,
-    @Body() dto: UserUpdateEventDto,
+    @Body() dto: UserUpdateEventDto
   ): Promise<EventResponseDto> {
     return await this.updateEventUseCase.execute(req.user.sub, eventId, dto);
   }
   // Deletar um evento meu
   @Delete('events/:eventId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteOneEvent(
-    @Request() req: AuthRequest,
-    @Param('eventId') eventId: string,
-  ): Promise<void> {
+  async deleteOneEvent(@Request() req: AuthRequest, @Param('eventId') eventId: string): Promise<void> {
     await this.deleteEventUseCase.execute(req.user.sub, eventId);
   }
 }

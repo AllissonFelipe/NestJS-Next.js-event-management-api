@@ -7,18 +7,18 @@ export class EventParticipantsResponseMapper {
   static toResponse(
     eventParticipant: EventParticipantsDomainEntity,
     event: EventsDomainEntity,
-    person: PersonDomainEntity,
+    person: PersonDomainEntity
   ): EventParticipantsResponseDto {
     return {
       event: {
         id: event.id,
-        title: event.title,
+        title: event.title
       },
       person: {
         id: person.id,
-        fullName: person.fullName,
+        fullName: person.fullName
       },
-      status: eventParticipant.status,
+      status: eventParticipant.status
     };
   }
 }

@@ -11,7 +11,7 @@ export class EventReportMapper {
       reporter: PersonMapper.toDomain(orm.reporter),
       reason: orm.reason,
       status: orm.status,
-      createdAt: orm.created_at,
+      createdAt: orm.created_at
     });
   }
 

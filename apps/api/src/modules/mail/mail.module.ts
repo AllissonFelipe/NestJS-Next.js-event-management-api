@@ -19,9 +19,9 @@ import { SendGridEmailService } from './infra/sendgrid-email.service';
 
         // default: dev
         return new MailHogEmailService(configService);
-      },
-    },
+      }
+    }
   ],
-  exports: [MAIL_SERVICE],
+  exports: [MAIL_SERVICE]
 })
 export class MailModule {}

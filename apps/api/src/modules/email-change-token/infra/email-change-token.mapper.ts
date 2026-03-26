@@ -10,7 +10,7 @@ export class EmailChangeTokenMapper {
       token: orm.token,
       expiresAt: orm.expires_at,
       newEmail: orm.new_email,
-      usedAt: orm.used_at ?? null,
+      usedAt: orm.used_at ?? null
     });
   }
 

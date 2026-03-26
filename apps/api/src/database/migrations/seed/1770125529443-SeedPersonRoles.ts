@@ -14,7 +14,7 @@ export class SeedPersonRoles1770125529443 implements MigrationInterface {
         ($2, 'ADMIN', NOW(), NOW())
       ON CONFLICT (role) DO NOTHING
       `,
-      [randomUUID(), randomUUID()],
+      [randomUUID(), randomUUID()]
     );
   }
 

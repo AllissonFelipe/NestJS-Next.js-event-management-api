@@ -10,9 +10,9 @@ import { SubscriptionPlansRepositoryTypeOrm } from './infra/subscription-plans.r
   providers: [
     {
       provide: SUBSCRIPTION_PLANS_REPOSITORY,
-      useClass: SubscriptionPlansRepositoryTypeOrm,
-    },
+      useClass: SubscriptionPlansRepositoryTypeOrm
+    }
   ],
-  exports: [SUBSCRIPTION_PLANS_REPOSITORY],
+  exports: [SUBSCRIPTION_PLANS_REPOSITORY]
 })
 export class SubscriptionPlansModule {}

@@ -20,28 +20,28 @@ export class EventReportExceptionFilter implements ExceptionFilter {
     if (exception instanceof EventReportIsResolvedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro do status do reporte do evento ja estar em revisão
     if (exception instanceof EventReportIsReviewedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro do status do reporte estar em aberto
     if (exception instanceof EventReportIsOpenError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
     // outros erros podem ser tratados aqui
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

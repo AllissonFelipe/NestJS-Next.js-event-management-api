@@ -6,7 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { ProvidersEnum } from '../domain/providers.enum';
 import { PaymentsStatusEnum } from '../domain/payments-status.enum';
@@ -23,7 +23,7 @@ export class PaymentsOrmEntity {
 
   @Column({
     type: 'enum',
-    enum: ProvidersEnum,
+    enum: ProvidersEnum
   })
   provider: ProvidersEnum;
 
@@ -39,7 +39,7 @@ export class PaymentsOrmEntity {
   @Column({
     type: 'enum',
     enum: PaymentMethodEnum,
-    name: 'payment_method',
+    name: 'payment_method'
   })
   payment_method: PaymentMethodEnum;
 
@@ -52,7 +52,7 @@ export class PaymentsOrmEntity {
   @Column({
     type: 'enum',
     enum: PaymentsStatusEnum,
-    name: 'status',
+    name: 'status'
   })
   status: PaymentsStatusEnum;
 

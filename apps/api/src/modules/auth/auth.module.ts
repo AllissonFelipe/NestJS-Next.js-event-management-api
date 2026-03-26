@@ -36,15 +36,15 @@ import { LoginAccountUseCase } from './application/login-account/login-account.u
         const authConfig: AuthConfig = {
           jwt: {
             secret: configService.get<string>('JWT_SECRET')!,
-            expiresIn: configService.get<string>('JWT_EXPIRES_IN') as StringValue,
-          },
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN') as StringValue
+          }
         };
         return {
           secret: authConfig.jwt.secret,
-          signOptions: { expiresIn: authConfig.jwt.expiresIn },
+          signOptions: { expiresIn: authConfig.jwt.expiresIn }
         };
-      },
-    }),
+      }
+    })
   ],
   controllers: [AuthController],
   providers: [
@@ -56,13 +56,13 @@ import { LoginAccountUseCase } from './application/login-account/login-account.u
     EmailAndCpfValidator,
     {
       provide: PASSWORD_HASHER,
-      useClass: BcryptPasswordHasher,
+      useClass: BcryptPasswordHasher
     },
     {
       provide: UNIT_OF_WORK,
-      useClass: TypeOrmUnitOfWork,
-    },
+      useClass: TypeOrmUnitOfWork
+    }
   ],
-  exports: [],
+  exports: []
 })
 export class AuthModule {}

@@ -28,7 +28,7 @@ export class PersonMapper {
       personProfile: PersonProfileMapper.toDomain(ormEntity.person_profile),
       isActive: ormEntity.is_active,
       createdAt: ormEntity.created_at,
-      updatedAt: ormEntity.updated_at,
+      updatedAt: ormEntity.updated_at
     });
   }
 

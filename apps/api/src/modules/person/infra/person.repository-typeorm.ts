@@ -13,7 +13,7 @@ import { PaginationResultInterface } from 'src/shared/interfaces/pagination-resu
 export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
   constructor(
     @InjectRepository(PersonOrmEntity)
-    private readonly personRepo: Repository<PersonOrmEntity>,
+    private readonly personRepo: Repository<PersonOrmEntity>
   ) {}
 
   private getPersonRepo(manager?: EntityManager): Repository<PersonOrmEntity> {
@@ -21,16 +21,13 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
   }
 
   // CREATE PERSON
-  async createPerson(
-    person: PersonDomainEntity,
-    manager?: EntityManager,
-  ): Promise<PersonDomainEntity> {
+  async createPerson(person: PersonDomainEntity, manager?: EntityManager): Promise<PersonDomainEntity> {
     const repository = this.getPersonRepo(manager);
     const personOrm = PersonMapper.toOrm(person);
     const saved = await repository.save(personOrm);
     const reloaded = await repository.findOne({
       where: { id: saved.id },
-      relations: ['person_role', 'person_profile'],
+      relations: ['person_role', 'person_profile']
     });
     if (!reloaded) {
       throw new Error('Person not found after save');
@@ -47,16 +44,13 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
     return false;
   }
   // UPDATE PERSON
-  async updatePerson(
-    person: PersonDomainEntity,
-    manager?: EntityManager,
-  ): Promise<PersonDomainEntity> {
+  async updatePerson(person: PersonDomainEntity, manager?: EntityManager): Promise<PersonDomainEntity> {
     const repository = this.getPersonRepo(manager);
     const personOrm = PersonMapper.toOrm(person);
     const saved = await repository.save(personOrm);
     const reloaded = await repository.findOne({
       where: { id: saved.id },
-      relations: ['person_role', 'person_profile'],
+      relations: ['person_role', 'person_profile']
     });
     if (!reloaded) {
       throw new Error('Person not found after save');
@@ -67,33 +61,27 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
   async findAllPersons(manager?: EntityManager): Promise<PersonDomainEntity[]> {
     const repository = this.getPersonRepo(manager);
     const personsOrm = await repository.find({
-      relations: ['person_role', 'person_profile'],
+      relations: ['person_role', 'person_profile']
     });
     const personsDomain = personsOrm.map((person) => PersonMapper.toDomain(person));
     return personsDomain;
   }
   // FIND PERSON ById
-  async findPersonById(
-    personId: string,
-    manager?: EntityManager,
-  ): Promise<PersonDomainEntity | null> {
+  async findPersonById(personId: string, manager?: EntityManager): Promise<PersonDomainEntity | null> {
     const repository = this.getPersonRepo(manager);
     const personOrm = await repository.findOne({
       where: { id: personId },
-      relations: ['person_role', 'person_profile'],
+      relations: ['person_role', 'person_profile']
     });
     if (!personOrm) return null;
     return PersonMapper.toDomain(personOrm);
   }
   // FIND PERSON ByEmail
-  async findPersonByEmail(
-    personEmail: string,
-    manager?: EntityManager,
-  ): Promise<PersonDomainEntity | null> {
+  async findPersonByEmail(personEmail: string, manager?: EntityManager): Promise<PersonDomainEntity | null> {
     const repository = this.getPersonRepo(manager);
     const personOrm = await repository.findOne({
       where: { email: personEmail },
-      relations: ['person_role', 'person_profile'],
+      relations: ['person_role', 'person_profile']
     });
 
     if (!personOrm) return null;
@@ -102,14 +90,11 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
     return personDomain;
   }
   // FIND PERSON ByCPF
-  async findPersonByCPF(
-    personCPF: string,
-    manager?: EntityManager,
-  ): Promise<PersonDomainEntity | null> {
+  async findPersonByCPF(personCPF: string, manager?: EntityManager): Promise<PersonDomainEntity | null> {
     const repository = this.getPersonRepo(manager);
     const personOrm = await repository.findOne({
       where: { cpf: personCPF },
-      relations: ['person_role', 'person_profile'],
+      relations: ['person_role', 'person_profile']
     });
 
     if (!personOrm) return null;
@@ -121,7 +106,7 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
   // FIND USERS WITH FILTERS ()
   async findWithFilters(
     filters: PersonRepositoryFiltersInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<PaginationResultInterface<PersonDomainEntity>> {
     const repository = this.getPersonRepo(manager);
     const qb = repository
@@ -150,8 +135,8 @@ export class PersonRepositoryTypeOrm implements PersonRepositoryInterface {
     return {
       items: result.map((item) => PersonMapper.toDomain(item)),
       meta: {
-        total,
-      },
+        total
+      }
     };
   }
 }

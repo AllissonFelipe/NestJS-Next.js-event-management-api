@@ -14,5 +14,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_DATABASE,
   entities: [path.join(__dirname, '/../modules/**/**/*.orm-entity.{ts,js}')],
   migrations: [path.join(__dirname, 'migrations/**/*{.ts,.js}')],
-  synchronize: false,
+  synchronize: false
 });

@@ -4,13 +4,13 @@ import { AdminUpdateUserDto } from '../../dtos/update-user.dto';
 import { AdminIdNotFoundError } from '../../../domain/errors/admin-id-not-found.error';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { UserNotFoundError } from 'src/shared/errors/user-not-found.error';
 import { EmptyUpdatePayloadError } from 'src/shared/errors/empty-update-payload.error';
 import {
   PERSON_PROFILE_REPOSITORY,
-  type PersonProfileRepositoryInterface,
+  type PersonProfileRepositoryInterface
 } from 'src/modules/person-profile/domain/person-profile.repository-interface';
 import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
@@ -29,14 +29,10 @@ export class AdminUpdateUserUseCase {
     @Inject(UNIT_OF_WORK)
     private readonly uow: TypeOrmUnitOfWork,
     @Inject()
-    private readonly isAdminValidator: IsAdminValidator,
+    private readonly isAdminValidator: IsAdminValidator
   ) {}
 
-  async execute(
-    adminPersonId: string,
-    userPersonId: string,
-    dto: AdminUpdateUserDto,
-  ): Promise<UserResponseDto> {
+  async execute(adminPersonId: string, userPersonId: string, dto: AdminUpdateUserDto): Promise<UserResponseDto> {
     if (!adminPersonId) {
       throw new AdminIdNotFoundError();
     }

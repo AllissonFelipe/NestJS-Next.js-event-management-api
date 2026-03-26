@@ -21,7 +21,7 @@ import { PersonNotFoundError } from 'src/modules/person/domain/errors/person-not
   InvalidPasswordError,
   PasswordChangeDataMissingError,
   PersonNotFoundError,
-  CannotReuseSamePasswordError,
+  CannotReuseSamePasswordError
 )
 export class PersonExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -38,7 +38,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof PersonNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -46,7 +46,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof PasswordChangeDataMissingError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -54,7 +54,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof InvalidPasswordError) {
       return response.status(HttpStatus.UNAUTHORIZED).json({
         statusCode: 401,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -62,7 +62,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof InvalidCredentialsError) {
       return response.status(HttpStatus.UNAUTHORIZED).json({
         statusCode: 401,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -70,7 +70,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof EmailAlreadyInUseError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -78,7 +78,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof CpfAlreadyInUseError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -86,7 +86,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof AccountNotActivatedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -94,7 +94,7 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof AccountAlreadyActivatedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -102,14 +102,14 @@ export class PersonExceptionFilter implements ExceptionFilter {
     if (exception instanceof CannotReuseSamePasswordError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
     // outros erros podem ser tratados aqui
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

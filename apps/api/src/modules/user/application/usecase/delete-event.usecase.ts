@@ -4,7 +4,7 @@ import { EnsureUserExists } from '../validator/ensure-user-exists.validator';
 import { UserPersonIdNotFoundError } from '../../domain/errors/user-person-id-not-found.error';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventNotFoundError } from 'src/modules/events/domain/errors/event-not-found-error';
 
@@ -14,7 +14,7 @@ export class UserDeleteEventUseCase {
     @Inject()
     private readonly ensureUserExist: EnsureUserExists,
     @Inject(EVENTS_REPOSITORY)
-    private readonly eventsRepository: EventsRepositoryInterface,
+    private readonly eventsRepository: EventsRepositoryInterface
   ) {}
 
   async execute(userPersonId: string, eventId: string): Promise<void> {

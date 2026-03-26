@@ -17,12 +17,10 @@ export class EventsMapper {
       address: EventsAddressMapper.toDomain(entity.event_address),
       participants: [],
       createdAt: entity.created_at,
-      updatedAt: entity.updated_at,
+      updatedAt: entity.updated_at
     });
     if (entity.participants?.length) {
-      const participants = entity.participants.map((p) =>
-        EventParticipantMapper.toDomain(p, eventDomain),
-      );
+      const participants = entity.participants.map((p) => EventParticipantMapper.toDomain(p, eventDomain));
       // atualiza a lista de participantes de forma segura
       eventDomain['_participants'] = participants; // assume que você tem um private readonly _participants com getter
     }

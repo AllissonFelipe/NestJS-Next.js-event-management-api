@@ -3,17 +3,14 @@ import { createHash, randomBytes } from 'crypto';
 import { AccountActivationTokenDomainEntity } from 'src/modules/account-activation-token/domain/account-activation-token.domain-entity';
 import {
   ACCOUNT_ACTIVATION_TOKEN,
-  type AccountActivationTokenRepositoryInterface,
+  type AccountActivationTokenRepositoryInterface
 } from 'src/modules/account-activation-token/domain/account-activation-token.repository-interface';
-import {
-  MAIL_SERVICE,
-  type MailServiceInterface,
-} from 'src/modules/mail/domain/mail-service.interface';
+import { MAIL_SERVICE, type MailServiceInterface } from 'src/modules/mail/domain/mail-service.interface';
 import { AccountAlreadyActivatedError } from 'src/modules/person/domain/errors/account-already-activated.error';
 import { PersonNotFoundError } from 'src/modules/person/domain/errors/person-not-found.error';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 
 @Injectable()
@@ -24,7 +21,7 @@ export class ResendActivationAccountTokenUseCase {
     @Inject(PERSON_REPOSITORY)
     private readonly personRepository: PersonRepositoryInterface,
     @Inject(MAIL_SERVICE)
-    private readonly mailService: MailServiceInterface,
+    private readonly mailService: MailServiceInterface
   ) {}
 
   async executeResendActivationEmail(email: string): Promise<void> {
@@ -43,7 +40,7 @@ export class ResendActivationAccountTokenUseCase {
     const token = AccountActivationTokenDomainEntity.create({
       personId: person.id,
       token: hashToken,
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24h
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24) // 24h
     });
     await this.accountActivationTokenRepository.save(token);
 

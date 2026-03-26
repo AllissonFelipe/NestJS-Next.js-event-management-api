@@ -6,7 +6,7 @@ import { EnsureUserExists } from '../validator/ensure-user-exists.validator';
 import { Inject, Injectable } from '@nestjs/common';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventNotFoundError } from 'src/modules/events/domain/errors/event-not-found-error';
 import { EmptyUpdatePayloadError } from 'src/shared/errors/empty-update-payload.error';
@@ -14,7 +14,7 @@ import { EventAddressNotFoundError } from 'src/modules/events/domain/errors/even
 import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
 import {
   EVENTS_ADDRESSES_REPOSITORY,
-  type EventsAddressesRepositoryInterface,
+  type EventsAddressesRepositoryInterface
 } from 'src/modules/events/events-addresses/domain/events-addresses.repository-interface';
 import { EventResponseMapper } from '../response/event/event-response-mapper';
 
@@ -28,14 +28,10 @@ export class UserUpdateEventUseCase {
     @Inject(EVENTS_ADDRESSES_REPOSITORY)
     private readonly eventsAddressRepository: EventsAddressesRepositoryInterface,
     @Inject(UNIT_OF_WORK)
-    private readonly uow: UnitOfWorkInterface,
+    private readonly uow: UnitOfWorkInterface
   ) {}
 
-  async execute(
-    userPersonId: string,
-    eventId: string,
-    dto: UserUpdateEventDto,
-  ): Promise<EventResponseDto> {
+  async execute(userPersonId: string, eventId: string, dto: UserUpdateEventDto): Promise<EventResponseDto> {
     if (!userPersonId) {
       throw new UserPersonIdNotFoundError();
     }

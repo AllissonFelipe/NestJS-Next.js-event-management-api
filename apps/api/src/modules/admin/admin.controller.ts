@@ -10,7 +10,7 @@ import { AdminResponseDto } from './application/response/admin/admin-response.dt
 export class AdminController {
   constructor(
     @Inject()
-    private readonly findAdminProfileUseCase: FindAdminProfileUseCase,
+    private readonly findAdminProfileUseCase: FindAdminProfileUseCase
   ) {}
 
   // PROCURAR O PROFILE DO ADMIN LOGADO

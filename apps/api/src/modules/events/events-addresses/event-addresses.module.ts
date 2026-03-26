@@ -10,9 +10,9 @@ import { EventsAddressesOrmEntity } from './infra/events-addresses.orm-entity';
   providers: [
     {
       provide: EVENTS_ADDRESSES_REPOSITORY,
-      useClass: EventsAddressesRepositoryTypeOrm,
-    },
+      useClass: EventsAddressesRepositoryTypeOrm
+    }
   ],
-  exports: [EVENTS_ADDRESSES_REPOSITORY],
+  exports: [EVENTS_ADDRESSES_REPOSITORY]
 })
 export class EventAddressesModule {}

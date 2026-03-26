@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { CreateAccountDto } from './create-account.dto';
 import { EmailAndCpfValidator } from './email-and-cpf-validator';
@@ -12,21 +12,18 @@ import { PersonRoleEnum } from 'src/modules/person-role/domain/person-role.enum'
 import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
 import {
   PERSON_ROLE_REPOSITORY,
-  type PersonRoleRepositoryInterface,
+  type PersonRoleRepositoryInterface
 } from 'src/modules/person-role/domain/person-role.repository-interface';
 import {
   PERSON_PROFILE_REPOSITORY,
-  type PersonProfileRepositoryInterface,
+  type PersonProfileRepositoryInterface
 } from 'src/modules/person-profile/domain/person-profile.repository-interface';
 import { createHash, randomBytes, randomUUID } from 'crypto';
-import {
-  MAIL_SERVICE,
-  type MailServiceInterface,
-} from 'src/modules/mail/domain/mail-service.interface';
+import { MAIL_SERVICE, type MailServiceInterface } from 'src/modules/mail/domain/mail-service.interface';
 import { AccountActivationTokenDomainEntity } from 'src/modules/account-activation-token/domain/account-activation-token.domain-entity';
 import {
   ACCOUNT_ACTIVATION_TOKEN,
-  type AccountActivationTokenRepositoryInterface,
+  type AccountActivationTokenRepositoryInterface
 } from 'src/modules/account-activation-token/domain/account-activation-token.repository-interface';
 import { PersonResponseDto } from 'src/modules/person/application/dtos/person-response.dto';
 import { PersonPresenter } from 'src/modules/person/application/responses/person-presenter.response';
@@ -49,7 +46,7 @@ export class CreateAccountUseCase {
     @Inject(MAIL_SERVICE)
     private readonly mailService: MailServiceInterface,
     @Inject()
-    private readonly emailAndCpfValidator: EmailAndCpfValidator,
+    private readonly emailAndCpfValidator: EmailAndCpfValidator
   ) {}
 
   async execute(dto: CreateAccountDto): Promise<PersonResponseDto> {
@@ -58,7 +55,7 @@ export class CreateAccountUseCase {
     const hashPassword = await this.passwordHasher.hash(dto.password);
 
     const personProfile = PersonProfileDomainEntity.create({
-      id: randomUUID(),
+      id: randomUUID()
     });
 
     const personRole = await this.personRoleRepository.findByRole(PersonRoleEnum.USER);
@@ -70,7 +67,7 @@ export class CreateAccountUseCase {
       passwordHash: hashPassword,
       personRole: personRole,
       personProfile: personProfile,
-      isActive: false,
+      isActive: false
     });
 
     const rawToken = randomBytes(32).toString('hex');
@@ -82,7 +79,7 @@ export class CreateAccountUseCase {
       const token = AccountActivationTokenDomainEntity.create({
         personId: account.id,
         token: hashToken,
-        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24h,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24) // 24h,
       });
       await this.accountActivationTokenRepository.save(token, manager);
       return account;

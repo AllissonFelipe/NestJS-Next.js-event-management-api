@@ -11,9 +11,9 @@ import { EventParticipantsRepositoryTypeOrm } from './infra/event-participants.r
   providers: [
     {
       provide: EVENT_PARTICIPANTS_REPOSITORY,
-      useClass: EventParticipantsRepositoryTypeOrm,
-    },
+      useClass: EventParticipantsRepositoryTypeOrm
+    }
   ],
-  exports: [EVENT_PARTICIPANTS_REPOSITORY],
+  exports: [EVENT_PARTICIPANTS_REPOSITORY]
 })
 export class EventParticipantsModule {}

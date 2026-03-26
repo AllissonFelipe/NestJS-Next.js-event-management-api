@@ -9,7 +9,7 @@ export function IsCPF(validationOptions?: ValidationOptions) {
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      validator: IsCPFValidator,
+      validator: IsCPFValidator
     });
   };
 }

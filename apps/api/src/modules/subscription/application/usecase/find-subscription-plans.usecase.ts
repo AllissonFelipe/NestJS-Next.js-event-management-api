@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { SubscriptionPlanResponseDto } from '../response/subscription-plan-response.dto';
 import {
   SUBSCRIPTION_PLANS_REPOSITORY,
-  type SubscriptionPlansRepositoryInterface,
+  type SubscriptionPlansRepositoryInterface
 } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
 import { SubscriptionPlanResponseMapper } from '../response/subscription-plan-response.mapper';
 
@@ -10,7 +10,7 @@ import { SubscriptionPlanResponseMapper } from '../response/subscription-plan-re
 export class FindSubscriptionPlansUseCase {
   constructor(
     @Inject(SUBSCRIPTION_PLANS_REPOSITORY)
-    private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface,
+    private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface
   ) {}
 
   async executeFindAll(): Promise<SubscriptionPlanResponseDto[]> {

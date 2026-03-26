@@ -9,7 +9,7 @@ import {
   Param,
   Patch,
   Post,
-  Request,
+  Request
 } from '@nestjs/common';
 import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 import { PersonRoleEnum } from 'src/modules/person-role/domain/person-role.enum';
@@ -36,7 +36,7 @@ export class AdminSubscriptionPlansController {
     @Inject()
     private readonly adminUpdateStatusSubscriptionPlanUseCase: AdminUpdateStatusSubscriptionPlanUseCase,
     @Inject()
-    private readonly adminDeleteSubscriptionPlanUseCase: AdminDeleteSubscriptionPlanUseCase,
+    private readonly adminDeleteSubscriptionPlanUseCase: AdminDeleteSubscriptionPlanUseCase
   ) {}
 
   // ------------ ÁREA DE GERENCIAMENTO DOS PLANOS DE INSCRIÇÃO -------------
@@ -46,16 +46,14 @@ export class AdminSubscriptionPlansController {
   @HttpCode(HttpStatus.CREATED)
   async createSubscriptionPlan(
     @Request() req: AuthRequest,
-    @Body() dto: CreateSubscriptionPlanDto,
+    @Body() dto: CreateSubscriptionPlanDto
   ): Promise<AdminSubscriptionPlanResponseDto> {
     return await this.adminCreateSubscriptionPlanUseCase.execute(req.user.sub, dto);
   }
   // ACHAR TODOS OS PLANOS DE INSCRIÇÃO
   @Get('plans')
   @HttpCode(HttpStatus.OK)
-  async findSubscriptionsPlans(
-    @Request() req: AuthRequest,
-  ): Promise<AdminSubscriptionPlanResponseDto[]> {
+  async findSubscriptionsPlans(@Request() req: AuthRequest): Promise<AdminSubscriptionPlanResponseDto[]> {
     return await this.adminFindSubscriptionPlanUseCase.executeFindAll(req.user.sub);
   }
   // ACHAR UM PLANO DE INSCRIÇÃO
@@ -63,12 +61,9 @@ export class AdminSubscriptionPlansController {
   @HttpCode(HttpStatus.OK)
   async findOneSubscriptionPlan(
     @Request() req: AuthRequest,
-    @Param('subscriptionPlanId') subscriptionPlanId: string,
+    @Param('subscriptionPlanId') subscriptionPlanId: string
   ): Promise<AdminSubscriptionPlanResponseDto> {
-    return await this.adminFindSubscriptionPlanUseCase.executeFindOne(
-      req.user.sub,
-      subscriptionPlanId,
-    );
+    return await this.adminFindSubscriptionPlanUseCase.executeFindOne(req.user.sub, subscriptionPlanId);
   }
   // ATUALIZAR UM PLANO DE INSCRIÇÃO
   @Patch('plans/:subscriptionPlanId')
@@ -76,44 +71,34 @@ export class AdminSubscriptionPlansController {
   async updateSubscriptionPlan(
     @Request() req: AuthRequest,
     @Param('subscriptionPlanId') subscriptionPlanId: string,
-    @Body() dto: UpdateSubscriptionPlanDto,
+    @Body() dto: UpdateSubscriptionPlanDto
   ): Promise<AdminSubscriptionPlanResponseDto> {
-    return await this.adminUpdateSubscriptionPlanUseCase.execute(
-      req.user.sub,
-      subscriptionPlanId,
-      dto,
-    );
+    return await this.adminUpdateSubscriptionPlanUseCase.execute(req.user.sub, subscriptionPlanId, dto);
   }
   // ATIVAR UM PLANO DE INSCRIÇÃO
   @Patch('plans/:subscriptionPlanId/activate')
   @HttpCode(HttpStatus.OK)
   async activateSubscriptionPlan(
     @Request() req: AuthRequest,
-    @Param('subscriptionPlanId') subscriptionPlanId: string,
+    @Param('subscriptionPlanId') subscriptionPlanId: string
   ): Promise<AdminSubscriptionPlanResponseDto> {
-    return await this.adminUpdateStatusSubscriptionPlanUseCase.executeActivate(
-      req.user.sub,
-      subscriptionPlanId,
-    );
+    return await this.adminUpdateStatusSubscriptionPlanUseCase.executeActivate(req.user.sub, subscriptionPlanId);
   }
   // DESATIVAR UM PLANO DE INSCRIÇÃO
   @Patch('plans/:subscriptionPlanId/deactivate')
   @HttpCode(HttpStatus.OK)
   async deactivateSubscriptionPlan(
     @Request() req: AuthRequest,
-    @Param('subscriptionPlanId') subscriptionPlanId: string,
+    @Param('subscriptionPlanId') subscriptionPlanId: string
   ): Promise<AdminSubscriptionPlanResponseDto> {
-    return await this.adminUpdateStatusSubscriptionPlanUseCase.executeDeactivate(
-      req.user.sub,
-      subscriptionPlanId,
-    );
+    return await this.adminUpdateStatusSubscriptionPlanUseCase.executeDeactivate(req.user.sub, subscriptionPlanId);
   }
   // DELETAR UM PLANO DE INSCRIÇÃO
   @Delete('plans/:subscriptionPlanId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteSubscriptionPlan(
     @Request() req: AuthRequest,
-    @Param('subscriptionPlanId') subscriptionPlanId: string,
+    @Param('subscriptionPlanId') subscriptionPlanId: string
   ): Promise<void> {
     await this.adminDeleteSubscriptionPlanUseCase.execute(req.user.sub, subscriptionPlanId);
   }

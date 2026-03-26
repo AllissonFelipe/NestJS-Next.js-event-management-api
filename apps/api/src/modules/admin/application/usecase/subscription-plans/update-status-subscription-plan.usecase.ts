@@ -3,7 +3,7 @@ import { AdminSubscriptionPlanResponseDto } from '../../response/subscription-pl
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import {
   SUBSCRIPTION_PLANS_REPOSITORY,
-  type SubscriptionPlansRepositoryInterface,
+  type SubscriptionPlansRepositoryInterface
 } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
 import { AdminSubscriptionPlanNotFoundError } from 'src/modules/admin/domain/errors/admin-subscription-plan-not-found.error';
 import { AdminSubscriptionPlanAlreadyActivateError } from 'src/modules/admin/domain/errors/admin-subscription-plan-already-activate.error';
@@ -16,13 +16,10 @@ export class AdminUpdateStatusSubscriptionPlanUseCase {
     @Inject()
     private readonly isAdminValidator: IsAdminValidator,
     @Inject(SUBSCRIPTION_PLANS_REPOSITORY)
-    private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface,
+    private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface
   ) {}
 
-  async executeActivate(
-    adminPersonId: string,
-    subscriptionPlanId: string,
-  ): Promise<AdminSubscriptionPlanResponseDto> {
+  async executeActivate(adminPersonId: string, subscriptionPlanId: string): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
     const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);
     if (!subscriptionPlan) {
@@ -38,7 +35,7 @@ export class AdminUpdateStatusSubscriptionPlanUseCase {
 
   async executeDeactivate(
     adminPersonId: string,
-    subscriptionPlanId: string,
+    subscriptionPlanId: string
   ): Promise<AdminSubscriptionPlanResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
     const subscriptionPlan = await this.subscriptionPlanRepository.findOne(subscriptionPlanId);

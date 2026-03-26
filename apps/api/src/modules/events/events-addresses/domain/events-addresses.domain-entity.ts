@@ -162,7 +162,7 @@ export class EventsAddressDomainEntity {
       state: props.state,
       zipCode: props.zipCode,
       createdAt: now,
-      updatedAt: now,
+      updatedAt: now
     });
   }
 
@@ -188,7 +188,7 @@ export class EventsAddressDomainEntity {
       state: props.state,
       zipCode: props.zipCode,
       createdAt: props.createdAt,
-      updatedAt: props.updatedAt,
+      updatedAt: props.updatedAt
     });
   }
 }

@@ -6,19 +6,19 @@ import {
   UserPersonResponseDto,
   UserProfileResponseDto,
   UserResponseDto,
-  UserRoleResponseDto,
+  UserRoleResponseDto
 } from './user-response.dto';
 
 export class UserPresenter {
   static toResponse(
     person: PersonDomainEntity,
     personRole: PersonRoleDomainEntity,
-    profile: PersonProfileDomainEntity,
+    profile: PersonProfileDomainEntity
   ): UserResponseDto {
     return {
       person: UserPersonPresenter.toResponse(person),
       personRole: UserRolePresenter.toResponse(personRole),
-      profile: UserProfilePresenter.toResponse(profile),
+      profile: UserProfilePresenter.toResponse(profile)
     };
   }
 }
@@ -31,7 +31,7 @@ export class UserPersonPresenter {
       email: person.email,
       isActive: person.isActive,
       createdAt: person.createdAt,
-      updatedAt: person.updatedAt,
+      updatedAt: person.updatedAt
     };
   }
 }
@@ -39,7 +39,7 @@ export class UserRolePresenter {
   static toResponse(personRole: PersonRoleDomainEntity): UserRoleResponseDto {
     return {
       id: personRole.id,
-      role: personRole.role,
+      role: personRole.role
     };
   }
 }
@@ -52,7 +52,7 @@ export class UserProfilePresenter {
       phone: profile.phone,
       birthDate: profile.birthDate,
       createdAt: profile.createdAt,
-      updatedAt: profile.updatedAt,
+      updatedAt: profile.updatedAt
     };
   }
 }

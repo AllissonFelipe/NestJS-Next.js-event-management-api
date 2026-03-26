@@ -4,22 +4,19 @@ import { AdminIdNotFoundError } from '../../../domain/errors/admin-id-not-found.
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { UserNotFoundError } from 'src/shared/errors/user-not-found.error';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventIdNotFoundError } from '../../../domain/errors/admin-event-id-not-found.error';
 import { UserPersonIdNotFoundError } from '../../../domain/errors/admin-user-person-id-not-found.error';
 import { EventNotFoundError } from '../../../domain/errors/admin-event-not-found.error';
 import { EventPresenter } from '../../response/event/event-presenter';
 import { EventAddressNotFoundError } from 'src/modules/events/domain/errors/event-address-not-found.error';
-import {
-  EventResponseDto,
-  EventResponseWithPaginationDto,
-} from '../../response/event/event-response.dto';
+import { EventResponseDto, EventResponseWithPaginationDto } from '../../response/event/event-response.dto';
 import { FindEventFilters } from 'src/modules/events/application/dto/find-event-filters.dto';
 import { EventsStatusEnum } from 'src/modules/events/domain/events-status.enum';
 
@@ -31,15 +28,11 @@ export class AdminFindEventsUseCase {
     @Inject()
     private readonly isAdminValidator: IsAdminValidator,
     @Inject(EVENTS_REPOSITORY)
-    private readonly eventsRepository: EventsRepositoryInterface,
+    private readonly eventsRepository: EventsRepositoryInterface
   ) {}
 
   // ACHAR UM EVENTO DO USER byUserPersonId && byEventId
-  async byUserIdAndEventId(
-    adminPersonId: string,
-    userPersonId: string,
-    eventId: string,
-  ): Promise<EventResponseDto> {
+  async byUserIdAndEventId(adminPersonId: string, userPersonId: string, eventId: string): Promise<EventResponseDto> {
     if (!adminPersonId) {
       throw new AdminIdNotFoundError();
     }
@@ -72,7 +65,7 @@ export class AdminFindEventsUseCase {
   async allEventsOfUserByPersonId(
     adminPersonId: string,
     userPersonId: string,
-    filters: FindEventFilters,
+    filters: FindEventFilters
   ): Promise<EventResponseWithPaginationDto> {
     if (!adminPersonId) {
       throw new AdminIdNotFoundError();
@@ -86,10 +79,7 @@ export class AdminFindEventsUseCase {
       throw new UserNotFoundError();
     }
 
-    const events = await this.eventsRepository.findAllMyEventsWithFiltersByOwnerId(
-      user.id,
-      filters,
-    );
+    const events = await this.eventsRepository.findAllMyEventsWithFiltersByOwnerId(user.id, filters);
 
     const page = filters.page ? Number(filters.page) : 1;
     const limit = filters.limit ? Number(filters.limit) : 10;
@@ -111,15 +101,15 @@ export class AdminFindEventsUseCase {
         total: events.total,
         totalPages: totalPages,
         hasNextPage: totalPages > page,
-        hasPreviousPage: page > 1,
-      },
+        hasPreviousPage: page > 1
+      }
     };
   }
 
   // ACHAR TODOS OS EVENTOS COM FILTROS
   async allEventsWithFilters(
     adminPersonId: string,
-    filters: FindEventFilters,
+    filters: FindEventFilters
   ): Promise<EventResponseWithPaginationDto> {
     if (!adminPersonId) {
       throw new AdminIdNotFoundError();
@@ -147,8 +137,8 @@ export class AdminFindEventsUseCase {
         total: events.total,
         totalPages,
         hasNextPage: totalPages > page,
-        hasPreviousPage: page > 1,
-      },
+        hasPreviousPage: page > 1
+      }
     };
   }
   // ACHAR UM EVENTO byEventId

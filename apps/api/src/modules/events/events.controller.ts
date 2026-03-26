@@ -1,16 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Inject,
-  Param,
-  Post,
-  Query,
-  Req,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, Post, Query, Req } from '@nestjs/common';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { PersonRoleEnum } from '../person-role/domain/person-role.enum';
 import { FindEventsUseCase } from './application/usecase/events/find-event.usecase';
@@ -22,13 +10,13 @@ import { SetParticipationStatusDto } from './application/dto/set-participation-s
 import { EventParticipantsResponseDto } from './application/responses/event-participants/event-participants.response-dto';
 import {
   EventWithPaginationResponseDto,
-  EventWithParticipantsResponseDto,
+  EventWithParticipantsResponseDto
 } from './application/responses/event/event.response-dto';
 import { DeleteEventParticipationStatusUseCase } from './application/usecase/events/delete-event-participation-status.usecase';
 import { CreateEventReportDto } from './application/dto/create-event-report.dto';
 import {
   MyEventReportResponseDto,
-  MyEventsReportsWithQueryResponseDto,
+  MyEventsReportsWithQueryResponseDto
 } from './application/responses/event-reports/my-event-report.response-dto';
 import { ReportEventUseCase } from './application/usecase/events/report-event.usecase';
 import { MyEventReportsQueryDto } from './application/dto/my-event-reports-query.dto';
@@ -47,7 +35,7 @@ export class EventsController {
     @Inject()
     private readonly reportEventUseCase: ReportEventUseCase,
     @Inject()
-    private readonly findMyEventReportsUseCase: FindMyEventReportsUseCase,
+    private readonly findMyEventReportsUseCase: FindMyEventReportsUseCase
   ) {}
 
   // ----- ROTAS PÚBLICA -----
@@ -57,18 +45,14 @@ export class EventsController {
   @Public()
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAllPublicEvents(
-    @Query() filters: FindEventFilters,
-  ): Promise<EventWithPaginationResponseDto> {
+  async findAllPublicEvents(@Query() filters: FindEventFilters): Promise<EventWithPaginationResponseDto> {
     return await this.findEventUseCase.findAllPublicEvents(filters);
   }
   // Achar um evento específico
   @Public()
   @Get(':eventId')
   @HttpCode(HttpStatus.OK)
-  async findOnePublicEvents(
-    @Param('eventId') eventId: string,
-  ): Promise<EventWithParticipantsResponseDto> {
+  async findOnePublicEvents(@Param('eventId') eventId: string): Promise<EventWithParticipantsResponseDto> {
     return await this.findEventUseCase.findOnePublicEvent(eventId);
   }
 
@@ -80,7 +64,7 @@ export class EventsController {
   async setParticipationStatus(
     @Req() req: AuthRequest,
     @Param('eventId') eventId: string,
-    @Body() status: SetParticipationStatusDto,
+    @Body() status: SetParticipationStatusDto
   ): Promise<EventParticipantsResponseDto> {
     return await this.setEventParticipationStatusUseCase.execute(req.user.sub, eventId, status);
   }
@@ -96,7 +80,7 @@ export class EventsController {
   async reportEvent(
     @Req() req: AuthRequest,
     @Param('eventId') eventId: string,
-    @Body() dto: CreateEventReportDto,
+    @Body() dto: CreateEventReportDto
   ): Promise<MyEventReportResponseDto> {
     return await this.reportEventUseCase.report(req.user.sub, eventId, dto);
   }
@@ -105,7 +89,7 @@ export class EventsController {
   @HttpCode(HttpStatus.OK)
   async findMyEventsReports(
     @Req() req: AuthRequest,
-    @Query() queryDto: MyEventReportsQueryDto,
+    @Query() queryDto: MyEventReportsQueryDto
   ): Promise<MyEventsReportsWithQueryResponseDto> {
     return await this.findMyEventReportsUseCase.execute(req.user.sub, queryDto);
   }
@@ -114,7 +98,7 @@ export class EventsController {
   @HttpCode(HttpStatus.OK)
   async findMyEventReport(
     @Req() req: AuthRequest,
-    @Param('eventId') eventId: string,
+    @Param('eventId') eventId: string
   ): Promise<MyEventReportResponseDto> {
     return await this.findMyEventReportsUseCase.executeFindOne(req.user.sub, eventId);
   }

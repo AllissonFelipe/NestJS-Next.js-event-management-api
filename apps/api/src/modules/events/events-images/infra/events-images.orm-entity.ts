@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EventsOrmEntity } from '../../infra/events.orm-entity';
 
 @Entity('events_images')
@@ -23,7 +15,7 @@ export class EventsImagesOrmEntity {
   @Index('IDX_EVENTS_IMAGES_EVENT_ID')
   @ManyToOne(() => EventsOrmEntity, (event) => event.event_images, {
     onDelete: 'CASCADE',
-    nullable: false,
+    nullable: false
   })
   @JoinColumn({ name: 'event_id' })
   event: EventsOrmEntity;

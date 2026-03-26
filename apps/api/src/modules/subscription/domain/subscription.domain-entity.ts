@@ -84,7 +84,7 @@ export class SubscriptionDomainEntity {
       endAt,
       status: props.status ?? SubscriptionStatusEnum.PENDING,
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     });
   }
 

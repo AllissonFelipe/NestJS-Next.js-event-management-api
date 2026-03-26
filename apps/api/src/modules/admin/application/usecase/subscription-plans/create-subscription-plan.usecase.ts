@@ -4,7 +4,7 @@ import { IsAdminValidator } from '../../validators/is-admin.validator';
 import { SubscriptionPlansDomainEntity } from 'src/modules/subscription-plans/domain/subscription-plans.domain-entity';
 import {
   SUBSCRIPTION_PLANS_REPOSITORY,
-  type SubscriptionPlansRepositoryInterface,
+  type SubscriptionPlansRepositoryInterface
 } from 'src/modules/subscription-plans/domain/subscription-plans.repository-interface';
 import { AdminSubscriptionPlanResponseMapper } from '../../response/subscription-plan/admin-subscription-plan-response.mapper';
 import { AdminSubscriptionPlanResponseDto } from '../../response/subscription-plan/admin-subscription-plan-response.dto';
@@ -15,13 +15,10 @@ export class AdminCreateSubscriptionPlanUseCase {
     @Inject(SUBSCRIPTION_PLANS_REPOSITORY)
     private readonly subscriptionPlanRepository: SubscriptionPlansRepositoryInterface,
     @Inject()
-    private readonly isAdminValidator: IsAdminValidator,
+    private readonly isAdminValidator: IsAdminValidator
   ) {}
 
-  async execute(
-    adminPersonId: string,
-    dto: CreateSubscriptionPlanDto,
-  ): Promise<AdminSubscriptionPlanResponseDto> {
+  async execute(adminPersonId: string, dto: CreateSubscriptionPlanDto): Promise<AdminSubscriptionPlanResponseDto> {
     const adminPerson = await this.isAdminValidator.validate(adminPersonId);
     const subscriptionPlan = SubscriptionPlansDomainEntity.create({
       name: dto.name,
@@ -29,7 +26,7 @@ export class AdminCreateSubscriptionPlanUseCase {
       price: dto.price,
       durationInDays: dto.durationInDays,
       isActive: dto.isActive,
-      createdBy: adminPerson,
+      createdBy: adminPerson
     });
     const result = await this.subscriptionPlanRepository.persist(subscriptionPlan);
     return AdminSubscriptionPlanResponseMapper.toResponse(result);

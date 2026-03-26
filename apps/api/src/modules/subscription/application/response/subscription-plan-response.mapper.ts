@@ -8,7 +8,7 @@ export class SubscriptionPlanResponseMapper {
       name: entityDomain.name,
       description: entityDomain.description,
       price: entityDomain.price,
-      durationInDays: entityDomain.durationInDays,
+      durationInDays: entityDomain.durationInDays
     };
   }
 }

@@ -2,7 +2,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { AdminIdNotFoundError } from '../../../domain/errors/admin-id-not-found.error';
 import { IsAdminValidator } from '../../validators/is-admin.validator';
@@ -14,7 +14,7 @@ export class AdminDeleteUserUseCase {
     @Inject(PERSON_REPOSITORY)
     private readonly personRepository: PersonRepositoryInterface,
     @Inject()
-    private readonly isAdminValidator: IsAdminValidator,
+    private readonly isAdminValidator: IsAdminValidator
   ) {}
 
   async execute(adminRoleId: string, userPersonId: string): Promise<void> {

@@ -17,7 +17,7 @@ const PUBLIC_DOMAINS = new Set([
   'protonmail.com',
   'bol.com.br',
   'uol.com.br',
-  'terra.com.br',
+  'terra.com.br'
 ]);
 
 function isPublicDomain(domain: string): boolean {
@@ -56,8 +56,8 @@ export function IsPublicEmail(validationOptions?: ValidationOptions) {
 
         defaultMessage() {
           return 'E-mail deve ser de provedor público válido';
-        },
-      },
+        }
+      }
     });
   };
 }

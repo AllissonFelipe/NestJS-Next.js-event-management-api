@@ -6,7 +6,7 @@ import {
   EventParticipantsResponseDto,
   EventResponseDto,
   EventWithPaginationResponseDto,
-  EventWithParticipantsResponseDto,
+  EventWithParticipantsResponseDto
 } from './event.response-dto';
 import { EventParticipantStatusEnum } from 'src/modules/event-participants/domain/event-participants.status-enum';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
@@ -15,7 +15,7 @@ export class EventWithPaginationResponseMapper {
     events: EventsDomainEntity[],
     page: number,
     limit: number,
-    total: number,
+    total: number
   ): EventWithPaginationResponseDto {
     const totalPages = Math.max(1, Math.ceil(total / limit));
     const meta: EventPaginationDto = {
@@ -24,13 +24,13 @@ export class EventWithPaginationResponseMapper {
       total,
       totalPages,
       hasNextPage: totalPages > page,
-      hasPreviousPage: page > 1,
+      hasPreviousPage: page > 1
     };
     return {
       items: events.map((event) => {
         return EventResponseMapper.toResponse(event);
       }),
-      meta,
+      meta
     };
   }
 }
@@ -49,14 +49,13 @@ export class EventResponseMapper {
       createdBy: {
         id: event.createdBy.id,
         fullName: event.createdBy.fullName,
-        avatarUrl: event.createdBy.personProfile.avatarUrl,
+        avatarUrl: event.createdBy.personProfile.avatarUrl
       },
-      goingCount: event.participants.filter(
-        (participants) => participants.status === EventParticipantStatusEnum.GOING,
-      ).length,
+      goingCount: event.participants.filter((participants) => participants.status === EventParticipantStatusEnum.GOING)
+        .length,
       interestedCount: event.participants.filter(
-        (participants) => participants.status === EventParticipantStatusEnum.INTERESTED,
-      ).length,
+        (participants) => participants.status === EventParticipantStatusEnum.INTERESTED
+      ).length
     };
   }
 }
@@ -75,24 +74,23 @@ export class EventWithParticipantsResponseMapper {
       createdBy: {
         id: event.createdBy.id,
         fullName: event.createdBy.fullName,
-        avatarUrl: event.createdBy.personProfile.avatarUrl,
+        avatarUrl: event.createdBy.personProfile.avatarUrl
       },
       going: {
-        count: event.participants.filter(
-          (participants) => participants.status === EventParticipantStatusEnum.GOING,
-        ).length,
+        count: event.participants.filter((participants) => participants.status === EventParticipantStatusEnum.GOING)
+          .length,
         participants: event.participants
           .filter((participant) => participant.status === EventParticipantStatusEnum.GOING)
-          .map((participant) => EventParticipantsResponseMapper.toResponse(participant.person)),
+          .map((participant) => EventParticipantsResponseMapper.toResponse(participant.person))
       },
       interested: {
         count: event.participants.filter(
-          (participants) => participants.status === EventParticipantStatusEnum.INTERESTED,
+          (participants) => participants.status === EventParticipantStatusEnum.INTERESTED
         ).length,
         participants: event.participants
           .filter((participant) => participant.status === EventParticipantStatusEnum.INTERESTED)
-          .map((participant) => EventParticipantsResponseMapper.toResponse(participant.person)),
-      },
+          .map((participant) => EventParticipantsResponseMapper.toResponse(participant.person))
+      }
     };
   }
 }
@@ -106,7 +104,7 @@ export class EventAddressResponseMapper {
       neighborhood: eventAddress.neighborhood,
       city: eventAddress.city,
       state: eventAddress.state,
-      zipCode: eventAddress.zipCode,
+      zipCode: eventAddress.zipCode
     };
   }
 }
@@ -121,7 +119,7 @@ export class EventParticipantsResponseMapper {
     return {
       id: eventParticipants.id,
       fullName: eventParticipants.fullName,
-      avatarUrl: eventParticipants.personProfile.avatarUrl ?? '',
+      avatarUrl: eventParticipants.personProfile.avatarUrl ?? ''
     };
   }
 }

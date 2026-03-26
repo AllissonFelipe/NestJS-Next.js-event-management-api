@@ -16,7 +16,7 @@ import { AdminPaginationInterface } from 'src/modules/admin/domain/pagination.in
 export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterface {
   constructor(
     @InjectRepository(EventReportOrmEntity)
-    private readonly eventReportRepository: Repository<EventReportOrmEntity>,
+    private readonly eventReportRepository: Repository<EventReportOrmEntity>
   ) {}
 
   private getRepository(manager?: EntityManager): Repository<EventReportOrmEntity> {
@@ -26,7 +26,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
   async findByPersonIdAndEventId(
     personId: string,
     eventId: string,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventReportDomainEntity | null> {
     const repository = this.getRepository(manager);
     const ormEntity = await repository.findOne({
@@ -35,23 +35,20 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
         event: {
           created_by: {
             person_role: true,
-            person_profile: true,
-          },
+            person_profile: true
+          }
         },
         reporter: {
           person_role: true,
-          person_profile: true,
-        },
-      },
+          person_profile: true
+        }
+      }
     });
     if (!ormEntity) return null;
     return EventReportMapper.toDomain(ormEntity);
   }
 
-  async persist(
-    eventReportDomain: EventReportDomainEntity,
-    manager?: EntityManager,
-  ): Promise<EventReportDomainEntity> {
+  async persist(eventReportDomain: EventReportDomainEntity, manager?: EntityManager): Promise<EventReportDomainEntity> {
     const repository = this.getRepository(manager);
     const orm = EventReportMapper.toOrm(eventReportDomain);
     const saved = await repository.save(orm);
@@ -62,7 +59,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     userPersonId: string,
     query: MyEventReportsQueryDto,
     pagination: PaginationInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<PaginatedResult<EventReportDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('eventReports');
@@ -79,17 +76,17 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     // VERIFICAÇÃO DE QUERIES
     if (query.reason) {
       qb.andWhere('eventReports.reason ILIKE :reason', {
-        reason: `%${query.reason}%`,
+        reason: `%${query.reason}%`
       });
     }
     if (query.status) {
       qb.andWhere('eventReports.status = :status', {
-        status: query.status,
+        status: query.status
       });
     }
     if (query.createdAt) {
       qb.andWhere('eventReports.created_at >= :createdAt', {
-        createdAt: new Date(query.createdAt),
+        createdAt: new Date(query.createdAt)
       });
     }
 
@@ -102,14 +99,11 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     // RETORNANDO RESULTADO
     return {
       items: result.map((eventReport) => EventReportMapper.toDomain(eventReport)),
-      total,
+      total
     };
   }
 
-  async findOneReport(
-    eventReportId: string,
-    manager?: EntityManager,
-  ): Promise<EventReportDomainEntity | null> {
+  async findOneReport(eventReportId: string, manager?: EntityManager): Promise<EventReportDomainEntity | null> {
     const repository = this.getRepository(manager);
     const ormEntity = await repository.findOne({
       where: { id: eventReportId },
@@ -120,8 +114,8 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
         'event',
         'event.created_by',
         'event.created_by.person_role',
-        'event.created_by.person_profile',
-      ],
+        'event.created_by.person_profile'
+      ]
     });
     if (!ormEntity) return null;
     return EventReportMapper.toDomain(ormEntity);
@@ -131,7 +125,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     eventId: string,
     query: FindEventReportQueryDto,
     pagination: AdminPaginationInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('eventReports');
@@ -147,7 +141,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
 
     if (query.reason) {
       qb.andWhere('eventReports.reason ILIKE :reason', {
-        reason: `%${query.reason}%`,
+        reason: `%${query.reason}%`
       });
     }
     if (query.status) {
@@ -155,7 +149,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     }
     if (query.createdAt) {
       qb.andWhere('eventReports.created_at >= :createdAt', {
-        createdAt: query.createdAt,
+        createdAt: query.createdAt
       });
     }
 
@@ -166,7 +160,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
 
     const result = {
       items: items.map((eventReport) => EventReportMapper.toDomain(eventReport)),
-      total,
+      total
     };
 
     return result;
@@ -175,7 +169,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
   async findAll(
     query: FindEventReportQueryDto,
     pagination: AdminPaginationInterface,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<AdminPaginatedResultInterface<EventReportDomainEntity>> {
     const repository = this.getRepository(manager);
     const qb = repository.createQueryBuilder('eventReports');
@@ -191,7 +185,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     // VERIFICAÇÃO DE FILTROS(query)
     if (query.reason) {
       qb.andWhere('eventReports.reason ILIKE :reason', {
-        reason: `%${query.reason}%`,
+        reason: `%${query.reason}%`
       });
     }
     if (query.status) {
@@ -199,7 +193,7 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     }
     if (query.createdAt) {
       qb.andWhere('eventReports.created_at >= :createdAt', {
-        createdAt: query.createdAt,
+        createdAt: query.createdAt
       });
     }
 
@@ -212,14 +206,14 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
     // RETORNANDO RESULT
     return {
       items: result.map((eventReport) => EventReportMapper.toDomain(eventReport)),
-      total,
+      total
     };
   }
 
   async findOneReportOfEvent(
     eventId: string,
     eventReportId: string,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventReportDomainEntity | null> {
     const repository = this.getRepository(manager);
     const result = await repository.findOne({
@@ -228,14 +222,14 @@ export class EventReportRepositoryTypeOrm implements EventReportRepositoryInterf
         event: {
           created_by: {
             person_role: true,
-            person_profile: true,
-          },
+            person_profile: true
+          }
         },
         reporter: {
           person_role: true,
-          person_profile: true,
-        },
-      },
+          person_profile: true
+        }
+      }
     });
     if (!result) return null;
     return EventReportMapper.toDomain(result);

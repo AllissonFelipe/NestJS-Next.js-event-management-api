@@ -5,7 +5,7 @@ import {
   EventDetailsDto,
   EventPaginationDetailsDto,
   EventPaginationReponseDto,
-  EventResponseDto,
+  EventResponseDto
 } from './event-response.dto';
 import { EventsAddressDomainEntity } from 'src/modules/events/events-addresses/domain/events-addresses.domain-entity';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
@@ -16,7 +16,7 @@ export class EventPaginationResponseMapper {
     events: EventsDomainEntity[],
     page: number,
     limit: number,
-    total: number,
+    total: number
   ): EventPaginationReponseDto {
     const totalPages = Math.max(1, Math.ceil(total / limit));
     const hasNextPage = totalPages > page;
@@ -27,7 +27,7 @@ export class EventPaginationResponseMapper {
       total,
       totalPages,
       hasNextPage,
-      hasPreviousPage,
+      hasPreviousPage
     };
     return {
       events: events.map((event) => {
@@ -36,14 +36,14 @@ export class EventPaginationResponseMapper {
         }
         return EventResponseMapper.toResponse(event);
       }),
-      meta,
+      meta
     };
   }
 }
 export class EventResponseMapper {
   static toResponse(event: EventsDomainEntity): EventResponseDto {
     return {
-      event: EventMapper.toResponse(event, event.createdBy, event.address),
+      event: EventMapper.toResponse(event, event.createdBy, event.address)
     };
   }
 }
@@ -51,7 +51,7 @@ export class EventMapper {
   static toResponse(
     event: EventsDomainEntity,
     user: PersonDomainEntity,
-    eventAddress: EventsAddressDomainEntity,
+    eventAddress: EventsAddressDomainEntity
   ): EventDetailsDto {
     return {
       id: event.id,
@@ -63,7 +63,7 @@ export class EventMapper {
       createdBy: EventCreatedByMapper.toResponse(user),
       eventAddress: EventAddressMapper.toResponse(eventAddress),
       createdAt: event.createdAt,
-      updatedAt: event.updatedAt,
+      updatedAt: event.updatedAt
     };
   }
 }
@@ -76,7 +76,7 @@ export class EventAddressMapper {
       neighborhood: eventAddress.neighborhood,
       city: eventAddress.city,
       state: eventAddress.state,
-      zipCode: eventAddress.zipCode,
+      zipCode: eventAddress.zipCode
     };
   }
 }
@@ -85,7 +85,7 @@ export class EventCreatedByMapper {
     return {
       id: user.id,
       fullName: user.fullName,
-      avatarUrl: user.personProfile.avatarUrl ? user.personProfile.avatarUrl : undefined,
+      avatarUrl: user.personProfile.avatarUrl ? user.personProfile.avatarUrl : undefined
     };
   }
 }

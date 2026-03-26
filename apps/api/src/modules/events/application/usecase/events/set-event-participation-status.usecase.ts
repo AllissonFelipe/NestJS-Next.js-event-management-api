@@ -4,7 +4,7 @@ import { EnsurePersonExists } from '../../validators/ensure-person-exist.validat
 import { EnsureEventExists } from '../../validators/ensure-event-exist.validator';
 import {
   EVENT_PARTICIPANTS_REPOSITORY,
-  type EventParticipantsRepositoryInterface,
+  type EventParticipantsRepositoryInterface
 } from 'src/modules/event-participants/domain/event-participants.repository-interface';
 import { EventParticipantsDomainEntity } from 'src/modules/event-participants/domain/event-participants.domain-entity';
 import { EventParticipantsResponseMapper } from '../../responses/event-participants/event-participants.reponse-mapper';
@@ -22,13 +22,13 @@ export class SetEventParticipationStatusUseCase {
     @Inject()
     private readonly ensureEventExists: EnsureEventExists,
     @Inject(EVENT_PARTICIPANTS_REPOSITORY)
-    private readonly eventParticipantRepository: EventParticipantsRepositoryInterface,
+    private readonly eventParticipantRepository: EventParticipantsRepositoryInterface
   ) {}
 
   async execute(
     personId: string,
     eventId: string,
-    status: SetParticipationStatusDto,
+    status: SetParticipationStatusDto
   ): Promise<EventParticipantsResponseDto> {
     const person = await this.ensurePersonExists.ensure(personId);
     const event = await this.ensureEventExists.ensure(eventId);
@@ -38,10 +38,7 @@ export class SetEventParticipationStatusUseCase {
     if (event.isEventStatusPending()) {
       throw new EventInPendingStatusError();
     }
-    const eventParticipant = await this.eventParticipantRepository.findWithPersonIdAndEventId(
-      person,
-      event,
-    );
+    const eventParticipant = await this.eventParticipantRepository.findWithPersonIdAndEventId(person, event);
     if (!eventParticipant) {
       return await this.createParticipation(event, person, status);
     }
@@ -51,12 +48,12 @@ export class SetEventParticipationStatusUseCase {
   private async createParticipation(
     event: EventsDomainEntity,
     person: PersonDomainEntity,
-    status: SetParticipationStatusDto,
+    status: SetParticipationStatusDto
   ): Promise<EventParticipantsResponseDto> {
     const eventParticipant = EventParticipantsDomainEntity.create({
       event: event,
       person: person,
-      status: status.status,
+      status: status.status
     });
     const created = await this.eventParticipantRepository.persist(eventParticipant);
     return EventParticipantsResponseMapper.toResponse(created, event, person);
@@ -66,7 +63,7 @@ export class SetEventParticipationStatusUseCase {
     eventParticipant: EventParticipantsDomainEntity,
     event: EventsDomainEntity,
     person: PersonDomainEntity,
-    status: SetParticipationStatusDto,
+    status: SetParticipationStatusDto
   ): Promise<EventParticipantsResponseDto> {
     eventParticipant.updateStatus(status.status);
 

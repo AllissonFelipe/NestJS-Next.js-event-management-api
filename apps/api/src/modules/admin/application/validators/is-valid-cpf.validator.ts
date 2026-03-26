@@ -45,8 +45,8 @@ export function IsCPF(validationOptions?: ValidationOptions) {
         },
         defaultMessage(args: ValidationArguments) {
           return `${args.property} deve ser um CPF válido`;
-        },
-      },
+        }
+      }
     });
   };
 }

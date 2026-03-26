@@ -9,7 +9,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { EventsStatusEnum } from '../domain/events-status.enum';
 import { EventsImagesOrmEntity } from '../events-images/infra/events-images.orm-entity';
@@ -36,7 +36,7 @@ export class EventsOrmEntity {
 
   @ManyToOne(() => PersonOrmEntity, (person) => person.events, {
     nullable: false,
-    onDelete: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   @JoinColumn({ name: 'created_by' })
   created_by: PersonOrmEntity;
@@ -45,14 +45,14 @@ export class EventsOrmEntity {
   @Column({
     type: 'enum',
     enum: EventsStatusEnum,
-    name: 'status',
+    name: 'status'
   })
   status: EventsStatusEnum;
 
   @OneToOne(() => EventsAddressesOrmEntity, (address) => address.event, {
     cascade: true,
     eager: true,
-    nullable: false,
+    nullable: false
   })
   event_address: EventsAddressesOrmEntity;
 

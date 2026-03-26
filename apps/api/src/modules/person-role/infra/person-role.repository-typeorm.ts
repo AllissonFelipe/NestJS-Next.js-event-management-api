@@ -12,26 +12,20 @@ import { PersonRoleMapper } from './person-role.mapper';
 export class PersonRoleRepositoryTypeOrm implements PersonRoleRepositoryInterface {
   constructor(
     @InjectRepository(PersonRoleOrmEntity)
-    private readonly personRoleRepository: Repository<PersonRoleOrmEntity>,
+    private readonly personRoleRepository: Repository<PersonRoleOrmEntity>
   ) {}
 
-  async save(
-    personRole: PersonRoleDomainEntity,
-    manager?: EntityManager,
-  ): Promise<PersonRoleDomainEntity> {
+  async save(personRole: PersonRoleDomainEntity, manager?: EntityManager): Promise<PersonRoleDomainEntity> {
     const repository = this.getRepository(manager);
     const personRoleOrm = PersonRoleMapper.toOrm(personRole);
     const saved = await repository.save(personRoleOrm);
     return PersonRoleMapper.toDomain(saved);
   }
 
-  async findByRoleOrNull(
-    role: PersonRoleEnum,
-    manager?: EntityManager,
-  ): Promise<PersonRoleDomainEntity | null> {
+  async findByRoleOrNull(role: PersonRoleEnum, manager?: EntityManager): Promise<PersonRoleDomainEntity | null> {
     const repository = this.getRepository(manager);
     const roleOrm = await repository.findOne({
-      where: { role: role },
+      where: { role: role }
     });
     if (!roleOrm) return null;
     return PersonRoleMapper.toDomain(roleOrm);
@@ -40,7 +34,7 @@ export class PersonRoleRepositoryTypeOrm implements PersonRoleRepositoryInterfac
   async findByRole(role: PersonRoleEnum, manager?: EntityManager): Promise<PersonRoleDomainEntity> {
     const repository = this.getRepository(manager);
     const roleOrm = await repository.findOne({
-      where: { role: role },
+      where: { role: role }
     });
     if (!roleOrm) {
       throw new Error(`PersonRole '${role}' not found`);

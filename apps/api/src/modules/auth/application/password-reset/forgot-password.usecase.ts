@@ -2,19 +2,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { createHash, randomBytes } from 'crypto';
 import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
-import {
-  MAIL_SERVICE,
-  type MailServiceInterface,
-} from 'src/modules/mail/domain/mail-service.interface';
+import { MAIL_SERVICE, type MailServiceInterface } from 'src/modules/mail/domain/mail-service.interface';
 import { PasswordResetTokenDomainEntity } from 'src/modules/password-reset-token/domain/password-reset-token.domain-entity';
 import {
   PASSWORD_RESET_TOKEN,
-  type PasswordResetTokenRepositoryInterface,
+  type PasswordResetTokenRepositoryInterface
 } from 'src/modules/password-reset-token/domain/password-reset-token.repository-interface';
 import { PersonNotFoundError } from 'src/modules/person/domain/errors/person-not-found.error';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { AccountNotActivatedError } from 'src/modules/person/domain/errors/account-not-activated.error';
 
@@ -28,7 +25,7 @@ export class ForgotPasswordUseCase {
     @Inject(UNIT_OF_WORK)
     private readonly uow: UnitOfWorkInterface,
     @Inject(MAIL_SERVICE)
-    private readonly mailService: MailServiceInterface,
+    private readonly mailService: MailServiceInterface
   ) {}
 
   async executeForgotPassword(email: string): Promise<void> {
@@ -46,7 +43,7 @@ export class ForgotPasswordUseCase {
     const resetToken = PasswordResetTokenDomainEntity.create({
       token: hashToken,
       personId: person.id,
-      expiresAt: new Date(Date.now() + 1000 * 60 * 30),
+      expiresAt: new Date(Date.now() + 1000 * 60 * 30)
     });
 
     await this.uow.execute(async (manager) => {

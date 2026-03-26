@@ -10,9 +10,9 @@ import { EmailChangeTokenRepositoryTypeOrm } from './infra/email-change-token.re
   providers: [
     {
       provide: EMAIL_CHANGE_TOKEN_REPOSITORY,
-      useClass: EmailChangeTokenRepositoryTypeOrm,
-    },
+      useClass: EmailChangeTokenRepositoryTypeOrm
+    }
   ],
-  exports: [EMAIL_CHANGE_TOKEN_REPOSITORY],
+  exports: [EMAIL_CHANGE_TOKEN_REPOSITORY]
 })
 export class EmailChangeTokenModule {}

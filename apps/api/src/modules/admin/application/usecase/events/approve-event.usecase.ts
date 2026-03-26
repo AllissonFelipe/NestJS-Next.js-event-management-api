@@ -3,7 +3,7 @@ import { AdminEnsureEventExistsValidator } from '../../validators/ensure-event-e
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventPresenter } from '../../response/event/event-presenter';
 import { EventResponseDto } from '../../response/event/event-response.dto';
@@ -20,7 +20,7 @@ export class AdminApproveEventUseCase {
     @Inject()
     private readonly ensureEventExistsValidator: AdminEnsureEventExistsValidator,
     @Inject()
-    private readonly eventEmitter: EventEmitter2,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   async execute(adminPersonId: string, eventId: string): Promise<EventResponseDto> {

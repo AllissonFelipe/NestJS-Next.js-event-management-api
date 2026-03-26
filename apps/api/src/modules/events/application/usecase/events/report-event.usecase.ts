@@ -9,7 +9,7 @@ import { EnsureEventAlreadyNotReportedByUser } from '../../validators/ensure-eve
 import { EventReportDomainEntity } from 'src/modules/event-reports/domain/event-report.domain-entity';
 import {
   EVENT_REPORT_REPOSITORY,
-  type EventReportRepositoryInterface,
+  type EventReportRepositoryInterface
 } from 'src/modules/event-reports/domain/event-report.repository-interface';
 import { MyEventReportResponseMapper } from '../../responses/event-reports/my-event-report.response-mapper';
 
@@ -23,14 +23,10 @@ export class ReportEventUseCase {
     @Inject()
     private readonly ensureEventExist: EnsureEventExists,
     @Inject()
-    private readonly ensureEventAlreadyNotReportedByUser: EnsureEventAlreadyNotReportedByUser,
+    private readonly ensureEventAlreadyNotReportedByUser: EnsureEventAlreadyNotReportedByUser
   ) {}
 
-  async report(
-    userPersonId: string,
-    eventId: string,
-    dto: CreateEventReportDto,
-  ): Promise<MyEventReportResponseDto> {
+  async report(userPersonId: string, eventId: string, dto: CreateEventReportDto): Promise<MyEventReportResponseDto> {
     if (!userPersonId) {
       throw new PersonIdNotFoundError();
     }
@@ -43,7 +39,7 @@ export class ReportEventUseCase {
     const newEventReport = EventReportDomainEntity.create({
       event: event,
       reporter: userPerson,
-      reason: dto.reason,
+      reason: dto.reason
     });
     await this.eventReportRepository.persist(newEventReport);
     return MyEventReportResponseMapper.toResponse(newEventReport, event, userPerson);

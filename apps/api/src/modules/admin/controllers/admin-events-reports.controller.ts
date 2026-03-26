@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Inject,
-  Param,
-  Patch,
-  Query,
-  Request,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Param, Patch, Query, Request } from '@nestjs/common';
 import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 import { PersonRoleEnum } from 'src/modules/person-role/domain/person-role.enum';
 import { AdminFindEventReportUseCase } from '../application/usecase/event-reports/find-event-report.usecase';
@@ -18,7 +7,7 @@ import { type AuthRequest } from 'src/modules/auth/types/auth-request';
 import { FindEventReportQueryDto } from '../application/dtos/find-event-report-query.dto';
 import {
   AdminEventReportResponseDto,
-  AdminEventsReportsWithQueryResponseDto,
+  AdminEventsReportsWithQueryResponseDto
 } from '../application/response/event-report/admin-event-report-response.dto';
 import { UpdateEventReportStatusDto } from '../application/dtos/update-event-report-status.dto';
 
@@ -29,7 +18,7 @@ export class AdminEventsReportsController {
     @Inject()
     private readonly adminFindEventReportUseCase: AdminFindEventReportUseCase,
     @Inject()
-    private readonly adminUpdateEventReportStatusUseCase: AdminUpdateEventReportStatusUseCase,
+    private readonly adminUpdateEventReportStatusUseCase: AdminUpdateEventReportStatusUseCase
   ) {}
 
   // --------- ÁREA DE GERENCIAMENTO DE REPORTES DE EVENTOS ------------
@@ -39,7 +28,7 @@ export class AdminEventsReportsController {
   @HttpCode(HttpStatus.OK)
   async findAll(
     @Request() req: AuthRequest,
-    @Query() query: FindEventReportQueryDto,
+    @Query() query: FindEventReportQueryDto
   ): Promise<AdminEventsReportsWithQueryResponseDto> {
     return await this.adminFindEventReportUseCase.findAllReports(req.user.sub, query);
   }
@@ -49,20 +38,16 @@ export class AdminEventsReportsController {
   async findAllReportsOfEvent(
     @Request() req: AuthRequest,
     @Param('eventId') eventId: string,
-    @Query() query: FindEventReportQueryDto,
+    @Query() query: FindEventReportQueryDto
   ): Promise<AdminEventsReportsWithQueryResponseDto> {
-    return await this.adminFindEventReportUseCase.findAllReportsOfEvent(
-      req.user.sub,
-      eventId,
-      query,
-    );
+    return await this.adminFindEventReportUseCase.findAllReportsOfEvent(req.user.sub, eventId, query);
   }
   // ACHAR UM REPORT ESPECIFICO
   @Get(':eventReportId')
   @HttpCode(HttpStatus.OK)
   async findOneReport(
     @Request() req: AuthRequest,
-    @Param('eventReportId') eventReportId: string,
+    @Param('eventReportId') eventReportId: string
   ): Promise<AdminEventReportResponseDto> {
     return await this.adminFindEventReportUseCase.findOneReport(req.user.sub, eventReportId);
   }
@@ -72,7 +57,7 @@ export class AdminEventsReportsController {
   async updateStatus(
     @Request() req: AuthRequest,
     @Param('eventReportId') eventReportId: string,
-    @Body() dto: UpdateEventReportStatusDto,
+    @Body() dto: UpdateEventReportStatusDto
   ): Promise<AdminEventReportResponseDto> {
     return await this.adminUpdateEventReportStatusUseCase.execute(req.user.sub, eventReportId, dto);
   }

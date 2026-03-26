@@ -9,12 +9,12 @@ import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventsAddressDomainEntity } from 'src/modules/events/events-addresses/domain/events-addresses.domain-entity';
 import {
   EVENTS_ADDRESSES_REPOSITORY,
-  type EventsAddressesRepositoryInterface,
+  type EventsAddressesRepositoryInterface
 } from 'src/modules/events/events-addresses/domain/events-addresses.repository-interface';
 import { EventResponseMapper } from '../response/event/event-response-mapper';
 import { EventResponseDto } from '../response/event/event-response.dto';
@@ -31,7 +31,7 @@ export class UserCreateEventUseCase {
     @Inject(EVENTS_ADDRESSES_REPOSITORY)
     private readonly eventsAddressRepository: EventsAddressesRepositoryInterface,
     @Inject()
-    private readonly ensureUserExist: EnsureUserExists,
+    private readonly ensureUserExist: EnsureUserExists
   ) {}
 
   async execute(userPersonId: string, dto: UserCreateEventDto): Promise<EventResponseDto> {
@@ -57,7 +57,7 @@ export class UserCreateEventUseCase {
         neighborhood: dto.eventAddress.neighborhood,
         city: dto.eventAddress.city,
         state: dto.eventAddress.state,
-        zipCode: dto.eventAddress.zipCode,
+        zipCode: dto.eventAddress.zipCode
       });
 
       const eventDomain = EventsDomainEntity.create({
@@ -66,7 +66,7 @@ export class UserCreateEventUseCase {
         startAt: dto.startAt,
         endAt: dto.endAt,
         address: eventAddressDomain,
-        createdBy: user,
+        createdBy: user
       });
       return await this.eventsRepository.createEvent(eventDomain, manager);
     });

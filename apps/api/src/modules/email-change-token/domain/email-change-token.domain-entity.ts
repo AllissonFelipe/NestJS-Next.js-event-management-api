@@ -74,7 +74,7 @@ export class EmailChangeTokenDomainEntity {
       personId: params.personId,
       expiresAt: params.expiresAt,
       newEmail: params.newEmail,
-      usedAt: null,
+      usedAt: null
     });
   }
 
@@ -92,7 +92,7 @@ export class EmailChangeTokenDomainEntity {
       token: props.token,
       expiresAt: props.expiresAt,
       newEmail: props.newEmail,
-      usedAt: props.usedAt,
+      usedAt: props.usedAt
     });
   }
 }

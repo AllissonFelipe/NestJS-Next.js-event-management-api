@@ -43,7 +43,7 @@ import { AdminSubscriptionPlansController } from './controllers/admin-subscripti
     EventsModule,
     EventReportModule,
     MailModule,
-    SubscriptionPlansModule,
+    SubscriptionPlansModule
   ],
   controllers: [
     AdminController,
@@ -51,7 +51,7 @@ import { AdminSubscriptionPlansController } from './controllers/admin-subscripti
     AdminEventsController,
     AdminUserEventsController,
     AdminEventsReportsController,
-    AdminSubscriptionPlansController,
+    AdminSubscriptionPlansController
   ],
   providers: [
     FindAdminProfileUseCase,
@@ -77,9 +77,9 @@ import { AdminSubscriptionPlansController } from './controllers/admin-subscripti
     AdminDeleteSubscriptionPlanUseCase,
     {
       provide: UNIT_OF_WORK,
-      useClass: TypeOrmUnitOfWork,
-    },
+      useClass: TypeOrmUnitOfWork
+    }
   ],
-  exports: [],
+  exports: []
 })
 export class AdminModule {}

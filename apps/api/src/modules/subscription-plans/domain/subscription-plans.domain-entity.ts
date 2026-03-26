@@ -53,7 +53,7 @@ export class SubscriptionPlansDomainEntity {
       id: props.id ?? randomUUID(),
       subscriptions: [],
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     });
   }
 

@@ -11,18 +11,16 @@ import { AccountActivationTokenMapper } from './account-activation-token.mapper'
 export class AccountActivationTokenRepositoryTypeOrm implements AccountActivationTokenRepositoryInterface {
   constructor(
     @InjectRepository(AccountActivationTokenOrmEntity)
-    private readonly acivationTokenRepo: Repository<AccountActivationTokenOrmEntity>,
+    private readonly acivationTokenRepo: Repository<AccountActivationTokenOrmEntity>
   ) {}
 
   private getRepo(manager?: EntityManager): Repository<AccountActivationTokenOrmEntity> {
-    return manager
-      ? manager.getRepository(AccountActivationTokenOrmEntity)
-      : this.acivationTokenRepo;
+    return manager ? manager.getRepository(AccountActivationTokenOrmEntity) : this.acivationTokenRepo;
   }
 
   async save(
     token: AccountActivationTokenDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<AccountActivationTokenDomainEntity> {
     const repository = this.getRepo(manager);
     const tokenOrm = AccountActivationTokenMapper.toOrm(token);
@@ -30,14 +28,11 @@ export class AccountActivationTokenRepositoryTypeOrm implements AccountActivatio
     return AccountActivationTokenMapper.toDomain(saved);
   }
 
-  async findByToken(
-    token: string,
-    manager?: EntityManager,
-  ): Promise<AccountActivationTokenDomainEntity | null> {
+  async findByToken(token: string, manager?: EntityManager): Promise<AccountActivationTokenDomainEntity | null> {
     const repository = this.getRepo(manager);
     const accountActivationTokenOrm = await repository.findOne({
       where: { token: token },
-      relations: ['person_id'],
+      relations: ['person_id']
     });
     if (!accountActivationTokenOrm) return null;
     return AccountActivationTokenMapper.toDomain(accountActivationTokenOrm);

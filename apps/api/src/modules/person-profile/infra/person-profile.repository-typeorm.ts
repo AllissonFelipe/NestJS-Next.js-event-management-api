@@ -11,17 +11,14 @@ import { PersonProfileRepositoryInterface } from '../domain/person-profile.repos
 export class PersonProfileRepositoryTypeOrm implements PersonProfileRepositoryInterface {
   constructor(
     @InjectRepository(PersonProfileOrmEntity)
-    private readonly personProfileRepository: Repository<PersonProfileOrmEntity>,
+    private readonly personProfileRepository: Repository<PersonProfileOrmEntity>
   ) {}
 
   private getRepository(manager?: EntityManager): Repository<PersonProfileOrmEntity> {
     return manager ? manager.getRepository(PersonProfileOrmEntity) : this.personProfileRepository;
   }
 
-  async saveProfile(
-    profile: PersonProfileDomainEntity,
-    manager?: EntityManager,
-  ): Promise<PersonProfileDomainEntity> {
+  async saveProfile(profile: PersonProfileDomainEntity, manager?: EntityManager): Promise<PersonProfileDomainEntity> {
     const repository = this.getRepository(manager);
     const profileOrm = PersonProfileMapper.toOrm(profile);
     const saved = await repository.save(profileOrm);

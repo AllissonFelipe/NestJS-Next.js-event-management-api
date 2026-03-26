@@ -8,14 +8,14 @@ import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-enti
 export class EventParticipantMapper {
   static toDomain(
     ormEntity: EventParticipantsOrmEntity,
-    eventDomain?: EventsDomainEntity,
+    eventDomain?: EventsDomainEntity
   ): EventParticipantsDomainEntity {
     return EventParticipantsDomainEntity.restore({
       id: ormEntity.id,
       event: eventDomain ?? EventsMapper.toDomain(ormEntity.event),
       person: PersonMapper.toDomain(ormEntity.person),
       status: ormEntity.status,
-      createdAt: ormEntity.created_at,
+      createdAt: ormEntity.created_at
     });
   }
 

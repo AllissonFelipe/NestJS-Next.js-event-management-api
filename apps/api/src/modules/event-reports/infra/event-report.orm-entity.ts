@@ -1,14 +1,6 @@
 import { EventsOrmEntity } from '../../events/infra/events.orm-entity';
 import { PersonOrmEntity } from '../../person/infra/person.orm-entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { EventReportStatusEnum } from '../domain/event-report-status.enum';
 
 @Entity('event_reports')
@@ -19,21 +11,21 @@ export class EventReportOrmEntity {
 
   @ManyToOne(() => EventsOrmEntity, (event) => event.reports, {
     onDelete: 'CASCADE',
-    nullable: false,
+    nullable: false
   })
   @JoinColumn({ name: 'event_id' })
   event: EventsOrmEntity;
 
   @ManyToOne(() => PersonOrmEntity, (person) => person.reportsMade, {
     onDelete: 'CASCADE',
-    nullable: false,
+    nullable: false
   })
   @JoinColumn({ name: 'reporter_id' })
   reporter: PersonOrmEntity;
 
   @Column({
     type: 'text',
-    name: 'reason',
+    name: 'reason'
   })
   reason: string;
 
@@ -41,7 +33,7 @@ export class EventReportOrmEntity {
     type: 'enum',
     enum: EventReportStatusEnum,
     enumName: 'event_report_status_enum',
-    name: 'status',
+    name: 'status'
   })
   status: EventReportStatusEnum;
 

@@ -1,16 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   PASSWORD_RESET_TOKEN,
-  type PasswordResetTokenRepositoryInterface,
+  type PasswordResetTokenRepositoryInterface
 } from 'src/modules/password-reset-token/domain/password-reset-token.repository-interface';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
-import {
-  PASSWORD_HASHER,
-  type PasswordHasherInterface,
-} from '../create-account/password-hasher.interface';
+import { PASSWORD_HASHER, type PasswordHasherInterface } from '../create-account/password-hasher.interface';
 import { UNIT_OF_WORK, type UnitOfWorkInterface } from 'src/database/unit-of-work.interface';
 import { PasswordResetTokenNotFoundError } from 'src/modules/password-reset-token/domain/errors/reset-token-not-found.error';
 import { ResetPasswordTokenExpiredError } from 'src/modules/password-reset-token/domain/errors/reset-token-expired.error';
@@ -29,7 +26,7 @@ export class ResetPasswordUseCase {
     @Inject(UNIT_OF_WORK)
     private readonly uow: UnitOfWorkInterface,
     @Inject(PASSWORD_HASHER)
-    private readonly passwordHasher: PasswordHasherInterface,
+    private readonly passwordHasher: PasswordHasherInterface
   ) {}
 
   async executeResetPassword(rawToken: string, newPassword: string): Promise<void> {

@@ -11,10 +11,10 @@ export class CreateEventReportDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(15, {
-    message: 'A razão do reporte deve ter pelo menos 15 caracteres.',
+    message: 'A razão do reporte deve ter pelo menos 15 caracteres.'
   })
   @MaxLength(500, {
-    message: 'A razão do reporte não deve passar de 500 caracteres.',
+    message: 'A razão do reporte não deve passar de 500 caracteres.'
   })
   reason: string;
 }

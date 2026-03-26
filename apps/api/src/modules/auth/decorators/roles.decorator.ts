@@ -8,5 +8,5 @@ export const Roles = (...roles: PersonRoleEnum[]) => SetMetadata(ROLES_KEY, role
 
 export const ROLE_HIERARCHY: Record<PersonRoleEnum, number> = {
   [PersonRoleEnum.USER]: 1,
-  [PersonRoleEnum.ADMIN]: 2,
+  [PersonRoleEnum.ADMIN]: 2
 };

@@ -6,14 +6,11 @@ import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-enti
 export const EVENT_PARTICIPANTS_REPOSITORY = Symbol('EVENTS_PARTICIPANTS_REPOSITORY');
 
 export interface EventParticipantsRepositoryInterface {
-  persist(
-    domainEntity: EventParticipantsDomainEntity,
-    manager?: EntityManager,
-  ): Promise<EventParticipantsDomainEntity>;
+  persist(domainEntity: EventParticipantsDomainEntity, manager?: EntityManager): Promise<EventParticipantsDomainEntity>;
   findWithPersonIdAndEventId(
     person: PersonDomainEntity,
     event: EventsDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventParticipantsDomainEntity | null>;
   deleteParticipationOfUser(eventParticipantsId: string, manager?: EntityManager): Promise<void>;
 }

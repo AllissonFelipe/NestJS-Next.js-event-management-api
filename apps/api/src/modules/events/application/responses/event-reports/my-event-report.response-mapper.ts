@@ -3,7 +3,7 @@ import {
   MyEventReportEventCreatedByResponseDto,
   MyEventReportEventResponseDto,
   MyEventReportResponseDto,
-  MyEventsReportsWithQueryResponseDto,
+  MyEventsReportsWithQueryResponseDto
 } from './my-event-report.response-dto';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
 import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-entity';
@@ -13,16 +13,12 @@ export class MyEventsReportsWithQueryResponseMapper {
     eventReportDomain: EventReportDomainEntity[],
     page: number,
     limit: number,
-    total: number,
+    total: number
   ): MyEventsReportsWithQueryResponseDto {
     const totalPages = Math.max(1, Math.ceil(total / limit));
     return {
       items: eventReportDomain.map((eventReport) =>
-        MyEventReportResponseMapper.toResponse(
-          eventReport,
-          eventReport.event,
-          eventReport.event.createdBy,
-        ),
+        MyEventReportResponseMapper.toResponse(eventReport, eventReport.event, eventReport.event.createdBy)
       ),
       meta: {
         page,
@@ -30,8 +26,8 @@ export class MyEventsReportsWithQueryResponseMapper {
         total,
         totalPages: totalPages,
         hasNextPage: page < totalPages,
-        hasPreviousPage: page > 1,
-      },
+        hasPreviousPage: page > 1
+      }
     };
   }
 }
@@ -39,21 +35,21 @@ export class MyEventReportResponseMapper {
   static toResponse(
     eventReportDomain: EventReportDomainEntity,
     eventDomain: EventsDomainEntity,
-    userPersonDomain: PersonDomainEntity,
+    userPersonDomain: PersonDomainEntity
   ): MyEventReportResponseDto {
     return {
       id: eventReportDomain.id,
       event: MyEventReportEventResponseMapper.toResponse(eventDomain, userPersonDomain),
       reason: eventReportDomain.reason,
       status: eventReportDomain.status,
-      createdAt: eventReportDomain.createdAt,
+      createdAt: eventReportDomain.createdAt
     };
   }
 }
 export class MyEventReportEventResponseMapper {
   static toResponse(
     eventDomain: EventsDomainEntity,
-    userPersonDomain: PersonDomainEntity,
+    userPersonDomain: PersonDomainEntity
   ): MyEventReportEventResponseDto {
     return {
       id: eventDomain.id,
@@ -61,7 +57,7 @@ export class MyEventReportEventResponseMapper {
       description: eventDomain.description,
       startAt: eventDomain.startAt,
       endAt: eventDomain.endAt,
-      createdBy: MyEventReportEventCreatedByResponseMapper.toResponse(userPersonDomain),
+      createdBy: MyEventReportEventCreatedByResponseMapper.toResponse(userPersonDomain)
     };
   }
 }
@@ -70,9 +66,7 @@ export class MyEventReportEventCreatedByResponseMapper {
     return {
       id: userPersonDomain.id,
       name: userPersonDomain.fullName,
-      avatarUrl: userPersonDomain.personProfile.avatarUrl
-        ? userPersonDomain.personProfile.avatarUrl
-        : undefined,
+      avatarUrl: userPersonDomain.personProfile.avatarUrl ? userPersonDomain.personProfile.avatarUrl : undefined
     };
   }
 }

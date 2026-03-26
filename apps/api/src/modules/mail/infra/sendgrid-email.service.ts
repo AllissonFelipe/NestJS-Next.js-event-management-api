@@ -32,7 +32,7 @@ export class SendGridEmailService implements MailServiceInterface {
                 <p>Olá!</p>
                 <p>Clique no link para mudar o seu email:</p>
                 <a href="${activationLink}">${activationLink}</a>
-            `,
+            `
       });
     } catch (error) {
       console.error('Erro ao enviar email SendGrid:', error.response?.body || error);
@@ -50,7 +50,7 @@ export class SendGridEmailService implements MailServiceInterface {
                 <p>Olá!</p>
                 <p>Clique no link para ativar sua conta:</p>
                 <a href="${activationLink}">${activationLink}</a>
-            `,
+            `
       });
     } catch (error) {
       console.error('Erro ao enviar email SendGrid:', error.response?.body || error);

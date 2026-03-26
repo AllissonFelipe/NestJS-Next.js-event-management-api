@@ -27,7 +27,7 @@ export class AuthController {
     @Inject()
     private readonly resetPasswordUseCase: ResetPasswordUseCase,
     @Inject()
-    private readonly loginAccountUseCase: LoginAccountUseCase,
+    private readonly loginAccountUseCase: LoginAccountUseCase
   ) {}
 
   // CRIAR CONTA
@@ -36,7 +36,7 @@ export class AuthController {
   async register(@Body() dto: CreateAccountDto) {
     await this.createUseCase.execute(dto);
     return {
-      message: 'Conta criada com sucesso. Uma mensagem de ativação foi enviado para o seu email.',
+      message: 'Conta criada com sucesso. Uma mensagem de ativação foi enviado para o seu email.'
     };
   }
 
@@ -45,7 +45,7 @@ export class AuthController {
   async activateAccount(@Param('token') token: string) {
     await this.activateAccountUseCase.executeActivateAccount(token);
     return {
-      message: 'Conta ativada com sucesso.',
+      message: 'Conta ativada com sucesso.'
     };
   }
   // REENVIAR EMAIL DE ATIVAÇÃO DE CONTA
@@ -54,7 +54,7 @@ export class AuthController {
   async resendActivationEmail(@Body() dto: ResendActivationEmailDto) {
     await this.activateAccountUseCase.executeResendActivationEmail(dto.email);
     return {
-      message: 'Se conta estiver inativa e email existir, um email de ativação será logo enviado',
+      message: 'Se conta estiver inativa e email existir, um email de ativação será logo enviado'
     };
   }
 
@@ -71,7 +71,7 @@ export class AuthController {
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
     await this.forgotPasswordUseCase.executeForgotPassword(dto.email);
     return {
-      message: 'Se conta com este email existir, um email de alteração da senha será logo enviado',
+      message: 'Se conta com este email existir, um email de alteração da senha será logo enviado'
     };
   }
   // RESET PASSWORD
@@ -79,7 +79,7 @@ export class AuthController {
   async resetPassword(@Param('token') token: string, @Body() dto: ResetPasswordDto) {
     await this.resetPasswordUseCase.executeResetPassword(token, dto.newPassword);
     return {
-      message: 'Senha alterada com sucesso',
+      message: 'Senha alterada com sucesso'
     };
   }
 }

@@ -11,7 +11,7 @@ import { EventsAddressMapper } from './events-addresses.mapper';
 export class EventsAddressesRepositoryTypeOrm implements EventsAddressesRepositoryInterface {
   constructor(
     @InjectRepository(EventsAddressesOrmEntity)
-    private readonly eventAddressRepository: Repository<EventsAddressesOrmEntity>,
+    private readonly eventAddressRepository: Repository<EventsAddressesOrmEntity>
   ) {}
 
   private getRepository(manager?: EntityManager): Repository<EventsAddressesOrmEntity> {
@@ -20,7 +20,7 @@ export class EventsAddressesRepositoryTypeOrm implements EventsAddressesReposito
 
   async createEventAddress(
     eventAddress: EventsAddressDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventsAddressDomainEntity> {
     const repository = this.getRepository(manager);
     const eventAddressOrm = EventsAddressMapper.toOrm(eventAddress);
@@ -28,16 +28,13 @@ export class EventsAddressesRepositoryTypeOrm implements EventsAddressesReposito
     return EventsAddressMapper.toDomain(saved);
   }
 
-  async findByEventId(
-    eventId: string,
-    manager?: EntityManager,
-  ): Promise<EventsAddressDomainEntity | null> {
+  async findByEventId(eventId: string, manager?: EntityManager): Promise<EventsAddressDomainEntity | null> {
     const repository = this.getRepository(manager);
     const eventAddressOrm = await repository.findOne({
       where: {
-        event: { id: eventId },
+        event: { id: eventId }
       },
-      relations: ['event'],
+      relations: ['event']
     });
     if (!eventAddressOrm) return null;
     return EventsAddressMapper.toDomain(eventAddressOrm);
@@ -45,7 +42,7 @@ export class EventsAddressesRepositoryTypeOrm implements EventsAddressesReposito
 
   async updateEventAddress(
     eventAddress: EventsAddressDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventsAddressDomainEntity> {
     const repository = this.getRepository(manager);
     const eventAddressOrm = EventsAddressMapper.toOrm(eventAddress);

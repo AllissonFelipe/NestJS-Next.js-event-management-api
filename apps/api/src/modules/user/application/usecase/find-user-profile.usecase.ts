@@ -8,7 +8,7 @@ import { UserPresenter } from 'src/shared/responses/user/user-presenter.response
 export class FindUserProfileUseCase {
   constructor(
     @Inject()
-    private readonly ensureUserExists: EnsureUserExists,
+    private readonly ensureUserExists: EnsureUserExists
   ) {}
 
   async findUserProfileByPersonId(personId: string) {

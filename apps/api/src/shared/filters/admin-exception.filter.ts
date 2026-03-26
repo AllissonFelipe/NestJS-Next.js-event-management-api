@@ -23,7 +23,7 @@ import { AdminSubscriptionPlanAlreadyDeactivateError } from 'src/modules/admin/d
   AdminEventReportNotFoundError,
   AdminSubscriptionPlanNotFoundError,
   AdminSubscriptionPlanAlreadyActivateError,
-  AdminSubscriptionPlanAlreadyDeactivateError,
+  AdminSubscriptionPlanAlreadyDeactivateError
 )
 export class AdminExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -40,77 +40,77 @@ export class AdminExceptionFilter implements ExceptionFilter {
     if (exception instanceof AdminIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE ADMIN NÃO ENCONTRADO
     if (exception instanceof AdminNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE ROLE DE ADMIN REQUIRIDO
     if (exception instanceof AdminRoleRequiredError) {
       return response.status(HttpStatus.FORBIDDEN).json({
         statusCode: 403,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE USER(PERSON) ID NÃO ENCONTRADO
     if (exception instanceof UserPersonIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE EVENT ID NÃO ENCONTRADO - EventIdNotFoundError
     if (exception instanceof EventIdNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE EVENT NÃO ENCONTRADO - EventNotFoundError
     if (exception instanceof EventNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE UPDATE PAYLOAD VAZIO
     if (exception instanceof AdminInvalidUpdatePayloadError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE REPORTE DE EVENTO NÃO ENCONTRADO
     if (exception instanceof AdminEventReportNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE SUBSCRIPTION-PLAN NÃO ENCONTRADO
     if (exception instanceof AdminSubscriptionPlanNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE SUBSCRIPTION-PLAN JÁ ATIVADO
     if (exception instanceof AdminSubscriptionPlanAlreadyActivateError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DE SUBSCRIPTION-PLAN JÁ DESATIVADO
     if (exception instanceof AdminSubscriptionPlanAlreadyDeactivateError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -118,7 +118,7 @@ export class AdminExceptionFilter implements ExceptionFilter {
         INTERNO - STATUS CODE: 500 */
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

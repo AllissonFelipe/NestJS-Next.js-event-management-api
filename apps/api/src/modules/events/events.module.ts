@@ -28,7 +28,7 @@ import { FindMyEventReportsUseCase } from './application/usecase/events/find-my-
     PersonModule,
     EventAddressesModule,
     EventParticipantsModule,
-    EventReportModule,
+    EventReportModule
   ],
   controllers: [EventsController],
   providers: [
@@ -43,13 +43,13 @@ import { FindMyEventReportsUseCase } from './application/usecase/events/find-my-
     FindMyEventReportsUseCase,
     {
       provide: EVENTS_REPOSITORY,
-      useClass: EventsRepositoryTypeOrm,
+      useClass: EventsRepositoryTypeOrm
     },
     {
       provide: UNIT_OF_WORK,
-      useClass: TypeOrmUnitOfWork,
-    },
+      useClass: TypeOrmUnitOfWork
+    }
   ],
-  exports: [EVENTS_REPOSITORY],
+  exports: [EVENTS_REPOSITORY]
 })
 export class EventsModule {}

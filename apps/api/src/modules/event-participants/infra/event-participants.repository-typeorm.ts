@@ -10,18 +10,16 @@ import { PersonDomainEntity } from 'src/modules/person/domain/person.domain-enti
 export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepositoryInterface {
   constructor(
     @InjectRepository(EventParticipantsOrmEntity)
-    private readonly eventParticipantsRepository: Repository<EventParticipantsOrmEntity>,
+    private readonly eventParticipantsRepository: Repository<EventParticipantsOrmEntity>
   ) {}
 
   private getRepository(manager?: EntityManager): Repository<EventParticipantsOrmEntity> {
-    return manager
-      ? manager.getRepository(EventParticipantsOrmEntity)
-      : this.eventParticipantsRepository;
+    return manager ? manager.getRepository(EventParticipantsOrmEntity) : this.eventParticipantsRepository;
   }
 
   async persist(
     domainEntity: EventParticipantsDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventParticipantsDomainEntity> {
     const repository = this.getRepository(manager);
     await repository
@@ -31,22 +29,22 @@ export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepo
       .values({
         event: { id: domainEntity.event.id },
         person: { id: domainEntity.person.id },
-        status: domainEntity.status,
+        status: domainEntity.status
       })
       .orUpdate(['status'], ['event_id', 'person_id'])
       .execute();
     const updatedOrmEntity = await repository.findOne({
       where: {
         event: { id: domainEntity.event.id },
-        person: { id: domainEntity.person.id },
+        person: { id: domainEntity.person.id }
       },
       relations: {
         event: true,
         person: {
           person_role: true,
-          person_profile: true, // se o mapper precisa
-        },
-      },
+          person_profile: true // se o mapper precisa
+        }
+      }
     });
     if (!updatedOrmEntity) {
       throw new Error('EventParticipant not found after upsert');
@@ -57,7 +55,7 @@ export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepo
   async findWithPersonIdAndEventId(
     person: PersonDomainEntity,
     event: EventsDomainEntity,
-    manager?: EntityManager,
+    manager?: EntityManager
   ): Promise<EventParticipantsDomainEntity | null> {
     const repository = this.getRepository(manager);
     const ormEntity = await repository.findOne({
@@ -65,19 +63,16 @@ export class EventParticipantsRepositoryTypeOrm implements EventParticipantsRepo
       relations: {
         person: {
           person_role: true,
-          person_profile: true, // se o mapper precisa
+          person_profile: true // se o mapper precisa
         },
-        event: true,
-      },
+        event: true
+      }
     });
     if (!ormEntity) return null;
     return EventParticipantMapper.toDomain(ormEntity, event);
   }
 
-  async deleteParticipationOfUser(
-    eventParticipantsId: string,
-    manager?: EntityManager,
-  ): Promise<void> {
+  async deleteParticipationOfUser(eventParticipantsId: string, manager?: EntityManager): Promise<void> {
     const repository = this.getRepository(manager);
     await repository.delete(eventParticipantsId);
   }

@@ -15,7 +15,7 @@ export class MailHogEmailService implements MailServiceInterface {
     this.transporter = nodemailer.createTransport({
       host: this.configService.get('MAILHOG_HOST', 'localhost'),
       port: this.configService.get('MAILHOG_PORT', 1025),
-      secure: false,
+      secure: false
     });
     console.log('📧 MailHog configurado');
   }
@@ -29,7 +29,7 @@ export class MailHogEmailService implements MailServiceInterface {
         <p>Olá!</p>
         <p>Clique no link para mudar o seu email:</p>
         <a href="${activationLink}">${activationLink}</a>
-      `,
+      `
     });
   }
 
@@ -42,7 +42,7 @@ export class MailHogEmailService implements MailServiceInterface {
         <p>Olá!</p>
         <p>Clique no link para ativar sua conta:</p>
         <a href="${activationLink}">${activationLink}</a>
-      `,
+      `
     });
   }
 
@@ -55,7 +55,7 @@ export class MailHogEmailService implements MailServiceInterface {
         <p>Olá!</p>
         <p>Clique no link para mudar a senha da sua conta:</p>
         <a href="${resetPasswordLink}">${resetPasswordLink}</a>
-      `,
+      `
     });
   }
 
@@ -140,7 +140,7 @@ export class MailHogEmailService implements MailServiceInterface {
 
           </div>
         </div>
-      `,
+      `
     };
 
     await this.transporter.sendMail(payload);
@@ -150,7 +150,7 @@ export class MailHogEmailService implements MailServiceInterface {
     to: string,
     event: EventsDomainEntity,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    reason?: string,
+    reason?: string
   ): Promise<void> {
     const formattedDate = new Date(event.createdAt).toLocaleString('pt-BR');
     const address = `${event.address.street}, ${event.address.number} - ${event.address.neighborhood}<br>${event.address.city}/${event.address.state} - CEP: ${event.address.zipCode}`;
@@ -217,7 +217,7 @@ export class MailHogEmailService implements MailServiceInterface {
             </p>
           </div>
         </div>
-      `,
+      `
     };
     await this.transporter.sendMail(payload);
   }

@@ -4,7 +4,7 @@ import { AdminIdNotFoundError } from '../../../domain/errors/admin-id-not-found.
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventNotFoundError } from '../../../domain/errors/admin-event-not-found.error';
 
@@ -14,15 +14,11 @@ export class AdminDeleteEventUseCase {
     @Inject()
     private readonly isAdminValidator: IsAdminValidator,
     @Inject(EVENTS_REPOSITORY)
-    private readonly eventRepository: EventsRepositoryInterface,
+    private readonly eventRepository: EventsRepositoryInterface
   ) {}
 
   // DELETA UM EVENTO DO USUÁRIO byUserPersonId && eventId
-  async deleteUserEvent(
-    adminPersonId: string,
-    userPersonId: string,
-    eventId: string,
-  ): Promise<void> {
+  async deleteUserEvent(adminPersonId: string, userPersonId: string, eventId: string): Promise<void> {
     if (!adminPersonId) {
       throw new AdminIdNotFoundError();
     }

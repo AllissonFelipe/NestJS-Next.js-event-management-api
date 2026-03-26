@@ -2,11 +2,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   PERSON_PROFILE_REPOSITORY,
-  type PersonProfileRepositoryInterface,
+  type PersonProfileRepositoryInterface
 } from 'src/modules/person-profile/domain/person-profile.repository-interface';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { UserResponseDto } from '../../../../shared/responses/user/user-response.dto';
 import { PersonIdNotFoundError } from 'src/shared/errors/person-id-not-found.error';
@@ -28,13 +28,10 @@ export class UpdateUserProfileUsecase {
     @Inject(UNIT_OF_WORK)
     private readonly uow: TypeOrmUnitOfWork,
     @Inject()
-    private readonly ensureUserExists: EnsureUserExists,
+    private readonly ensureUserExists: EnsureUserExists
   ) {}
 
-  async updateUserProfileByPersonId(
-    personId: string,
-    dto: UpdateUserProfileDto,
-  ): Promise<UserResponseDto> {
+  async updateUserProfileByPersonId(personId: string, dto: UpdateUserProfileDto): Promise<UserResponseDto> {
     if (!personId) {
       throw new PersonIdNotFoundError();
     }

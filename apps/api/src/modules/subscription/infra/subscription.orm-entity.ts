@@ -7,7 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { SubscriptionStatusEnum } from '../domain/subscription-status.enum';
 
@@ -17,16 +17,14 @@ export class SubscriptionOrmEntity {
   id: string;
 
   @ManyToOne(() => PersonOrmEntity, (person) => person.subscriptions, {
-    nullable: false,
+    nullable: false
   })
   @JoinColumn({ name: 'person_id' })
   person: PersonOrmEntity;
 
-  @ManyToOne(
-    () => SubscriptionPlansOrmEntity,
-    (subscriptionPlan) => subscriptionPlan.subscriptions,
-    { nullable: false },
-  )
+  @ManyToOne(() => SubscriptionPlansOrmEntity, (subscriptionPlan) => subscriptionPlan.subscriptions, {
+    nullable: false
+  })
   @JoinColumn({ name: 'subscription_plan_id' })
   subscription_plan: SubscriptionPlansOrmEntity;
 
@@ -38,7 +36,7 @@ export class SubscriptionOrmEntity {
 
   @Column({
     type: 'enum',
-    enum: SubscriptionStatusEnum,
+    enum: SubscriptionStatusEnum
   })
   status: SubscriptionStatusEnum;
 

@@ -4,7 +4,7 @@ import { IsAdminValidator } from '../../validators/is-admin.validator';
 import { AdminNotFoundError } from '../../../domain/errors/admin-not-found.error';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { FiltersOfUserDto } from '../../dtos/filters-of-user.dto';
 import { PersonRepositoryFiltersInterface } from 'src/modules/person/domain/person-repository-filters-interface';
@@ -19,7 +19,7 @@ export class AdminFindUsersUseCase {
     @Inject()
     private readonly isAdminValidator: IsAdminValidator,
     @Inject(PERSON_REPOSITORY)
-    private readonly personRepository: PersonRepositoryInterface,
+    private readonly personRepository: PersonRepositoryInterface
   ) {}
 
   async byId(adminPersonId: string, userPersonId: string): Promise<UserResponseDto> {
@@ -36,7 +36,7 @@ export class AdminFindUsersUseCase {
 
   async withFilters(
     adminPersonId: string,
-    filtersDto: FiltersOfUserDto,
+    filtersDto: FiltersOfUserDto
   ): Promise<PaginationResultInterface<UserResponseDto>> {
     if (!adminPersonId) {
       throw new AdminNotFoundError();
@@ -49,24 +49,22 @@ export class AdminFindUsersUseCase {
       isActive: filtersDto.isActive,
       createdAt: filtersDto.createdAt,
       page: filtersDto.page ?? 1,
-      limit: filtersDto.limit ?? 10,
+      limit: filtersDto.limit ?? 10
     };
     const result = await this.personRepository.findWithFilters(filters);
     const page = filtersDto.page ? Number(filtersDto.page) : 1;
     const limit = filtersDto.limit ? Number(filtersDto.limit) : 10;
     const totalPages = Math.max(1, Math.ceil(result.meta.total / limit));
     return {
-      items: result.items.map((user) =>
-        UserPresenter.toResponse(user, user.personRole, user.personProfile),
-      ),
+      items: result.items.map((user) => UserPresenter.toResponse(user, user.personRole, user.personProfile)),
       meta: {
         page: page,
         limit: limit,
         total: result.meta.total,
         totalPages: Math.max(1, Math.ceil(result.meta.total / limit)),
         hasNextPage: totalPages > page,
-        hasPreviousPage: page > 1,
-      },
+        hasPreviousPage: page > 1
+      }
     };
   }
 }

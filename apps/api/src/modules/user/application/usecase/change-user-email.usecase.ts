@@ -6,19 +6,16 @@ import { EnsureEmailIsAvailable } from '../validator/ensure-email-is-available.v
 import { EmailAlreadyInUseError } from 'src/modules/person/domain/errors/email-already-In-use.error';
 import {
   PERSON_REPOSITORY,
-  type PersonRepositoryInterface,
+  type PersonRepositoryInterface
 } from 'src/modules/person/domain/person.repository-interface';
 import { EmailChangeTokenDomainEntity } from 'src/modules/email-change-token/domain/email-change-token.domain-entity';
 import { createHash, randomBytes } from 'crypto';
-import {
-  MAIL_SERVICE,
-  type MailServiceInterface,
-} from 'src/modules/mail/domain/mail-service.interface';
+import { MAIL_SERVICE, type MailServiceInterface } from 'src/modules/mail/domain/mail-service.interface';
 import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
 import {
   EMAIL_CHANGE_TOKEN_REPOSITORY,
-  type EmailChangeTokenRepositoryInterface,
+  type EmailChangeTokenRepositoryInterface
 } from 'src/modules/email-change-token/domain/email-change-token.repository-interface';
 import { EmailChangeTokenNotFoundError } from 'src/modules/email-change-token/domain/errors/email-token-change-not-found.error';
 import { EmailChangeTokenAlreadyUsedError } from 'src/modules/email-change-token/domain/errors/email-token-change-already-used.error';
@@ -40,7 +37,7 @@ export class ChangeUserEmailUseCase {
     @Inject()
     private readonly ensureUserExists: EnsureUserExists,
     @Inject()
-    private readonly ensureEmailIsAvailable: EnsureEmailIsAvailable,
+    private readonly ensureEmailIsAvailable: EnsureEmailIsAvailable
   ) {}
 
   async requestEmailChange(personId: string, dto: ChangeUserEmailDto): Promise<void> {
@@ -64,7 +61,7 @@ export class ChangeUserEmailUseCase {
         personId: person.id,
         token: hashToken,
         newEmail: dto.email,
-        expiresAt: new Date(Date.now() + 1000 * 60 * 30),
+        expiresAt: new Date(Date.now() + 1000 * 60 * 30)
       });
 
       await this.emailChangeTokenRepository.save(token, manager);

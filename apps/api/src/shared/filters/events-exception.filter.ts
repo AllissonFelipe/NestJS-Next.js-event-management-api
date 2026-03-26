@@ -27,7 +27,7 @@ import { NothingToUpdateError } from 'src/modules/events/domain/errors/nothing-t
   EventParticipationNotFoundError,
   EventReportNotFoundError,
   EventCannotBeApprovedError,
-  EventIsAlreadyApprovedError,
+  EventIsAlreadyApprovedError
 )
 export class EventsExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -44,7 +44,7 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof EventNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -52,7 +52,7 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof EventAddressNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -60,7 +60,7 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof InvalidEventDateError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -68,7 +68,7 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof EventEndDateInPastError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -76,7 +76,7 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof InvalidEventDateRangeError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
 
@@ -84,62 +84,62 @@ export class EventsExceptionFilter implements ExceptionFilter {
     if (exception instanceof NothingToUpdateError) {
       return response.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
         statusCode: 422,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro do status do evento is final
     if (exception instanceof EventInFinalStatusError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // erro do evento ainda estar in PENDING status
     if (exception instanceof EventInPendingStatusError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // ERRO DO STATUS DO EVENTO NÃO PODENDO SER ALTERADO
     if (exception instanceof EventStatusCannotBeChangedError) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de event participation não encontrado
     if (exception instanceof EventParticipationNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro de reporte de evento não encontrado
     if (exception instanceof EventReportNotFoundError) {
       return response.status(HttpStatus.NOT_FOUND).json({
         statusCode: 404,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro do evento nao poder ser aprovado
     if (exception instanceof EventCannotBeApprovedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // Erro do evento ja estar aprovado
     if (exception instanceof EventIsAlreadyApprovedError) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: 409,
-        message: exception.message,
+        message: exception.message
       });
     }
     // outros erros podem ser tratados aqui
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
-      message: 'Erro interno do servidor',
+      message: 'Erro interno do servidor'
     });
   }
 }

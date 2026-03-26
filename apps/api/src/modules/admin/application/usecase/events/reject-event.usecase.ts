@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EventResponseDto } from '../../response/event/event-response.dto';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { IsAdminValidator } from '../../validators/is-admin.validator';
 import { AdminEnsureEventExistsValidator } from '../../validators/ensure-event-exist.validator';
@@ -19,14 +19,10 @@ export class AdminRejectEventUseCase {
     @Inject()
     private readonly ensureEventExists: AdminEnsureEventExistsValidator,
     @Inject()
-    private readonly eventEmitter: EventEmitter2,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
-  async execute(
-    adminPersonId: string,
-    eventId: string,
-    reason?: string,
-  ): Promise<EventResponseDto> {
+  async execute(adminPersonId: string, eventId: string, reason?: string): Promise<EventResponseDto> {
     await this.isAdminValidator.validate(adminPersonId);
     const event = await this.ensureEventExists.ensureByEventId(eventId);
     event.markAsRejected();

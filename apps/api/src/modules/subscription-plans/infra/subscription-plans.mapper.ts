@@ -30,11 +30,9 @@ export class SubscriptionPlansMapper {
       isActive: orm.is_active,
       createdBy: PersonMapper.toDomain(orm.created_by),
       // TODO: Arrumar depois que criar subscription domain
-      subscriptions: orm.subscriptions
-        ? orm.subscriptions.map((sub) => SubscriptionMapper.toDomain(sub))
-        : [],
+      subscriptions: orm.subscriptions ? orm.subscriptions.map((sub) => SubscriptionMapper.toDomain(sub)) : [],
       createdAt: orm.created_at,
-      updatedAt: orm.updated_at,
+      updatedAt: orm.updated_at
     });
   }
 }

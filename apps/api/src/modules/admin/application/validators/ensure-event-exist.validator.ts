@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
 import {
   EVENTS_REPOSITORY,
-  type EventsRepositoryInterface,
+  type EventsRepositoryInterface
 } from 'src/modules/events/domain/events.repository-interface';
 import { EventNotFoundError } from '../../domain/errors/admin-event-not-found.error';
 import { EventIdNotFoundError } from '../../domain/errors/admin-event-id-not-found.error';
@@ -11,7 +11,7 @@ import { EventIdNotFoundError } from '../../domain/errors/admin-event-id-not-fou
 export class AdminEnsureEventExistsValidator {
   constructor(
     @Inject(EVENTS_REPOSITORY)
-    private readonly eventsRepository: EventsRepositoryInterface,
+    private readonly eventsRepository: EventsRepositoryInterface
   ) {}
 
   async ensureByEventId(eventId: string): Promise<EventsDomainEntity> {

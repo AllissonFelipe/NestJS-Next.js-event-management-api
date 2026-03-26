@@ -11,9 +11,9 @@ import { PersonProfileRepositoryTypeOrm } from './infra/person-profile.repositor
   providers: [
     {
       provide: PERSON_PROFILE_REPOSITORY,
-      useClass: PersonProfileRepositoryTypeOrm,
-    },
+      useClass: PersonProfileRepositoryTypeOrm
+    }
   ],
-  exports: [PERSON_PROFILE_REPOSITORY],
+  exports: [PERSON_PROFILE_REPOSITORY]
 })
 export class PersonProfileModule {}

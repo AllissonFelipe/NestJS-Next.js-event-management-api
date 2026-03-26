@@ -8,13 +8,7 @@ export class AccountActivationTokenDomainEntity {
   private _expiresAt: Date;
   private _usedAt: Date | null;
 
-  private constructor(props: {
-    id: string;
-    personId: string;
-    token: string;
-    expiresAt: Date;
-    usedAt: Date | null;
-  }) {
+  private constructor(props: { id: string; personId: string; token: string; expiresAt: Date; usedAt: Date | null }) {
     this._id = props.id;
     this._personId = props.personId;
     this._token = props.token;
@@ -67,7 +61,7 @@ export class AccountActivationTokenDomainEntity {
       personId: params.personId,
       token: params.token,
       expiresAt: params.expiresAt,
-      usedAt: null,
+      usedAt: null
     });
   }
 
@@ -83,7 +77,7 @@ export class AccountActivationTokenDomainEntity {
       personId: props.personId,
       token: props.token,
       expiresAt: props.expiresAt,
-      usedAt: props.usedAt,
+      usedAt: props.usedAt
     });
   }
 }

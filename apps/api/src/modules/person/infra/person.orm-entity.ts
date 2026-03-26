@@ -12,7 +12,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { SubscriptionOrmEntity } from '../../subscription/infra/subscription.orm-entity';
 
@@ -37,13 +37,13 @@ export class PersonOrmEntity {
   is_active: boolean;
 
   @ManyToOne(() => PersonRoleOrmEntity, (role) => role.persons, {
-    nullable: false,
+    nullable: false
   })
   @JoinColumn({ name: 'person_role_id' })
   person_role: PersonRoleOrmEntity;
 
   @OneToOne(() => PersonProfileOrmEntity, (profile) => profile.person, {
-    nullable: false,
+    nullable: false
   })
   @JoinColumn({ name: 'person_profile_id' })
   person_profile: PersonProfileOrmEntity;
