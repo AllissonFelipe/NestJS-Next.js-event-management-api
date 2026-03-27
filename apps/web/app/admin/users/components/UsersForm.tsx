@@ -5,6 +5,7 @@ import { User } from '../types/user.type';
 import { UsersFiltersType } from '../types/user-filter.type';
 import { Calendar } from '@/components/ui/calendar';
 import { ptBR } from 'date-fns/locale';
+import UserPanelModal from './UserPanelModal';
 
 export default function UsersForm() {
   const [users, setUsers] = useState<User[]>([]);
@@ -17,6 +18,8 @@ export default function UsersForm() {
   });
   const [showCreatedAtCalendar, setShowCreatedAtCalendar] = useState(false);
   const [debouncedFilters, setDebouncedFilters] = useState(filters);
+
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
@@ -201,10 +204,38 @@ export default function UsersForm() {
             <div className="p-4 space-y-2">
               <h2 className="font-semibold text-lg text-gray-900">{user.person.fullName}</h2>
               <p className="text-sm text-gray-600">CPF: {user.person.cpf}</p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedUserId(user.person.id);
+                }}
+              >
+                Detalhes
+              </button>
             </div>
           </div>
         ))}
       </div>
+      {/* PAGINATION */}
+      <div className="flex justify-center items-center gap-3 mt-10">
+        <button
+          onClick={() => setPage((p) => p - 1)}
+          disabled={!hasPreviousPage}
+          className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50 disabled:opacity-50"
+        >
+          ← Anterior
+        </button>
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          disabled={!hasNextPage}
+          className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50 disabled:opacity-50"
+        >
+          Próxima →
+        </button>
+      </div>
+      {selectedUserId && (
+        <UserPanelModal userId={selectedUserId} onClose={() => setSelectedUserId(null)} />
+      )}
     </div>
   );
 }
