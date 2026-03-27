@@ -11,9 +11,16 @@ import { SubscriptionRepositoryTypeOrm } from './infra/subscription.repository-t
 import { PaymentsModule } from '../payments/payments.module';
 import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SubscriptionOrmEntity]), PersonModule, SubscriptionPlansModule, PaymentsModule],
+  imports: [
+    TypeOrmModule.forFeature([SubscriptionOrmEntity]),
+    PersonModule,
+    SubscriptionPlansModule,
+    PaymentsModule,
+    MailModule
+  ],
   controllers: [SubscriptionController],
   providers: [
     FindSubscriptionPlansUseCase,

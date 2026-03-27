@@ -6,6 +6,7 @@ import { SubscriptionPlanResponseDto } from './application/response/subscription
 import { Roles } from '../auth/decorators/roles.decorator';
 import { PersonRoleEnum } from '../person-role/domain/person-role.enum';
 import { CreateSubscriptionUseCase } from './application/usecase/create-subscription.usecase';
+import { CreateSubscriptionResponseDto } from './application/response/create-subscription-response.dto';
 
 @Controller('subscriptions')
 @Roles(PersonRoleEnum.USER)
@@ -35,7 +36,10 @@ export class SubscriptionController {
   // SE INSCREVER EM ALGUM PLANO
   // ---------------------- ROTAS PRIVADAS ---------------------
   @Post('plans/:planId/subscribe')
-  async subscribe(@Request() req: AuthRequest, @Param('planId') planId: string): Promise<any> {
+  async subscribe(
+    @Request() req: AuthRequest,
+    @Param('planId') planId: string
+  ): Promise<CreateSubscriptionResponseDto> {
     return await this.createSubscriptionUseCase.execute(req.user.sub, planId);
   }
 }

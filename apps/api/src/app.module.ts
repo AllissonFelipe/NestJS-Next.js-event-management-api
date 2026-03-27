@@ -23,6 +23,7 @@ import { EventParticipantsModule } from './modules/event-participants/event-part
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { WebhooksModule } from './modules/webhooks/webhooks.module';
     AdminModule,
     EventParticipantsModule,
     SubscriptionModule,
+    PaymentsModule,
     EventEmitterModule.forRoot(),
     WebhooksModule
   ],

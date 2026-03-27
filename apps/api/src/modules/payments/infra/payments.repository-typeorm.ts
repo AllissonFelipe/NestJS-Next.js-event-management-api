@@ -33,7 +33,13 @@ export class PaymentsRepositoryTypeOrm implements PaymentsRepositoryInterface {
     const repository = this.getRepository(manager);
     const orm = await repository.findOne({
       where: { subscription: { id: subscriptionId } },
-      relations: ['subscription', 'subscription.person', 'subscription.subscription_plan', 'subscription.person.person_role', 'subscription.person.person_profile']
+      relations: [
+        'subscription',
+        'subscription.person',
+        'subscription.subscription_plan',
+        'subscription.person.person_role',
+        'subscription.person.person_profile'
+      ]
     });
     if (!orm) return null;
     return PaymentsMapper.toDomain(orm);

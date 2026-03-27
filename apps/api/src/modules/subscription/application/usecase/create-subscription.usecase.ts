@@ -27,6 +27,8 @@ import {
 import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
 import { CreateSubscriptionResponseMapper } from '../response/create-subscription-response.mapper';
+import { CreateSubscriptionResponseDto } from '../response/create-subscription-response.dto';
+import { MAIL_SERVICE, type MailServiceInterface } from 'src/modules/mail/domain/mail-service.interface';
 
 @Injectable()
 export class CreateSubscriptionUseCase {
@@ -40,10 +42,12 @@ export class CreateSubscriptionUseCase {
     @Inject(PAYMENTS_REPOSITORY)
     private readonly paymentsRepository: PaymentsRepositoryInterface,
     @Inject(UNIT_OF_WORK)
-    private readonly uow: TypeOrmUnitOfWork
+    private readonly uow: TypeOrmUnitOfWork,
+    @Inject(MAIL_SERVICE)
+    private readonly mailService: MailServiceInterface
   ) {}
 
-  async execute(personId: string, planId: string): Promise<any> {
+  async execute(personId: string, planId: string): Promise<CreateSubscriptionResponseDto> {
     const result = await this.uow.execute(async (manager) => {
       const person = await this.personRepository.findPersonById(personId, manager);
       if (!person) {
@@ -87,18 +91,18 @@ export class CreateSubscriptionUseCase {
           payer: {
             id: person.id,
             name: person.fullName,
-            email: person.email,
+            email: person.email
           },
           back_urls: {
-            success: 'https://app.com/success',
-            failure: 'https://app.com/failure',
-            pending: 'https://app.com/pending'
+            success: `${process.env.NGROK_URL}/payment/success`,
+            failure: `${process.env.NGROK_URL}/payment/failure`,
+            pending: `${process.env.NGROK_URL}/payment/pending`
           },
           auto_return: 'approved',
           metadata: {
             subscriptionId: subscription.id
           },
-          external_reference: subscription.id,
+          external_reference: subscription.id
         },
         { headers: { Authorization: `Bearer ${mpAccessToken}` } }
       );
@@ -121,8 +125,13 @@ export class CreateSubscriptionUseCase {
         subscription: managedSubscription,
         payment: payment,
         plan,
+        email: person.email
       };
     });
-    return CreateSubscriptionResponseMapper.toResponse(result.payment, result.plan)
+    await this.mailService.sendCreateSubscriptionEmail(
+      result.email,
+      CreateSubscriptionResponseMapper.toResponse(result.payment, result.plan)
+    );
+    return CreateSubscriptionResponseMapper.toResponse(result.payment, result.plan);
   }
 }

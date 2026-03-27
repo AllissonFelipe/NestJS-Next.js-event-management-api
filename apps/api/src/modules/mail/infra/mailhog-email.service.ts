@@ -6,6 +6,9 @@ import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { MailServiceInterface } from '../domain/mail-service.interface';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
+import { CreateSubscriptionResponseDto } from 'src/modules/subscription/application/response/create-subscription-response.dto';
+import { PaymentsStatusEnum } from 'src/modules/payments/domain/payments-status.enum';
+import { PaymentsDomainEntity } from 'src/modules/payments/domain/payments.domain-entity';
 
 @Injectable()
 export class MailHogEmailService implements MailServiceInterface {
@@ -219,6 +222,188 @@ export class MailHogEmailService implements MailServiceInterface {
         </div>
       `
     };
+    await this.transporter.sendMail(payload);
+  }
+
+  async sendCreateSubscriptionEmail(to: string, obj: CreateSubscriptionResponseDto): Promise<void> {
+    const { subscription } = obj;
+    const { payment, subscriptionPlan } = subscription;
+
+    // Só envia se estiver aguardando pagamento
+    if (payment.status !== PaymentsStatusEnum.PENDING) return;
+
+    const formattedAmount = payment.amount.toFixed(2);
+
+    const payload = {
+      from: '"Enova Educacional" <no-reply@enovaeducacional.com>',
+      to,
+      subject: `💳 Finalize sua assinatura "${subscriptionPlan.name}"`,
+      text: `
+      Olá,
+
+      Sua assinatura foi criada com sucesso, mas ainda está pendente de pagamento.
+
+      📦 Detalhes do plano
+      Nome: ${subscriptionPlan.name}
+      Descrição: ${subscriptionPlan.description}
+      Duração: ${subscriptionPlan.durationInDays} dias
+
+      💳 Pagamento
+      Valor: R$ ${formattedAmount}
+      Status: ${payment.status}
+
+      Para ativar sua assinatura, acesse o link abaixo e finalize o pagamento:
+      ${payment.paymentUrl}
+
+      Após a confirmação, sua assinatura será ativada automaticamente.
+
+      Se você já realizou o pagamento, desconsidere este e-mail.
+
+      Obrigado por usar nossa plataforma.
+      Enova Educacional
+    `,
+      html: `
+      <div style="font-family: Arial, sans-serif; background:#f5f6fa; padding:30px;">
+        <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:10px;">
+          
+          <h2 style="color:#009ee3;">💳 Finalize sua assinatura</h2>
+
+          <p>Olá,</p>
+
+          <p>
+            Sua assinatura <strong>${subscriptionPlan.name}</strong> foi criada com sucesso,
+            mas ainda está aguardando o pagamento para ser ativada.
+          </p>
+
+          <div style="background:#f8f9fa; padding:20px; border-radius:8px; margin-top:20px;">
+            <h3 style="margin-top:0;">📦 Detalhes do plano</h3>
+
+            <p><strong>Nome:</strong> ${subscriptionPlan.name}</p>
+            <p><strong>Descrição:</strong> ${subscriptionPlan.description}</p>
+            <p><strong>Duração:</strong> ${subscriptionPlan.durationInDays} dias</p>
+          </div>
+
+          <div style="background:#f8f9fa; padding:20px; border-radius:8px; margin-top:20px;">
+            <h3 style="margin-top:0;">💳 Pagamento</h3>
+
+            <p><strong>Valor:</strong> R$ ${formattedAmount}</p>
+            <p><strong>Status:</strong> ${payment.status}</p>
+          </div>
+
+          <div style="text-align:center; margin-top:30px;">
+            <a href="${payment.paymentUrl}" 
+              style="
+                display:inline-block;
+                padding:14px 24px;
+                background-color:#009ee3;
+                color:#ffffff;
+                text-decoration:none;
+                border-radius:6px;
+                font-weight:bold;
+              ">
+              👉 Pagar agora
+            </a>
+          </div>
+
+          <p style="margin-top:25px;">
+            Após a confirmação do pagamento, sua assinatura será ativada automaticamente.
+          </p>
+
+          <p>
+            Se você já realizou o pagamento, pode ignorar este e-mail 😉
+          </p>
+
+          <hr style="margin:30px 0"/>
+
+          <p style="font-size:12px; color:#777;">
+            Enova Educacional • Plataforma de Assinaturas
+          </p>
+        </div>
+      </div>
+    `
+    };
+
+    await this.transporter.sendMail(payload);
+  }
+
+  async sendPaidSubscriptionEmail(to: string, payment: PaymentsDomainEntity): Promise<void> {
+    // Garante que só envia quando pago
+    if (payment.status !== PaymentsStatusEnum.PAID) return;
+
+    const formattedAmount = payment.amount.toFixed(2);
+
+    const payload = {
+      from: '"Enova Educacional" <no-reply@enovaeducacional.com>',
+      to,
+      subject: `✅ Pagamento aprovado com sucesso`,
+      text: `
+      Olá,
+
+      Seu pagamento foi aprovado com sucesso! 🎉
+
+      💳 Detalhes do pagamento
+      Valor: R$ ${formattedAmount}
+      Status: ${payment.status}
+      ID do pagamento: ${payment.id}
+
+      Sua assinatura já está ativa e você já pode aproveitar todos os benefícios da plataforma.
+
+      Obrigado por escolher a Enova Educacional!
+    `,
+      html: `
+      <div style="font-family: Arial, sans-serif; background:#f5f6fa; padding:30px;">
+        <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:10px;">
+          
+          <h2 style="color:#2ecc71;">✅ Pagamento aprovado!</h2>
+
+          <p>Olá,</p>
+
+          <p>
+            Recebemos seu pagamento com sucesso! 🎉
+          </p>
+
+          <div style="background:#f8f9fa; padding:20px; border-radius:8px; margin-top:20px;">
+            <h3 style="margin-top:0;">💳 Detalhes do pagamento</h3>
+
+            <p><strong>Valor:</strong> R$ ${formattedAmount}</p>
+            <p><strong>Status:</strong> ${payment.status}</p>
+            <p><strong>ID:</strong> ${payment.id}</p>
+          </div>
+
+          <div style="text-align:center; margin-top:30px;">
+            <span 
+              style="
+                display:inline-block;
+                padding:14px 24px;
+                background-color:#2ecc71;
+                color:#ffffff;
+                border-radius:6px;
+                font-weight:bold;
+              ">
+              ✔ Pagamento confirmado
+            </span>
+          </div>
+
+          <p style="margin-top:25px;">
+            Sua assinatura já está ativa e você pode aproveitar todos os recursos da plataforma 🚀
+          </p>
+
+          <p>
+            Se precisar de ajuda, nossa equipe está à disposição.
+          </p>
+
+          <p>Obrigado por escolher a Enova Educacional!</p>
+
+          <hr style="margin:30px 0"/>
+
+          <p style="font-size:12px; color:#777;">
+            Enova Educacional • Plataforma de Assinaturas
+          </p>
+        </div>
+      </div>
+    `
+    };
+
     await this.transporter.sendMail(payload);
   }
 }

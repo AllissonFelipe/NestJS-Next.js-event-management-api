@@ -9,7 +9,7 @@ export class PaymentsMapper {
     orm.id = domain.id;
     orm.provider = domain.provider;
     if (domain.subscription) {
-      orm.subscription = SubscriptionMapper.toOrm(domain.subscription); 
+      orm.subscription = SubscriptionMapper.toOrm(domain.subscription);
       // ou, se você só precisa da FK:
       // orm.subscription_id = domain.subscription.id;
     }
@@ -60,7 +60,7 @@ export class PaymentsMapper {
       createdAt: orm.created_at,
       updatedAt: orm.updated_at,
 
-      subscription: { id: orm.subscription?.id } as any, // só ID
+      subscription: { id: orm.subscription?.id } as any // só ID
     });
 
     return domain;

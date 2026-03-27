@@ -5,6 +5,8 @@ import { MailServiceInterface } from '../domain/mail-service.interface';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventsDomainEntity } from 'src/modules/events/domain/events.domain-entity';
+import { CreateSubscriptionResponseDto } from 'src/modules/subscription/application/response/create-subscription-response.dto';
+import { PaymentsDomainEntity } from 'src/modules/payments/domain/payments.domain-entity';
 
 @Injectable()
 export class SendGridEmailService implements MailServiceInterface {
@@ -14,6 +16,12 @@ export class SendGridEmailService implements MailServiceInterface {
     this.apiKey = this.configService.getOrThrow<string>('SENDGRID_API_KEY');
     console.log('SendGrid key carregada:', this.apiKey.startsWith('SG.'));
     sgMail.setApiKey(this.apiKey);
+  }
+  sendPaidSubscriptionEmail(to: string, payment: PaymentsDomainEntity): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  sendCreateSubscriptionEmail(to: string, obj: CreateSubscriptionResponseDto): Promise<void> {
+    throw new Error('Method not implemented.');
   }
   sendEventRejectedEmail(to: string, event: EventsDomainEntity, reason?: string): Promise<void> {
     throw new Error('Method not implemented.');
