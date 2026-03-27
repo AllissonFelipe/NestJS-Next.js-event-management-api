@@ -8,6 +8,11 @@ export class PaymentsMapper {
 
     orm.id = domain.id;
     orm.provider = domain.provider;
+    if (domain.subscription) {
+    orm.subscription = SubscriptionMapper.toOrm(domain.subscription); 
+    // ou, se você só precisa da FK:
+    // orm.subscription_id = domain.subscription.id;
+  }
     orm.external_session_id = domain.externalSessionId;
     orm.external_payment_id = domain.externalPaymentId;
     orm.payment_url = domain.paymentUrl;

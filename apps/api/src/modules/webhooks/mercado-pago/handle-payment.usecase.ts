@@ -28,9 +28,37 @@ export class HandlePaymentMercadoPagoUseCase {
   ) {}
 
   async execute(body: any) {
+    console.log('WEBHOOK BODY:', JSON.stringify(body, null, 2));
+
     if (body.type !== 'topic_merchant_order_wh') return;
 
-    const paymentId = body.data.id;
+    const merchantOrderId = body.id;
+
+    if (!merchantOrderId) {
+      console.warn('merchantOrderId não encontrado no webhook');
+      return;
+    }
+
+    const orderResponse = await axios.get(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`
+      }
+    });
+
+    const order = orderResponse.data;
+    console.log('ORDER COMPLETA:', JSON.stringify(order, null, 2));
+
+    if (!order.payments || order.payments.length === 0) {
+      console.warn('Pedido ainda sem pagamento');
+      return;
+    }
+
+    const paymentId = order.payments[0]?.id;
+
+    if (!paymentId) {
+      console.warn('Nenhum pagamento encontrado no pedido');
+      return;
+    }
 
     const mpResponse = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
       headers: {
@@ -39,13 +67,18 @@ export class HandlePaymentMercadoPagoUseCase {
     });
 
     const paymentData = mpResponse.data;
-    const subscriptionId = paymentData.metadata?.subscriptionId;
+    const subscriptionId = paymentData.metadata?.subscriptionId || order.external_reference;
+
     if (!subscriptionId) {
       console.warn('Pagamento sem subscriptionId no metadata');
       return;
     }
 
     const payment = await this.paymentRepository.findBySubscriptionId(subscriptionId);
+    if (!payment) {
+      console.warn('Pagamento não encontrado no banco');
+      return;
+    }
 
     if (!payment) return;
 
@@ -71,10 +104,18 @@ export class HandlePaymentMercadoPagoUseCase {
       if (!plan) {
         throw new NotFoundException(`Subscription Plan não encontrado.`);
       }
+      console.log('ANTES activate:', {
+        status: subscription.status,
+        isActive: subscription.isActive()
+      });
       if (!subscription.isActive()) {
         subscription.activate(plan.durationInDays);
         await this.subscriptionRepository.persist(subscription);
       }
+      console.log('DEPOIS activate:', {
+        status: subscription.status,
+        isActive: subscription.isActive()
+      });
     }
 
     if (paymentData.status === 'rejected') {

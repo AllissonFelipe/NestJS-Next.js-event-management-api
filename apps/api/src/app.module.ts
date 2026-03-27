@@ -22,6 +22,7 @@ import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { EventParticipantsModule } from './modules/event-participants/event-participants.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
+import { WebhooksModule } from './modules/webhooks/webhooks.module';
 
 @Module({
   imports: [
@@ -58,7 +59,8 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
     AdminModule,
     EventParticipantsModule,
     SubscriptionModule,
-    EventEmitterModule.forRoot()
+    EventEmitterModule.forRoot(),
+    WebhooksModule
   ],
   controllers: [AppController],
   providers: [

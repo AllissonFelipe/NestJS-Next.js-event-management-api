@@ -28,7 +28,8 @@ export class SubscriptionRepositoryTypeOrm implements SubscriptionRepositoryInte
   async findById(subscriptionId: string, manager?: EntityManager): Promise<SubscriptionDomainEntity | null> {
     const repository = this.getRepository(manager);
     const orm = await repository.findOne({
-      where: { id: subscriptionId }
+      where: { id: subscriptionId },
+      relations: ['person', 'person.person_role', 'person.person_profile', 'subscription_plan']
     });
     if (!orm) return null;
     return SubscriptionMapper.toDomain(orm);
