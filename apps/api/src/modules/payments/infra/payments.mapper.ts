@@ -9,10 +9,10 @@ export class PaymentsMapper {
     orm.id = domain.id;
     orm.provider = domain.provider;
     if (domain.subscription) {
-    orm.subscription = SubscriptionMapper.toOrm(domain.subscription); 
-    // ou, se você só precisa da FK:
-    // orm.subscription_id = domain.subscription.id;
-  }
+      orm.subscription = SubscriptionMapper.toOrm(domain.subscription); 
+      // ou, se você só precisa da FK:
+      // orm.subscription_id = domain.subscription.id;
+    }
     orm.external_session_id = domain.externalSessionId;
     orm.external_payment_id = domain.externalPaymentId;
     orm.payment_url = domain.paymentUrl;
@@ -43,5 +43,26 @@ export class PaymentsMapper {
       createdAt: orm.created_at,
       updatedAt: orm.updated_at
     });
+  }
+
+  static toDomainPartial(orm: PaymentsOrmEntity): PaymentsDomainEntity {
+    const domain = PaymentsDomainEntity.restore({
+      id: orm.id,
+      provider: orm.provider,
+      paymentMethod: orm.payment_method,
+      amount: Number(orm.amount), // importante por causa do decimal do TypeORM
+      currency: orm.currency,
+      status: orm.status,
+      externalSessionId: orm.external_session_id,
+      externalPaymentId: orm.external_payment_id,
+      paymentUrl: orm.payment_url,
+      paidAt: orm.paid_at,
+      createdAt: orm.created_at,
+      updatedAt: orm.updated_at,
+
+      subscription: { id: orm.subscription?.id } as any, // só ID
+    });
+
+    return domain;
   }
 }

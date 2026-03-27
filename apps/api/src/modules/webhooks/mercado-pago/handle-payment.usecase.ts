@@ -70,22 +70,21 @@ export class HandlePaymentMercadoPagoUseCase {
     const subscriptionId = paymentData.metadata?.subscriptionId || order.external_reference;
 
     if (!subscriptionId) {
-      console.warn('Pagamento sem subscriptionId no metadata');
+      console.warn('Pagamento sem subscriptionId no metadata ou external_reference');
       return;
     }
 
     const payment = await this.paymentRepository.findBySubscriptionId(subscriptionId);
     if (!payment) {
-      console.warn('Pagamento não encontrado no banco');
+      console.warn('HandlePaymentMercadoPagoUseCase - Payment não encontrado');
+      throw new NotFoundException(`HandlePaymentMercadoPagoUseCase - Payment não encontrado`)
       return;
     }
-
-    if (!payment) return;
 
     const statusMap = {
       approved: PaymentsStatusEnum.APPROVED,
       rejected: PaymentsStatusEnum.REJECTED,
-      pending: PaymentsStatusEnum.PENDING
+      in_process: PaymentsStatusEnum.PENDING
     };
     const newStatus = statusMap[paymentData.status];
     if (payment.externalPaymentId === paymentId && payment.status === newStatus) {
@@ -95,7 +94,7 @@ export class HandlePaymentMercadoPagoUseCase {
     payment.chageExternaPaymentId(paymentId);
 
     if (paymentData.status === 'approved') {
-      payment.changeStatus(PaymentsStatusEnum.APPROVED);
+      payment.markAsPaid(new Date());
       const subscription = await this.subscriptionRepository.findById(subscriptionId);
       if (!subscription) {
         throw new NotFoundException(`Subscription não encontrada`);
@@ -121,7 +120,7 @@ export class HandlePaymentMercadoPagoUseCase {
     if (paymentData.status === 'rejected') {
       payment.changeStatus(PaymentsStatusEnum.REJECTED);
     }
-    if (paymentData.status === 'pending') {
+    if (paymentData.status === 'in_process') {
       payment.changeStatus(PaymentsStatusEnum.PENDING);
     }
 

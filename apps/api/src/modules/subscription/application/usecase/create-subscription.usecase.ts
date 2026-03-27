@@ -26,6 +26,7 @@ import {
 } from 'src/modules/payments/domain/payments.repository-interface';
 import { UNIT_OF_WORK } from 'src/database/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from 'src/database/typeorm-unit-of-work';
+import { CreateSubscriptionResponseMapper } from '../response/create-subscription-response.mapper';
 
 @Injectable()
 export class CreateSubscriptionUseCase {
@@ -53,7 +54,7 @@ export class CreateSubscriptionUseCase {
         throw new NotFoundException(`Subscription Plan não encontrado.`);
       }
       const existingSubscription = await this.subscriptionRepository.findActiveByPersonId(person.id, manager);
-      if (existingSubscription) {
+      if (existingSubscription?.isActive()) {
         throw new ConflictException(`Usuário já é VIP`);
       }
 
@@ -75,6 +76,7 @@ export class CreateSubscriptionUseCase {
         {
           items: [
             {
+              id: plan.id,
               title: plan.name,
               description: plan.description,
               quantity: 1,
@@ -82,9 +84,10 @@ export class CreateSubscriptionUseCase {
               unit_price: Number(plan.price)
             }
           ],
-          external_reference: subscription.id,
           payer: {
-            email: 'test_user_123@testuser.com'
+            id: person.id,
+            name: person.fullName,
+            email: person.email,
           },
           back_urls: {
             success: 'https://app.com/success',
@@ -94,7 +97,8 @@ export class CreateSubscriptionUseCase {
           auto_return: 'approved',
           metadata: {
             subscriptionId: subscription.id
-          }
+          },
+          external_reference: subscription.id,
         },
         { headers: { Authorization: `Bearer ${mpAccessToken}` } }
       );
@@ -114,9 +118,11 @@ export class CreateSubscriptionUseCase {
 
       return {
         checkoutUrl: paymentLink,
-        subscriptionId: subscription.id,
-        paymentId: payment.id
+        subscription: managedSubscription,
+        payment: payment,
+        plan,
       };
     });
+    return CreateSubscriptionResponseMapper.toResponse(result.payment, result.plan)
   }
 }
